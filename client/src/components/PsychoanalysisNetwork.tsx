@@ -27,6 +27,18 @@ export default function PsychoanalysisNetwork() {
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  const [visibleCategories, setVisibleCategories] = useState<Set<string>>(new Set(Object.keys(categoryLabels)));
+
+  // 切换分类可见性
+  const toggleCategory = (category: string) => {
+    const newVisible = new Set(visibleCategories);
+    if (newVisible.has(category)) {
+      newVisible.delete(category);
+    } else {
+      newVisible.add(category);
+    }
+    setVisibleCategories(newVisible);
+  };
 
   // 初始化节点位置 - 使用更优化的分布算法
   useEffect(() => {
@@ -186,6 +198,9 @@ export default function PsychoanalysisNetwork() {
       const sourceNode = nodes.find((n) => n.id === link.source);
       const targetNode = nodes.find((n) => n.id === link.target);
       if (!sourceNode || !targetNode) return;
+      
+      // 检查两个节点是否都可见
+      if (!visibleCategories.has(sourceNode.category) || !visibleCategories.has(targetNode.category)) return;
 
       const x1 = centerX + sourceNode.x;
       const y1 = centerY + sourceNode.y;
@@ -233,6 +248,9 @@ export default function PsychoanalysisNetwork() {
 
     // 绘制节点
     nodes.forEach((node) => {
+      // 检查节点是否可见
+      if (!visibleCategories.has(node.category)) return;
+      
       const x = centerX + node.x;
       const y = centerY + node.y;
 
@@ -275,7 +293,7 @@ export default function PsychoanalysisNetwork() {
     });
 
     ctx.restore();
-  }, [nodes, hoveredNode, selectedNode, searchResults, scale, pan]);
+  }, [nodes, hoveredNode, selectedNode, searchResults, scale, pan, visibleCategories]);
 
   // 处理鼠标移动
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -404,36 +422,24 @@ export default function PsychoanalysisNetwork() {
           </button>
         </div>
 
-        {/* 图例 */}
+        {/* 图例 - 可交互筛选 */}
         <div className="absolute top-4 left-4 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-3 max-w-xs text-sm">
-          <h3 className="text-sm font-semibold text-foreground mb-3">图例</h3>
-          <div className="space-y-2 text-xs">
-            {Object.entries(categoryLabels).map(([key, label]) => (
-              <div key={key} className="flex items-center gap-2">
-                <div
-                  className="w-2 h-2 rounded-full"
-                  style={{
-                    backgroundColor:
-                      key === 'core'
-                        ? '#D97706'
-                        : key === 'personality'
-                          ? '#A78BFA'
-                          : key === 'defense'
-                            ? '#A78BFA'
-                            : key === 'therapy'
-                              ? '#34D399'
-                              : key === 'phenomena'
-                                ? '#F472B6'
-                                : '#FBBF24',
-                  }}
-                />
-                <span className="text-muted-foreground">{label}</span>
-              </div>
-            ))}
+          <h3 className="text-sm font-semibold text-foreground mb-3">图例（点击筛选）</h3>
+          <div className="space-y-1 text-xs">
+            {Object.entries(categoryLabels).map(([key, label]) => {
+              const isVisible = visibleCategories.has(key);
+              const categoryColor = key === 'core' ? '#D97706' : key === 'personality' ? '#A78BFA' : key === 'defense' ? '#A78BFA' : key === 'therapy' ? '#34D399' : key === 'phenomena' ? '#F472B6' : key === 'theorist' ? '#FBBF24' : key === 'lacan' ? '#EC4899' : key === 'self_psychology' ? '#06B6D4' : '#8B5CF6';
+              return (
+                <button key={key} onClick={() => toggleCategory(key)} className={`flex items-center gap-2 w-full px-2 py-1 rounded transition-colors ${isVisible ? 'bg-secondary/50 hover:bg-secondary' : 'bg-muted/30 hover:bg-muted/50 opacity-50'}`}>
+                  <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{backgroundColor: categoryColor, opacity: isVisible ? 1 : 0.5}} />
+                  <span className="text-muted-foreground text-xs">{label}</span>
+                </button>
+              );
+            })}
           </div>
           <div className="mt-3 pt-3 border-t border-border">
             <div className="flex items-center gap-2 text-xs">
-              <div className="w-2 h-2 rounded-full bg-green-500" />
+              <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
               <span className="text-muted-foreground">搜索结果</span>
             </div>
           </div>
