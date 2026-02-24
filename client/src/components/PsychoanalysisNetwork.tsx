@@ -243,14 +243,27 @@ export default function PsychoanalysisNetwork() {
       const isSearchResult = searchResults.includes(node.id);
       const isHighlighted = highlightedNodes.has(node.id);
 
-      if (hoveredNode === node.id || selectedNode === node.id || isSearchResult) {
+      if (hoveredNode === node.id || selectedNode === node.id || isSearchResult || isHighlighted) {
         const glowRadius = node.id === 'unconscious' ? 35 : 25;
         let glowColor = 'rgba(217, 119, 6, 0.4)';
-        if (isSearchResult) glowColor = 'rgba(34, 197, 94, 0.4)';
-        if (isHighlighted) glowColor = 'rgba(59, 130, 246, 0.4)';
+        let gradientEndColor = 'rgba(217, 119, 6, 0)';
+        
+        if (isSearchResult) {
+          glowColor = 'rgba(34, 197, 94, 0.6)';
+          gradientEndColor = 'rgba(34, 197, 94, 0)';
+        }
+        if (isHighlighted) {
+          glowColor = 'rgba(255, 193, 7, 0.8)';
+          gradientEndColor = 'rgba(255, 193, 7, 0)';
+        }
+        if (hoveredNode === node.id) {
+          glowColor = 'rgba(255, 255, 255, 0.6)';
+          gradientEndColor = 'rgba(255, 255, 255, 0)';
+        }
+        
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
         gradient.addColorStop(0, glowColor);
-        gradient.addColorStop(1, 'rgba(217, 119, 6, 0)');
+        gradient.addColorStop(1, gradientEndColor);
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
