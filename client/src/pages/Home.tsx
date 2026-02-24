@@ -10,29 +10,20 @@ import PsychoanalysisNetwork from '@/components/PsychoanalysisNetwork';
  */
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* 紧凑头部 */}
-      <header className="bg-card/50 border-b border-border backdrop-blur-sm py-3 px-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">精神分析概念网络图</h1>
-            <p className="text-xs text-muted-foreground mt-1">
-              探索弗洛伊德和拉康精神分析理论的核心概念及其相互关联
-            </p>
-          </div>
-        </div>
+    <div className="w-screen h-screen bg-background flex flex-col">
+      {/* 最小化头部 */}
+      <header className="bg-card/30 border-b border-border backdrop-blur-sm py-1 px-3 shrink-0">
+        <h1 className="text-lg font-bold text-foreground">精神分析概念网络图</h1>
       </header>
 
       {/* 主要内容 - 最大化网络图空间 */}
-      <main className="flex-1 flex flex-col overflow-hidden">
-        <div className="flex-1 bg-gradient-to-br from-background via-background to-card/20 overflow-hidden">
-          <PsychoanalysisNetwork />
-        </div>
+      <main className="flex-1 overflow-hidden">
+        <PsychoanalysisNetwork />
       </main>
 
       {/* 最小化底部版权 */}
-      <footer className="bg-card/50 border-t border-border backdrop-blur-sm py-2 px-4 text-xs text-muted-foreground text-right">
-        <p>© 2026 精神分析概念网络图</p>
+      <footer className="bg-card/30 border-t border-border backdrop-blur-sm py-1 px-3 text-xs text-muted-foreground text-right shrink-0">
+        <p>© 2026</p>
       </footer>
     </div>
   );
