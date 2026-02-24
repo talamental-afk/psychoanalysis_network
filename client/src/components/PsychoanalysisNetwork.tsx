@@ -1011,6 +1011,22 @@ export default function PsychoanalysisNetwork() {
             <span className="text-sm font-medium text-primary">我的成就</span>
           </div>
 
+          {/* 成就统计信息 */}
+          <div className="px-4 py-3 space-y-2 border-b border-border/50">
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-muted-foreground">学习路径完成</span>
+              <span className="font-semibold text-foreground">{completedPaths.size}/{Object.keys(learningPaths).length}</span>
+            </div>
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-muted-foreground">学习节点数</span>
+              <span className="font-semibold text-foreground">{completedNodes.size}</span>
+            </div>
+            <div className="flex justify-between items-center text-xs">
+              <span className="text-muted-foreground">整体进度</span>
+              <span className="font-semibold text-primary">{Math.round((completedNodes.size / conceptNodes.length) * 100)}%</span>
+            </div>
+          </div>
+
           {/* 侧边栏头部 */}
           <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-lg font-semibold text-foreground">
