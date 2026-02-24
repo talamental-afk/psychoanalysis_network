@@ -349,6 +349,10 @@ export default function PsychoanalysisNetwork() {
       if (isHighlighted) {
         radius = radius * 1.5;
       }
+      // 选中节点放大
+      if (selectedNode === node.id) {
+        radius = radius * 2;
+      }
 
       ctx.fillStyle = node.color;
       ctx.globalAlpha = nodeOpacity;
@@ -742,6 +746,16 @@ export default function PsychoanalysisNetwork() {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {selectedNodeData ? (
             <>
+              {portraitImagesRef.current.has(selectedNode) && (
+                <div className="flex justify-center">
+                  <img
+                    src={portraitMap[selectedNode as keyof typeof portraitMap]}
+                    alt={selectedNodeData.name}
+                    className="w-32 h-32 rounded-lg object-cover border border-border"
+                  />
+                </div>
+              )}
+              
               <div>
                 <div className="text-xs font-medium text-muted-foreground mb-1">英文名</div>
                 <div className="text-sm text-foreground">{selectedNodeData.nameEn}</div>
