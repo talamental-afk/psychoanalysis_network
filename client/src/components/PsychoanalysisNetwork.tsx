@@ -457,9 +457,30 @@ export default function PsychoanalysisNetwork() {
           defaultWidth={600}
           defaultHeight={window.innerHeight - 160}
         >
-          <div className="text-sm text-muted-foreground mb-3">{selectedNodeData.description}</div>
-          <div className="text-xs text-muted-foreground">
-            <div className="mb-2"><span className="font-medium">分类：</span>{categoryLabels[selectedNodeData.category as keyof typeof categoryLabels]}</div>
+          <div className="space-y-4 text-sm overflow-y-auto pr-2 max-h-full">
+            <div>
+              <div className="text-xs font-medium text-muted-foreground mb-1">简述</div>
+              <div className="text-sm text-foreground">{selectedNodeData.description}</div>
+            </div>
+            
+            {selectedNodeData.definition && (
+              <div>
+                <div className="text-xs font-medium text-muted-foreground mb-1">详细定义</div>
+                <div className="text-sm text-foreground leading-relaxed">{selectedNodeData.definition}</div>
+              </div>
+            )}
+            
+            {selectedNodeData.example && (
+              <div>
+                <div className="text-xs font-medium text-muted-foreground mb-1">案例说明</div>
+                <div className="text-sm text-foreground leading-relaxed italic">{selectedNodeData.example}</div>
+              </div>
+            )}
+            
+            <div className="pt-2 border-t border-border">
+              <div className="text-xs font-medium text-muted-foreground mb-1">分类</div>
+              <div className="text-sm text-foreground">{categoryLabels[selectedNodeData.category as keyof typeof categoryLabels]}</div>
+            </div>
           </div>
         </DraggablePanel>
       )}
