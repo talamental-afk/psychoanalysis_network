@@ -148,13 +148,97 @@ export default function PsychoanalysisNetwork() {
     }
   }; // 移除依赖数组，这个函数在其他地方调用
 
+  // 计算动态间距
+  const calculateDynamicSpacing = (node: any) => {
+    const nameLength = node.name.length;
+    const lengthBonus = Math.max(0, (nameLength - 3) * 8);
+    return lengthBonus;
+  };
+  // 计算视口以确保所有节点可见
+  const calculateViewport = (nodes: Node[], canvasWidth: number, canvasHeight: number) => {
+    if (nodes.length === 0) return { minX: -200, maxX: 200, minY: -200, maxY: 200 };
+    
+    let minX = nodes[0].x;
+    let maxX = nodes[0].x;
+    let minY = nodes[0].y;
+    let maxY = nodes[0].y;
+
+    for (const node of nodes) {
+      minX = Math.min(minX, node.x);
+      maxX = Math.max(maxX, node.x);
+      minY = Math.min(minY, node.y);
+      maxY = Math.max(maxY, node.y);
+    }
+
+    // 添加边距
+    const padding = 100;
+    minX -= padding;
+    maxX += padding;
+    minY -= padding;
+    maxY += padding;
+
+    return { minX, maxX, minY, maxY };
+  };
+
+  // 计算自动缩放比例
+  const calculateAutoScale = (nodes: Node[], canvasWidth: number, canvasHeight: number) => {
+    const viewport = calculateViewport(nodes, canvasWidth, canvasHeight);
+    const viewportWidth = viewport.maxX - viewport.minX;
+    const viewportHeight = viewport.maxY - viewport.minY;
+
+    const scaleX = canvasWidth / viewportWidth;
+    const scaleY = canvasHeight / viewportHeight;
+
+    return Math.min(scaleX, scaleY) * 0.9;
+  };
+
+  // 碰撞检测函数
+  const detectAndResolveCollisions = (nodes: Node[]) => {
+    const minDistance = 60;
+    const maxIterations = 10;
+    let iterations = 0;
+    let hasCollisions = true;
+
+    while (hasCollisions && iterations < maxIterations) {
+      hasCollisions = false;
+      iterations++;
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const node1 = nodes[i];
+          const node2 = nodes[j];
+          const dx = node2.x - node1.x;
+          const dy = node2.y - node1.y;
+          const distance = Math.hypot(dx, dy);
+
+          if (distance < minDistance) {
+            hasCollisions = true;
+            const angle = Math.atan2(dy, dx);
+            const moveDistance = (minDistance - distance) / 2;
+            const adjustFactor1 = 1 / (1 + node1.level * 0.2);
+            const adjustFactor2 = 1 / (1 + node2.level * 0.2);
+            
+            node1.x -= Math.cos(angle) * moveDistance * adjustFactor1;
+            node1.y -= Math.sin(angle) * moveDistance * adjustFactor1;
+            node2.x += Math.cos(angle) * moveDistance * adjustFactor2;
+            node2.y += Math.sin(angle) * moveDistance * adjustFactor2;
+          }
+        }
+      }
+    }
+
+    return nodes;
+  };
+
+
   // 初始化节点位置
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
       const angle = (index / conceptNodes.length) * Math.PI * 2;
-      const baseRadius = 140; // 增加基础半径
-      const levelRadius = node.level * 85; // 增加级别半径
-      const radius = baseRadius + levelRadius;
+      const baseRadius = 140;
+      const levelRadius = node.level * 85;
+      const dynamicSpacing = calculateDynamicSpacing(node);
+      const radius = baseRadius + levelRadius + dynamicSpacing;
       
       return {
         ...node,
@@ -162,7 +246,8 @@ export default function PsychoanalysisNetwork() {
         y: Math.sin(angle) * radius,
       };
     });
-    setNodes(initialNodes);
+    const adjustedNodes = detectAndResolveCollisions(initialNodes);
+    setNodes(adjustedNodes);
   }, []);
 
   // 加载头像图片
@@ -236,12 +321,16 @@ export default function PsychoanalysisNetwork() {
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
+    // 自动计算缩放以确保所有节点可见
+    const autoScale = calculateAutoScale(nodes, canvas.width, canvas.height);
+    const finalScale = scale || autoScale;
+
     ctx.fillStyle = '#0F172A';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.save();
     ctx.translate(centerX + pan.x, centerY + pan.y);
-    ctx.scale(scale, scale);
+    ctx.scale(finalScale, finalScale);
     ctx.translate(-centerX, -centerY);
 
     // 绘制网格
@@ -457,6 +546,10 @@ export default function PsychoanalysisNetwork() {
 
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
+
+    // 自动计算缩放以确保所有节点可见
+    const autoScale = calculateAutoScale(nodes, canvas.width, canvas.height);
+    const finalScale = scale || autoScale;
     const canvasX = (x - centerX - pan.x) / scale + centerX;
     const canvasY = (y - centerY - pan.y) / scale + centerY;
 
@@ -517,6 +610,10 @@ export default function PsychoanalysisNetwork() {
 
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
+
+    // 自动计算缩放以确保所有节点可见
+    const autoScale = calculateAutoScale(nodes, canvas.width, canvas.height);
+    const finalScale = scale || autoScale;
     const canvasX = (x - centerX - pan.x) / scale + centerX;
     const canvasY = (y - centerY - pan.y) / scale + centerY;
 
