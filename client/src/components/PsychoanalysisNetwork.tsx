@@ -75,9 +75,19 @@ export default function PsychoanalysisNetwork() {
     if (activeLearningPath === pathKey) {
       setActiveLearningPath(null);
       setHighlightedNodes(new Set());
+      setVisibleCategories(new Set(Object.keys(categoryLabels)));
     } else {
       setActiveLearningPath(pathKey);
       setHighlightedNodes(new Set(learningPaths[pathKey].nodes));
+      // 只显示该学习路径相关的分类
+      const pathNodes = learningPaths[pathKey].nodes;
+      const relatedCategories = new Set<string>();
+      conceptNodes.forEach(node => {
+        if (pathNodes.includes(node.id)) {
+          relatedCategories.add(node.category);
+        }
+      });
+      setVisibleCategories(relatedCategories);
     }
   };
 
@@ -92,6 +102,10 @@ export default function PsychoanalysisNetwork() {
 
   // 切换分类可见性
   const toggleCategory = (category: string) => {
+    // 清除学习路径选择
+    setActiveLearningPath(null);
+    setHighlightedNodes(new Set());
+    
     const newVisible = new Set(visibleCategories);
     if (newVisible.has(category)) {
       newVisible.delete(category);
@@ -99,7 +113,6 @@ export default function PsychoanalysisNetwork() {
       newVisible.add(category);
     }
     setVisibleCategories(newVisible);
-    // 不清除学习路径的高亮状态
   };
 
   // 初始化节点位置
