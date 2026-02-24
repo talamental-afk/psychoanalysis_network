@@ -318,6 +318,21 @@ export default function PsychoanalysisNetwork() {
       ctx.globalAlpha = nodeOpacity;
       ctx.stroke();
       ctx.globalAlpha = 1;
+
+      // 绘制节点文字标签
+      ctx.fillStyle = '#E0E7FF';
+      ctx.font = '11px Inter';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.globalAlpha = nodeOpacity;
+      const lines = node.name.split('');
+      let lineIndex = 0;
+      for (let i = 0; i < node.name.length; i += 2) {
+        const line = node.name.substring(i, i + 2);
+        ctx.fillText(line, x, y + radius + 6 + lineIndex * 12);
+        lineIndex++;
+      }
+      ctx.globalAlpha = 1;
     });
 
     // 绘制学习路径的数字标记
