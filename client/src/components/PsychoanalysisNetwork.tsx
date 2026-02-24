@@ -580,6 +580,30 @@ export default function PsychoanalysisNetwork() {
               })}
             </div>
           </details>
+          
+          {/* 学习路径 */}
+          <details className="group border-t border-border">
+            <summary className="cursor-pointer font-semibold text-sm text-foreground hover:text-primary transition-colors flex items-center gap-2 px-4 py-3 select-none">
+              <ChevronRight className="w-4 h-4 group-open:rotate-90 transition-transform" />
+              学习路径
+            </summary>
+            <div className="px-4 pb-4 space-y-1 text-xs border-t border-border pt-3">
+              {Object.entries(learningPaths).map(([key, path]) => (
+                <button
+                  key={key}
+                  onClick={() => selectLearningPath(key)}
+                  className={`w-full text-left px-2 py-1 rounded text-xs transition-colors ${
+                    activeLearningPath === key
+                      ? 'bg-primary/50 text-primary-foreground'
+                      : 'bg-secondary/30 hover:bg-secondary/50 text-muted-foreground'
+                  }`}
+                  title={path.description}
+                >
+                  {path.name}
+                </button>
+              ))}
+            </div>
+          </details>
         </div>
 
         {/* 搜索框 */}
