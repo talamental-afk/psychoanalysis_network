@@ -11,15 +11,6 @@ interface Node {
   color: string;
   x: number;
   y: number;
-  vx: number;
-  vy: number;
-}
-
-interface Link {
-  source: string;
-  target: string;
-  type: string;
-  strength: number;
 }
 
 export default function PsychoanalysisNetwork() {
@@ -27,19 +18,16 @@ export default function PsychoanalysisNetwork() {
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [nodes, setNodes] = useState<Node[]>([]);
-  const animationRef = useRef<number | null>(null);
 
   // 初始化节点位置
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
       const angle = (index / conceptNodes.length) * Math.PI * 2;
-      const radius = 60 + node.level * 50;
+      const radius = 80 + node.level * 40;
       return {
         ...node,
         x: Math.cos(angle) * radius,
         y: Math.sin(angle) * radius,
-        vx: 0,
-        vy: 0,
       };
     });
     setNodes(initialNodes);
@@ -172,89 +160,7 @@ export default function PsychoanalysisNetwork() {
         ctx.fill();
       }
     });
-
-    // 动画循环
-    const animate = () => {
-      // 应用力导向算法的简化版本
-      setNodes((prevNodes) => {
-        return prevNodes.map((node) => {
-          let fx = 0;
-          let fy = 0;
-
-          // 中心引力
-          const dx = -node.x;
-          const dy = -node.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance > 0) {
-            fx += (dx / distance) * 0.05;
-            fy += (dy / distance) * 0.05;
-          }
-
-          // 节点之间的斐力
-          prevNodes.forEach((other) => {
-            if (node.id === other.id) return;
-            const dx = node.x - other.x;
-            const dy = node.y - other.y;
-            const distance = Math.sqrt(dx * dx + dy * dy) + 1;
-            if (distance < 150) {
-              fx += (dx / distance) * 0.03;
-              fy += (dy / distance) * 0.03;
-            }
-          });
-
-          // 连接吸引力
-          conceptLinks.forEach((link) => {
-            if (link.source === node.id) {
-              const target = prevNodes.find((n) => n.id === link.target);
-              if (target) {
-                const dx = target.x - node.x;
-                const dy = target.y - node.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance > 0) {
-                  fx += (dx / distance) * 0.01 * link.strength;
-                  fy += (dy / distance) * 0.01 * link.strength;
-                }
-              }
-            } else if (link.target === node.id) {
-              const source = prevNodes.find((n) => n.id === link.source);
-              if (source) {
-                const dx = source.x - node.x;
-                const dy = source.y - node.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance > 0) {
-                  fx += (dx / distance) * 0.01 * link.strength;
-                  fy += (dy / distance) * 0.01 * link.strength;
-                }
-              }
-            }
-          });
-
-          // 更新速度和位置
-          const newVx = (node.vx + fx) * 0.98;
-          const newVy = (node.vy + fy) * 0.98;
-          const newX = node.x + newVx;
-          const newY = node.y + newVy;
-
-          return {
-            ...node,
-            x: newX,
-            y: newY,
-            vx: newVx,
-            vy: newVy,
-          };
-        });
-      });
-
-    };
-
-    animationRef.current = requestAnimationFrame(animate) as any;
-
-    return () => {
-      if (animationRef.current !== null) {
-        cancelAnimationFrame(animationRef.current as any);
-      }
-    };
-  }, [nodes]);
+  }, [nodes, hoveredNode, selectedNode]);
 
   // 处理鼠标移动
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -319,7 +225,7 @@ export default function PsychoanalysisNetwork() {
         />
 
         {/* 图例 */}
-        <div className="absolute top-4 left-4 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-4 max-w-xs">
+        <div className="absolute top-4 left-4 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-3 max-w-xs text-sm">
           <h3 className="text-sm font-semibold text-foreground mb-3">图例</h3>
           <div className="space-y-2 text-xs">
             {Object.entries(categoryLabels).map(([key, label]) => (
@@ -349,23 +255,23 @@ export default function PsychoanalysisNetwork() {
 
         {/* 信息面板 */}
         {selectedNodeData && (
-          <div className="absolute bottom-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg p-4 max-w-sm shadow-lg animate-fade-in">
-            <div className="flex items-start justify-between mb-3">
+          <div className="absolute bottom-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg p-4 max-w-md shadow-lg animate-fade-in">
+            <div className="flex items-start justify-between mb-2">
               <div>
-                <h3 className="text-lg font-semibold text-foreground">{selectedNodeData.name}</h3>
-                <p className="text-sm text-muted-foreground">{selectedNodeData.nameEn}</p>
+                <h3 className="text-base font-semibold text-foreground">{selectedNodeData.name}</h3>
+                <p className="text-xs text-muted-foreground">{selectedNodeData.nameEn}</p>
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-muted-foreground hover:text-foreground transition-colors text-lg leading-none"
               >
                 ✕
               </button>
             </div>
-            <p className="text-sm text-foreground leading-relaxed mb-3">{selectedNodeData.description}</p>
+            <p className="text-xs text-foreground leading-relaxed mb-3">{selectedNodeData.description}</p>
             <div className="flex items-center gap-2">
               <div
-                className="w-3 h-3 rounded-full"
+                className="w-2.5 h-2.5 rounded-full"
                 style={{ backgroundColor: selectedNodeData.color }}
               />
               <span className="text-xs text-muted-foreground">
@@ -377,11 +283,11 @@ export default function PsychoanalysisNetwork() {
 
         {/* 悬停提示 */}
         {hoveredNode && !selectedNode && (
-          <div className="absolute top-4 right-4 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-3 max-w-xs">
-            <p className="text-sm text-foreground font-medium">
+          <div className="absolute top-4 right-4 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-2 max-w-xs">
+            <p className="text-xs text-foreground font-medium">
               {conceptNodes.find((n) => n.id === hoveredNode)?.name}
             </p>
-            <p className="text-xs text-muted-foreground mt-1">点击查看详情</p>
+            <p className="text-xs text-muted-foreground">点击查看详情</p>
           </div>
         )}
       </div>
