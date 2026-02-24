@@ -319,17 +319,29 @@ export default function PsychoanalysisNetwork() {
       ctx.stroke();
       ctx.globalAlpha = 1;
 
-      // 绘制节点文字标签
-      ctx.fillStyle = '#E0E7FF';
-      ctx.font = '11px Inter';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
-      ctx.globalAlpha = nodeOpacity;
+      // 绘制节点文字标签 - 优化阅读体验
       const lines = node.name.split('');
       let lineIndex = 0;
+      const lineHeight = 14;
+      const textPadding = 3;
+      const totalHeight = Math.ceil(node.name.length / 2) * lineHeight + textPadding * 2;
+      const textY = y + radius + 8;
+      
+      // 先绘制半透明背景以提高可读性
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+      ctx.globalAlpha = nodeOpacity * 0.85;
+      ctx.fillRect(x - 30, textY - 2, 60, totalHeight);
+      ctx.globalAlpha = nodeOpacity;
+      
+      // 绘制文字 - 使用更大的字体和白色
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 12px Inter';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      lineIndex = 0;
       for (let i = 0; i < node.name.length; i += 2) {
         const line = node.name.substring(i, i + 2);
-        ctx.fillText(line, x, y + radius + 6 + lineIndex * 12);
+        ctx.fillText(line, x, textY + lineIndex * lineHeight);
         lineIndex++;
       }
       ctx.globalAlpha = 1;
