@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { conceptNodes, conceptLinks, categoryLabels } from '../../../psychoanalysis_data';
 import DraggablePanel from './DraggablePanel';
-import { Search, X } from 'lucide-react';
+import { Search, X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 
 interface Node {
   id: string;
@@ -22,6 +22,10 @@ export default function PsychoanalysisNetwork() {
   const [nodes, setNodes] = useState<Node[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [scale, setScale] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [panStart, setPanStart] = useState({ x: 0, y: 0 });
 
   // 初始化节点位置
   useEffect(() => {
@@ -56,11 +60,83 @@ export default function PsychoanalysisNetwork() {
 
     setSearchResults(results);
 
-    // 自动选中第一个搜索结果
     if (results.length > 0) {
       setSelectedNode(results[0]);
     }
   }, [searchQuery]);
+
+  // 处理滚轮缩放
+  const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // 计算缩放因子
+    const zoomFactor = 0.1;
+    const newScale = Math.max(0.5, Math.min(3, scale + (e.deltaY > 0 ? -zoomFactor : zoomFactor)));
+
+    // 计算缩放中心点（鼠标位置）
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // 调整平移以保持鼠标位置不变
+    const scaleDiff = newScale - scale;
+    const mouseRelX = x - centerX;
+    const mouseRelY = y - centerY;
+
+    setPan({
+      x: pan.x - (mouseRelX * scaleDiff) / scale,
+      y: pan.y - (mouseRelY * scaleDiff) / scale,
+    });
+
+    setScale(newScale);
+  };
+
+  // 处理鼠标按下（平移）
+  const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (e.button === 2 || e.ctrlKey || e.metaKey) {
+      // 右键或Ctrl+左键用于平移
+      setIsPanning(true);
+      setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+    }
+  };
+
+  // 处理鼠标释放
+  useEffect(() => {
+    const handleMouseUp = () => {
+      setIsPanning(false);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (isPanning) {
+        setPan({
+          x: e.clientX - panStart.x,
+          y: e.clientY - panStart.y,
+        });
+      }
+    };
+
+    if (isPanning) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+
+      return () => {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [isPanning, panStart]);
+
+  // 重置视图
+  const resetView = () => {
+    setScale(1);
+    setPan({ x: 0, y: 0 });
+  };
 
   // 绘制网络图
   useEffect(() => {
@@ -70,7 +146,6 @@ export default function PsychoanalysisNetwork() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // 设置canvas大小
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 
@@ -80,6 +155,12 @@ export default function PsychoanalysisNetwork() {
     // 清空画布
     ctx.fillStyle = '#0F172A';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 应用缩放和平移变换
+    ctx.save();
+    ctx.translate(centerX + pan.x, centerY + pan.y);
+    ctx.scale(scale, scale);
+    ctx.translate(-centerX, -centerY);
 
     // 绘制网格背景
     ctx.strokeStyle = 'rgba(51, 65, 85, 0.1)';
@@ -108,7 +189,6 @@ export default function PsychoanalysisNetwork() {
       const x2 = centerX + targetNode.x;
       const y2 = centerY + targetNode.y;
 
-      // 计算线的透明度
       const isRelated =
         hoveredNode === link.source ||
         hoveredNode === link.target ||
@@ -126,7 +206,6 @@ export default function PsychoanalysisNetwork() {
       ctx.lineTo(x2, y2);
       ctx.stroke();
 
-      // 绘制箭头
       if (isRelated) {
         const angle = Math.atan2(y2 - y1, x2 - x1);
         const arrowSize = 8;
@@ -154,10 +233,8 @@ export default function PsychoanalysisNetwork() {
       const x = centerX + node.x;
       const y = centerY + node.y;
 
-      // 检查是否是搜索结果
       const isSearchResult = searchResults.includes(node.id);
 
-      // 绘制光晕效果
       if (hoveredNode === node.id || selectedNode === node.id || isSearchResult) {
         const glowRadius = node.id === 'unconscious' ? 35 : 25;
         const glowColor = isSearchResult ? 'rgba(34, 197, 94, 0.4)' : 'rgba(217, 119, 6, 0.4)';
@@ -170,14 +247,12 @@ export default function PsychoanalysisNetwork() {
         ctx.fill();
       }
 
-      // 绘制节点圆圈
       const nodeRadius = node.id === 'unconscious' ? (hoveredNode === node.id || selectedNode === node.id || isSearchResult ? 16 : 14) : (hoveredNode === node.id || selectedNode === node.id || isSearchResult ? 10 : 7);
       ctx.fillStyle = node.color;
       ctx.beginPath();
       ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
       ctx.fill();
 
-      // 绘制节点边框
       const borderColor = isSearchResult ? '#22C55E' : (hoveredNode === node.id || selectedNode === node.id ? '#FEF3C7' : node.color);
       ctx.strokeStyle = borderColor;
       ctx.lineWidth = hoveredNode === node.id || selectedNode === node.id || isSearchResult ? 2.5 : 1.5;
@@ -185,7 +260,6 @@ export default function PsychoanalysisNetwork() {
       ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
       ctx.stroke();
 
-      // 绘制中心节点的特殊效果
       if (node.id === 'unconscious') {
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, 20);
         gradient.addColorStop(0, 'rgba(217, 119, 6, 0.8)');
@@ -196,11 +270,13 @@ export default function PsychoanalysisNetwork() {
         ctx.fill();
       }
     });
-  }, [nodes, hoveredNode, selectedNode, searchResults]);
+
+    ctx.restore();
+  }, [nodes, hoveredNode, selectedNode, searchResults, scale, pan]);
 
   // 处理鼠标移动
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current || isPanning) return;
 
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
@@ -209,12 +285,14 @@ export default function PsychoanalysisNetwork() {
 
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
+    const canvasX = (x - centerX - pan.x) / scale + centerX;
+    const canvasY = (y - centerY - pan.y) / scale + centerY;
 
     let foundNode: string | null = null;
     nodes.forEach((node) => {
       const nodeX = centerX + node.x;
       const nodeY = centerY + node.y;
-      const distance = Math.sqrt((x - nodeX) ** 2 + (y - nodeY) ** 2);
+      const distance = Math.sqrt((canvasX - nodeX) ** 2 + (canvasY - nodeY) ** 2);
       const hitRadius = node.id === 'unconscious' ? 18 : 12;
       if (distance < hitRadius) {
         foundNode = node.id;
@@ -226,7 +304,7 @@ export default function PsychoanalysisNetwork() {
 
   // 处理点击
   const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current || isPanning) return;
 
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
@@ -235,11 +313,13 @@ export default function PsychoanalysisNetwork() {
 
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
+    const canvasX = (x - centerX - pan.x) / scale + centerX;
+    const canvasY = (y - centerY - pan.y) / scale + centerY;
 
     nodes.forEach((node) => {
       const nodeX = centerX + node.x;
       const nodeY = centerY + node.y;
-      const distance = Math.sqrt((x - nodeX) ** 2 + (y - nodeY) ** 2);
+      const distance = Math.sqrt((canvasX - nodeX) ** 2 + (canvasY - nodeY) ** 2);
       const hitRadius = node.id === 'unconscious' ? 18 : 12;
       if (distance < hitRadius) {
         setSelectedNode(selectedNode === node.id ? null : node.id);
@@ -249,7 +329,6 @@ export default function PsychoanalysisNetwork() {
 
   const selectedNodeData = selectedNode ? conceptNodes.find((n) => n.id === selectedNode) : null;
 
-  // 清空搜索
   const clearSearch = () => {
     setSearchQuery('');
     setSearchResults([]);
@@ -287,11 +366,40 @@ export default function PsychoanalysisNetwork() {
       <div className="flex-1 relative overflow-hidden">
         <canvas
           ref={canvasRef}
-          className="w-full h-full cursor-pointer"
+          className="w-full h-full cursor-grab active:cursor-grabbing"
           onMouseMove={handleMouseMove}
           onClick={handleClick}
           onMouseLeave={() => setHoveredNode(null)}
+          onWheel={handleWheel}
+          onMouseDown={handleCanvasMouseDown}
+          onContextMenu={(e) => e.preventDefault()}
         />
+
+        {/* 缩放控制按钮 */}
+        <div className="absolute bottom-4 right-4 flex flex-col gap-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-2">
+          <button
+            onClick={() => setScale(Math.min(3, scale + 0.2))}
+            className="p-2 hover:bg-secondary rounded transition-colors text-foreground"
+            title="放大 (Ctrl + 滚轮)"
+          >
+            <ZoomIn className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => setScale(Math.max(0.5, scale - 0.2))}
+            className="p-2 hover:bg-secondary rounded transition-colors text-foreground"
+            title="缩小 (Ctrl + 滚轮)"
+          >
+            <ZoomOut className="w-4 h-4" />
+          </button>
+          <div className="h-px bg-border" />
+          <button
+            onClick={resetView}
+            className="p-2 hover:bg-secondary rounded transition-colors text-foreground"
+            title="重置视图"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
+        </div>
 
         {/* 图例 */}
         <div className="absolute top-4 left-4 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-3 max-w-xs text-sm">
@@ -367,7 +475,7 @@ export default function PsychoanalysisNetwork() {
 
       {/* 底部说明 */}
       <div className="bg-card/50 border-t border-border px-4 py-3 text-xs text-muted-foreground">
-        <p>💡 提示：使用搜索框快速定位概念。搜索结果会以绿色高亮显示。点击节点查看详细信息，面板可拖拽、调整大小和最大化。</p>
+        <p>💡 提示：滚轮缩放 | 右键或Ctrl+左键拖拽平移 | 使用搜索框快速定位概念 | 点击节点查看详细信息</p>
       </div>
     </div>
   );
