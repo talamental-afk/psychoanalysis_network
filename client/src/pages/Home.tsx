@@ -30,12 +30,9 @@ export default function Home() {
         </div>
       </main>
 
-      {/* 最小化底部说明 */}
-      <footer className="bg-card/50 border-t border-border backdrop-blur-sm py-2 px-4 text-xs text-muted-foreground">
-        <div className="flex items-center justify-between">
-          <p>💡 将鼠标悬停在节点上查看概念，点击节点查看详细信息。节点之间的连线表示理论关系。</p>
-          <p>© 2026 精神分析概念网络图</p>
-        </div>
+      {/* 最小化底部版权 */}
+      <footer className="bg-card/50 border-t border-border backdrop-blur-sm py-2 px-4 text-xs text-muted-foreground text-right">
+        <p>© 2026 精神分析概念网络图</p>
       </footer>
     </div>
   );
