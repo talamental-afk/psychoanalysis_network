@@ -33,6 +33,53 @@ export default function PsychoanalysisNetwork() {
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAutoClosing, setIsAutoClosing] = useState(true);
+  const [activeLearningPath, setActiveLearningPath] = useState<string | null>(null);
+  const [highlightedNodes, setHighlightedNodes] = useState<Set<string>>(new Set());
+
+  // 学习路径定义
+  const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
+    beginner: {
+      name: '精神分析入门',
+      description: '从基础概念开始，理解精神分析的核心理论',
+      nodes: ['unconscious', 'id', 'ego', 'superego', 'defense_mechanisms', 'repression', 'free_association', 'freud']
+    },
+    dreams: {
+      name: '梦的分析',
+      description: '深入理解梦的工作机制和分析方法',
+      nodes: ['unconscious', 'dream_analysis', 'condensation', 'displacement', 'manifest_content', 'latent_content', 'wish_fulfillment']
+    },
+    defense: {
+      name: '防御机制探索',
+      description: '全面了解自我的防御机制',
+      nodes: ['ego', 'defense_mechanisms', 'repression', 'denial', 'projection', 'rationalization', 'sublimation', 'displacement']
+    },
+    lacan: {
+      name: '拉康理论入门',
+      description: '理解拉康对精神分析的重新解释',
+      nodes: ['unconscious', 'symbolic_order', 'imaginary_order', 'real_order', 'mirror_stage', 'lack', 'desire', 'lacan']
+    },
+    selfpsych: {
+      name: '自体心理学',
+      description: '探索科胡特的自体心理学理论',
+      nodes: ['self', 'self_object', 'mirroring', 'idealization', 'twinship', 'empathy', 'kohut']
+    },
+    objectrel: {
+      name: '客体关系理论',
+      description: '理解客体关系如何塑造人格',
+      nodes: ['object_relations', 'internal_object', 'projective_identification', 'introjection', 'good_bad_object', 'transitional_object', 'klein']
+    }
+  };
+
+  // 处理学习路径选择
+  const selectLearningPath = (pathKey: string) => {
+    if (activeLearningPath === pathKey) {
+      setActiveLearningPath(null);
+      setHighlightedNodes(new Set());
+    } else {
+      setActiveLearningPath(pathKey);
+      setHighlightedNodes(new Set(learningPaths[pathKey].nodes));
+    }
+  };
 
   // 关系类型描述
   const relationshipDescriptions: Record<string, string> = {
@@ -194,10 +241,13 @@ export default function PsychoanalysisNetwork() {
       const y = centerY + node.y;
 
       const isSearchResult = searchResults.includes(node.id);
+      const isHighlighted = highlightedNodes.has(node.id);
 
       if (hoveredNode === node.id || selectedNode === node.id || isSearchResult) {
         const glowRadius = node.id === 'unconscious' ? 35 : 25;
-        const glowColor = isSearchResult ? 'rgba(34, 197, 94, 0.4)' : 'rgba(217, 119, 6, 0.4)';
+        let glowColor = 'rgba(217, 119, 6, 0.4)';
+        if (isSearchResult) glowColor = 'rgba(34, 197, 94, 0.4)';
+        if (isHighlighted) glowColor = 'rgba(59, 130, 246, 0.4)';
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
         gradient.addColorStop(0, glowColor);
         gradient.addColorStop(1, 'rgba(217, 119, 6, 0)');
@@ -450,6 +500,28 @@ export default function PsychoanalysisNetwork() {
               <span className="text-muted-foreground">搜索结果</span>
             </div>
           </div>
+          <div className="mt-3 pt-3 border-t border-border">
+            <div className="flex items-center gap-2 text-xs mb-2">
+              <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+              <span className="text-muted-foreground">学习路径</span>
+            </div>
+            <div className="space-y-1">
+              {Object.entries(learningPaths).map(([key, path]) => (
+                <button
+                  key={key}
+                  onClick={() => selectLearningPath(key)}
+                  className={`w-full text-left px-2 py-1 rounded text-xs transition-colors ${
+                    activeLearningPath === key
+                      ? 'bg-primary/50 text-primary-foreground'
+                      : 'bg-secondary/30 hover:bg-secondary/50 text-muted-foreground'
+                  }`}
+                  title={path.description}
+                >
+                  {path.name}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* 连接线信息提示 */}
@@ -490,9 +562,9 @@ export default function PsychoanalysisNetwork() {
 
       {/* 右侧侧边栏 */}
       {selectedNode && (
-      <div className={`relative bg-card border-l border-border flex flex-col ${selectedNode ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
-        {/* 侧边栏头部 */}
-        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+        <div className={`relative bg-card border-l border-border flex flex-col ${selectedNode ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
+          {/* 侧边栏头部 */}
+          <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-lg font-semibold text-foreground">
             {selectedNodeData ? selectedNodeData.name : '选择概念'}
           </h2>
@@ -504,8 +576,8 @@ export default function PsychoanalysisNetwork() {
           </button>
         </div>
 
-        {/* 侧边栏内容 */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {/* 侧边栏内容 */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {selectedNodeData ? (
             <>
               <div>
@@ -572,8 +644,8 @@ export default function PsychoanalysisNetwork() {
               点击网络图中的节点查看详细信息
             </div>
           )}
+          </div>
         </div>
-      </div>
       )}
     </div>
   );
