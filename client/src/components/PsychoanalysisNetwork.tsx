@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences, Reference } from '../../../psychoanalysis_data';
-import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy } from 'lucide-react';
+import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy, Medal } from 'lucide-react';
 import { Link } from 'wouter';
 
 
@@ -864,9 +864,17 @@ export default function PsychoanalysisNetwork() {
           </details>
         </div>
 
-        {/* 搜索框和成就按钮 */}
+        {/* 搜索框和成就按黿 */}
         <div className="absolute top-4 right-4 z-10 flex items-center gap-3">
-          {/* 我的成就按钮 */}
+          {/* 排行榜按黿 */}
+          <a
+            href="/leaderboard"
+            className="flex items-center justify-center p-2 bg-primary/10 backdrop-blur-sm border border-primary/30 rounded-lg hover:bg-primary/20 transition-colors text-primary"
+            title="查看排行榜"
+          >
+            <Medal className="w-4 h-4" />
+          </a>
+          {/* 我的成就按黿 */}
           <a
             href="/achievements"
             className="flex items-center justify-center p-2 bg-primary/10 backdrop-blur-sm border border-primary/30 rounded-lg hover:bg-primary/20 transition-colors text-primary"
