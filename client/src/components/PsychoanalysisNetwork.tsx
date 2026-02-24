@@ -105,18 +105,19 @@ export default function PsychoanalysisNetwork() {
   const toggleCategory = (category: string) => {
     // 清除学习路径选择
     setActiveLearningPath(null);
-    setHighlightedNodes(new Set());
     
     if (activeCategory === category) {
       // 取消选择该分类
       setActiveCategory(null);
+      setHighlightedNodes(new Set());
       setVisibleCategories(new Set(Object.keys(categoryLabels)));
     } else {
       // 选择该分类
       setActiveCategory(category);
-      setVisibleCategories(new Set([category]));
       
-      // 高亮该分类的所有节点
+      // 显示所有分类，但高亮该分类的节点
+      setVisibleCategories(new Set(Object.keys(categoryLabels)));
+      
       const categoryNodes = new Set<string>();
       conceptNodes.forEach(node => {
         if (node.category === category) {
