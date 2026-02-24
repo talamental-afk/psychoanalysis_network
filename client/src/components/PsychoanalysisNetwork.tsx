@@ -536,6 +536,36 @@ export default function PsychoanalysisNetwork() {
                 <div className="text-xs font-medium text-muted-foreground mb-1">分类</div>
                 <div className="text-sm text-foreground">{categoryLabels[selectedNodeData.category as keyof typeof categoryLabels]}</div>
               </div>
+
+              {(() => {
+                const relatedNodes = conceptLinks
+                  .filter(link => link.source === selectedNode || link.target === selectedNode)
+                  .map(link => link.source === selectedNode ? link.target : link.source);
+                
+                if (relatedNodes.length > 0) {
+                  return (
+                    <div className="pt-2 border-t border-border">
+                      <div className="text-xs font-medium text-muted-foreground mb-2">相关概念</div>
+                      <div className="flex flex-wrap gap-2">
+                        {relatedNodes.map(nodeId => {
+                          const relatedNode = conceptNodes.find(n => n.id === nodeId);
+                          if (!relatedNode) return null;
+                          return (
+                            <button
+                              key={nodeId}
+                              onClick={() => setSelectedNode(nodeId)}
+                              className="px-2 py-1 text-xs bg-secondary/50 hover:bg-secondary text-foreground rounded transition-colors border border-border/50 hover:border-border"
+                            >
+                              {relatedNode.name}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
+                return null;
+              })()}
             </>
           ) : (
             <div className="text-center text-muted-foreground text-sm py-8">
