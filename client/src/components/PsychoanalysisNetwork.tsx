@@ -242,8 +242,15 @@ export default function PsychoanalysisNetwork() {
 
       const isSearchResult = searchResults.includes(node.id);
       const isHighlighted = highlightedNodes.has(node.id);
+      const hasHighlightedNodes = highlightedNodes.size > 0;
 
-      if (hoveredNode === node.id || selectedNode === node.id || isSearchResult || isHighlighted) {
+      // 如果有高亮节点，非高亮节点透明度降低
+      let nodeOpacity = 1;
+      if (hasHighlightedNodes && !isHighlighted && !isSearchResult && hoveredNode !== node.id && selectedNode !== node.id) {
+        nodeOpacity = 0.2;
+      }
+
+      if (hoveredNode === node.id || selectedNode === node.id || isSearchResult) {
         const glowRadius = node.id === 'unconscious' ? 35 : 25;
         let glowColor = 'rgba(217, 119, 6, 0.4)';
         let gradientEndColor = 'rgba(217, 119, 6, 0)';
@@ -251,10 +258,6 @@ export default function PsychoanalysisNetwork() {
         if (isSearchResult) {
           glowColor = 'rgba(34, 197, 94, 0.6)';
           gradientEndColor = 'rgba(34, 197, 94, 0)';
-        }
-        if (isHighlighted) {
-          glowColor = 'rgba(255, 193, 7, 0.8)';
-          gradientEndColor = 'rgba(255, 193, 7, 0)';
         }
         if (hoveredNode === node.id) {
           glowColor = 'rgba(255, 255, 255, 0.6)';
@@ -270,16 +273,50 @@ export default function PsychoanalysisNetwork() {
         ctx.fill();
       }
 
-      const radius = node.id === 'unconscious' ? 16 : node.level === 1 ? 12 : node.level === 2 ? 9 : 7;
+      // 计算节点半径，高亮节点放大
+      let radius = node.id === 'unconscious' ? 16 : node.level === 1 ? 12 : node.level === 2 ? 9 : 7;
+      if (isHighlighted) {
+        radius = radius * 1.5;
+      }
+
       ctx.fillStyle = node.color;
+      ctx.globalAlpha = nodeOpacity;
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
+      ctx.globalAlpha = 1;
 
       ctx.strokeStyle = hoveredNode === node.id ? '#FFFFFF' : 'rgba(255, 255, 255, 0.3)';
       ctx.lineWidth = hoveredNode === node.id ? 2 : 1;
+      ctx.globalAlpha = nodeOpacity;
       ctx.stroke();
+      ctx.globalAlpha = 1;
     });
+
+    // 绘制学习路径的数字标记
+    if (highlightedNodes.size > 0) {
+      const highlightedArray = Array.from(highlightedNodes);
+      highlightedArray.forEach((nodeId, index) => {
+        const node = nodes.find(n => n.id === nodeId);
+        if (!node) return;
+        
+        const x = centerX + node.x;
+        const y = centerY + node.y;
+        
+        // 绘制数字背景圆
+        ctx.fillStyle = 'rgba(255, 193, 7, 0.9)';
+        ctx.beginPath();
+        ctx.arc(x, y - 12, 10, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // 绘制数字
+        ctx.fillStyle = '#000000';
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText((index + 1).toString(), x, y - 12);
+      });
+    }
 
     ctx.restore();
   }, [nodes, hoveredNode, selectedNode, searchResults, scale, pan, visibleCategories, hoveredLink, highlightedNodes]);
