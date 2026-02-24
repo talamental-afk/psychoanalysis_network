@@ -26,12 +26,17 @@ export default function PsychoanalysisNetwork() {
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
+  const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
 
-  // 初始化节点位置
+  // 初始化节点位置 - 使用更优化的分布算法
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
       const angle = (index / conceptNodes.length) * Math.PI * 2;
-      const radius = 120 + node.level * 80;
+      // 根据节点层级调整半径，确保所有节点都在可见范围内
+      const baseRadius = 80;
+      const levelRadius = node.level * 50;
+      const radius = baseRadius + levelRadius;
+      
       return {
         ...node,
         x: Math.cos(angle) * radius,
@@ -76,15 +81,12 @@ export default function PsychoanalysisNetwork() {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // 计算缩放因子
     const zoomFactor = 0.1;
     const newScale = Math.max(0.5, Math.min(3, scale + (e.deltaY > 0 ? -zoomFactor : zoomFactor)));
 
-    // 计算缩放中心点（鼠标位置）
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
-    // 调整平移以保持鼠标位置不变
     const scaleDiff = newScale - scale;
     const mouseRelX = x - centerX;
     const mouseRelY = y - centerY;
@@ -100,7 +102,6 @@ export default function PsychoanalysisNetwork() {
   // 处理鼠标按下（平移）
   const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (e.button === 2 || e.ctrlKey || e.metaKey) {
-      // 右键或Ctrl+左键用于平移
       setIsPanning(true);
       setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
     }
@@ -146,8 +147,10 @@ export default function PsychoanalysisNetwork() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // 设置canvas尺寸
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
+    setCanvasSize({ width: canvas.width, height: canvas.height });
 
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
@@ -380,14 +383,14 @@ export default function PsychoanalysisNetwork() {
           <button
             onClick={() => setScale(Math.min(3, scale + 0.2))}
             className="p-2 hover:bg-secondary rounded transition-colors text-foreground"
-            title="放大 (Ctrl + 滚轮)"
+            title="放大"
           >
             <ZoomIn className="w-4 h-4" />
           </button>
           <button
             onClick={() => setScale(Math.max(0.5, scale - 0.2))}
             className="p-2 hover:bg-secondary rounded transition-colors text-foreground"
-            title="缩小 (Ctrl + 滚轮)"
+            title="缩小"
           >
             <ZoomOut className="w-4 h-4" />
           </button>
@@ -468,12 +471,9 @@ export default function PsychoanalysisNetwork() {
             <p className="text-xs text-foreground font-medium">
               {conceptNodes.find((n) => n.id === hoveredNode)?.name}
             </p>
-            <p className="text-xs text-muted-foreground">点击查看详情</p>
           </div>
         )}
       </div>
-
-
     </div>
   );
 }
