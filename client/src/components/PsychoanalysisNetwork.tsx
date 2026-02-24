@@ -35,6 +35,7 @@ export default function PsychoanalysisNetwork() {
   const [isAutoClosing, setIsAutoClosing] = useState(true);
   const [activeLearningPath, setActiveLearningPath] = useState<string | null>(null);
   const [highlightedNodes, setHighlightedNodes] = useState<Set<string>>(new Set());
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
@@ -106,13 +107,24 @@ export default function PsychoanalysisNetwork() {
     setActiveLearningPath(null);
     setHighlightedNodes(new Set());
     
-    const newVisible = new Set(visibleCategories);
-    if (newVisible.has(category)) {
-      newVisible.delete(category);
+    if (activeCategory === category) {
+      // 取消选择该分类
+      setActiveCategory(null);
+      setVisibleCategories(new Set(Object.keys(categoryLabels)));
     } else {
-      newVisible.add(category);
+      // 选择该分类
+      setActiveCategory(category);
+      setVisibleCategories(new Set([category]));
+      
+      // 高亮该分类的所有节点
+      const categoryNodes = new Set<string>();
+      conceptNodes.forEach(node => {
+        if (node.category === category) {
+          categoryNodes.add(node.id);
+        }
+      });
+      setHighlightedNodes(categoryNodes);
     }
-    setVisibleCategories(newVisible);
   };
 
   // 初始化节点位置
