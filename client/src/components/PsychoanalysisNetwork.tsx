@@ -386,9 +386,10 @@ export default function PsychoanalysisNetwork() {
       ctx.globalAlpha = nodeOpacity;
       const lines = node.name.split('');
       let lineIndex = 0;
+      const lineHeight = 14;
       for (let i = 0; i < node.name.length; i += 2) {
         const line = node.name.substring(i, i + 2);
-        ctx.fillText(line, x, y + radius + 6 + lineIndex * 12);
+        ctx.fillText(line, x, y + radius + 8 + lineIndex * lineHeight);
         lineIndex++;
       }
       ctx.globalAlpha = 1;
