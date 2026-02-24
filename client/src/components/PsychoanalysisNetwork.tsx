@@ -48,6 +48,8 @@ export default function PsychoanalysisNetwork() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [portraitsLoaded, setPortraitsLoaded] = useState(0);
   const [completedNodes, setCompletedNodes] = useState<Set<string>>(new Set());
+  const [completedPaths, setCompletedPaths] = useState<Set<string>>(new Set());
+  const [celebrationPath, setCelebrationPath] = useState<string | null>(null);
   const [draggingNode, setDraggingNode] = useState<string | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [nodeOffsets, setNodeOffsets] = useState<Record<string, {x: number; y: number}>>({});
@@ -93,6 +95,28 @@ export default function PsychoanalysisNetwork() {
     const completedCount = path.nodes.filter(nodeId => completedNodes.has(nodeId)).length;
     return Math.round((completedCount / path.nodes.length) * 100);
   };
+
+  // 检测学习路径完成并触发庆祝
+  useEffect(() => {
+    if (completedNodes.size > 0) {
+      Object.entries(learningPaths).forEach(([pathKey, path]) => {
+        const progress = getPathProgress(pathKey);
+        if (progress === 100 && !completedPaths.has(pathKey)) {
+          // 标记为已完成
+          setCompletedPaths(prev => {
+            const newSet = new Set(prev);
+            newSet.add(pathKey);
+            return newSet;
+          });
+          // 触发庆祝动画
+          setCelebrationPath(pathKey);
+          // 3秒后关闭庆祝弹窗
+          setTimeout(() => setCelebrationPath(null), 3000);
+        }
+      });
+    }
+  }, [completedNodes]);
+
 
   // 处理学习路径选择
   const selectLearningPath = (pathKey: string) => {
@@ -743,7 +767,32 @@ export default function PsychoanalysisNetwork() {
     setDraggingNode(null);
   };
 
-  return (
+  
+      {/* 庆祝弹窗 */}
+      {celebrationPath && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+          {/* 背景模糊 */}
+          <div className="absolute inset-0 bg-black/20 backdrop-blur-sm animate-fadeIn" />
+          
+          {/* 庆祝弹窗 */}
+          <div className="relative bg-gradient-to-br from-primary/20 via-primary/10 to-transparent border-2 border-primary/50 rounded-2xl p-8 text-center max-w-md animate-scaleIn pointer-events-auto">
+            <div className="text-6xl mb-4 animate-bounce">🎉</div>
+            <h2 className="text-2xl font-bold text-foreground mb-2">恭喜完成！</h2>
+            <p className="text-lg text-foreground mb-4">
+              你已完成 <span className="font-semibold text-primary">{learningPaths[celebrationPath as keyof typeof learningPaths]?.name}</span> 学习路径
+            </p>
+            <div className="flex justify-center gap-2 mb-4">
+              <span className="text-3xl animate-spin">⭐</span>
+              <span className="text-3xl animate-pulse">✨</span>
+              <span className="text-3xl animate-spin">⭐</span>
+            </div>
+            <p className="text-sm text-muted-foreground">继续探索更多精神分析理论吧！</p>
+          </div>
+        </div>
+      )}
+
+
+      return (
     <div className="relative w-full h-full bg-background flex">
       {/* 主要网络图区域 */}
       <div className="flex-1 relative">
