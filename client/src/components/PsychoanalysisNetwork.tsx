@@ -31,7 +31,8 @@ export default function PsychoanalysisNetwork() {
   const [visibleCategories, setVisibleCategories] = useState<Set<string>>(new Set(Object.keys(categoryLabels)));
   const [hoveredLink, setHoveredLink] = useState<{source: string; target: string; type: string} | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAutoClosing, setIsAutoClosing] = useState(true);
 
   // 关系类型描述
   const relationshipDescriptions: Record<string, string> = {
@@ -305,6 +306,17 @@ export default function PsychoanalysisNetwork() {
     });
   };
 
+  // 自动打开/关闭侧边栏
+  useEffect(() => {
+    if (isAutoClosing) {
+      if (selectedNode) {
+        setSidebarOpen(true);
+      } else {
+        setSidebarOpen(false);
+      }
+    }
+  }, [selectedNode, isAutoClosing]);
+
   const selectedNodeData = selectedNode ? conceptNodes.find((n) => n.id === selectedNode) : null;
   const hoveredLinkData = hoveredLink ? {
     source: conceptNodes.find((n) => n.id === hoveredLink.source),
@@ -477,17 +489,18 @@ export default function PsychoanalysisNetwork() {
       </div>
 
       {/* 右侧侧边栏 */}
-      <div className={`relative bg-card border-l border-border flex flex-col ${sidebarOpen ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
+      {selectedNode && (
+      <div className={`relative bg-card border-l border-border flex flex-col ${selectedNode ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
         {/* 侧边栏头部 */}
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-lg font-semibold text-foreground">
             {selectedNodeData ? selectedNodeData.name : '选择概念'}
           </h2>
           <button
-            onClick={() => setSidebarOpen(false)}
+            onClick={() => setSelectedNode(null)}
             className="p-1 hover:bg-secondary rounded transition-colors"
           >
-            <ChevronRight className="w-5 h-5" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
@@ -531,16 +544,6 @@ export default function PsychoanalysisNetwork() {
           )}
         </div>
       </div>
-
-      {/* 侧边栏打开按钮 */}
-      {!sidebarOpen && (
-        <button
-          onClick={() => setSidebarOpen(true)}
-          className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-full p-2 bg-card/80 backdrop-blur-sm border border-border rounded-r-lg hover:bg-secondary transition-colors"
-          title="打开侧边栏"
-        >
-          <ChevronRight className="w-5 h-5 transform rotate-180" />
-        </button>
       )}
     </div>
   );
