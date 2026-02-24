@@ -108,11 +108,9 @@ export default function Achievements() {
       {/* 顶部导航 */}
       <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Link href="/">
-            <a className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
-              <ChevronLeft className="w-5 h-5" />
-              <span>返回网络图</span>
-            </a>
+          <Link href="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors">
+            <ChevronLeft className="w-5 h-5" />
+            <span>返回网络图</span>
           </Link>
         </div>
       </div>
