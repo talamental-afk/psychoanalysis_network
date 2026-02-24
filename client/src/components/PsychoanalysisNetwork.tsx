@@ -23,7 +23,7 @@ export default function PsychoanalysisNetwork() {
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
       const angle = (index / conceptNodes.length) * Math.PI * 2;
-      const radius = 80 + node.level * 40;
+      const radius = 100 + node.level * 60;
       return {
         ...node,
         x: Math.cos(angle) * radius,
