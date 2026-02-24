@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences, Reference } from '../../../psychoanalysis_data';
 import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy } from 'lucide-react';
+import { Link } from 'wouter';
+
 
 interface Node {
   id: string;
@@ -1012,7 +1014,7 @@ export default function PsychoanalysisNetwork() {
           </div>
 
           {/* 成就统计信息 */}
-          <div className="px-4 py-3 space-y-2 border-b border-border/50">
+          <div className="px-4 py-3 space-y-3 border-b border-border/50">
             <div className="flex justify-between items-center text-xs">
               <span className="text-muted-foreground">学习路径完成</span>
               <span className="font-semibold text-foreground">{completedPaths.size}/{Object.keys(learningPaths).length}</span>
@@ -1025,6 +1027,11 @@ export default function PsychoanalysisNetwork() {
               <span className="text-muted-foreground">整体进度</span>
               <span className="font-semibold text-primary">{Math.round((completedNodes.size / conceptNodes.length) * 100)}%</span>
             </div>
+            <Link href="/leaderboard" className="block w-full mt-2">
+              <button className="w-full px-3 py-2 text-xs font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors">
+                查看完整排行榜
+              </button>
+            </Link>
           </div>
 
           {/* 侧边栏头部 */}
