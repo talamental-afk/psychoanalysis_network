@@ -10,6 +10,7 @@ export interface ConceptNode {
   level: number; // 0: 中心, 1: 第一层, 2: 第二层, 3: 第三层
   color: string;
   icon?: string;
+  avatar?: string; // 头像URL
 }
 
 export interface ConceptLink {
