@@ -592,10 +592,10 @@ export default function PsychoanalysisNetwork() {
                 <button
                   key={key}
                   onClick={() => selectLearningPath(key)}
-                  className={`text-left px-0 py-1 text-xs transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${
+                  className={`block w-full text-left px-2 py-1 rounded text-xs transition-colors ${
                     activeLearningPath === key
-                      ? 'text-primary-foreground font-medium'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'bg-primary/50 text-primary-foreground'
+                      : 'bg-secondary/30 hover:bg-secondary/50 text-muted-foreground'
                   }`}
                   title={path.description}
                 >
