@@ -4,7 +4,7 @@ export interface ConceptNode {
   name: string;
   nameEn: string;
   description: string;
-  category: 'core' | 'personality' | 'defense' | 'therapy' | 'phenomena' | 'theorist';
+  category: 'core' | 'personality' | 'defense' | 'therapy' | 'phenomena' | 'theorist' | 'lacan' | 'self_psychology' | 'object_relations';
   level: number; // 0: 中心, 1: 第一层, 2: 第二层, 3: 第三层
   color: string;
   icon?: string;
@@ -269,10 +269,223 @@ export const conceptNodes: ConceptNode[] = [
     id: 'lacan',
     name: '雅各·拉康',
     nameEn: 'Jacques Lacan',
-    description: '后继理论家，重新解释精神分析理论。',
+    description: '后继理论家，重新解释精神分析理论，强调语言的作用。',
     category: 'theorist',
     level: 2,
     color: '#FBBF24',
+  },
+  {
+    id: 'kohut',
+    name: '海因茨·科胡特',
+    nameEn: 'Heinz Kohut',
+    description: '自体心理学的创始人，强调同理心和自体的重要性。',
+    category: 'theorist',
+    level: 2,
+    color: '#FBBF24',
+  },
+  {
+    id: 'klein',
+    name: '梅兰妮·克莱因',
+    nameEn: 'Melanie Klein',
+    description: '客体关系理论的先驱，强调内在客体和投射认同。',
+    category: 'theorist',
+    level: 2,
+    color: '#FBBF24',
+  },
+  {
+    id: 'winnicott',
+    name: '唐纳德·温尼科特',
+    nameEn: 'Donald Winnicott',
+    description: '客体关系理论家，强调母婴关系和过渡对象。',
+    category: 'theorist',
+    level: 2,
+    color: '#FBBF24',
+  },
+
+  // 拉康理论
+  {
+    id: 'symbolic_order',
+    name: '象征界',
+    nameEn: 'Symbolic Order',
+    description: '拉康三界之一。由语言、文化和社会规则组成。',
+    category: 'lacan',
+    level: 2,
+    color: '#EC4899',
+  },
+  {
+    id: 'imaginary_order',
+    name: '想象界',
+    nameEn: 'Imaginary Order',
+    description: '拉康三界之一。自我与他人的镜像关系。',
+    category: 'lacan',
+    level: 2,
+    color: '#EC4899',
+  },
+  {
+    id: 'real_order',
+    name: '实在界',
+    nameEn: 'Real Order',
+    description: '拉康三界之一。超越象征和想象的绝对他者。',
+    category: 'lacan',
+    level: 2,
+    color: '#EC4899',
+  },
+  {
+    id: 'mirror_stage',
+    name: '镜像阶段',
+    nameEn: 'Mirror Stage',
+    description: '拉康理论中，婴儿通过镜像建立自我认同的阶段。',
+    category: 'lacan',
+    level: 3,
+    color: '#F97316',
+  },
+  {
+    id: 'lack',
+    name: '缺失',
+    nameEn: 'Lack',
+    description: '拉康的核心概念，主体永远无法完全满足的根本缺失。',
+    category: 'lacan',
+    level: 3,
+    color: '#F97316',
+  },
+  {
+    id: 'desire',
+    name: '欲望',
+    nameEn: 'Desire',
+    description: '拉康强调欲望不同于需求，是由语言和象征界产生的。',
+    category: 'lacan',
+    level: 3,
+    color: '#F97316',
+  },
+  {
+    id: 'jouissance',
+    name: '享乐',
+    nameEn: 'Jouissance',
+    description: '拉康的关键概念，超越快乐原则的极端享受体验。',
+    category: 'lacan',
+    level: 3,
+    color: '#F97316',
+  },
+
+  // 自体心理学
+  {
+    id: 'self',
+    name: '自体',
+    nameEn: 'Self',
+    description: '自体心理学的中心概念，人格的核心和统一性。',
+    category: 'self_psychology',
+    level: 2,
+    color: '#06B6D4',
+  },
+  {
+    id: 'selfobject',
+    name: '自体客体',
+    nameEn: 'Selfobject',
+    description: '他人作为自体的延伸，提供镜映、理想化和孪生体验。',
+    category: 'self_psychology',
+    level: 2,
+    color: '#06B6D4',
+  },
+  {
+    id: 'mirroring',
+    name: '镜映',
+    nameEn: 'Mirroring',
+    description: '自体客体通过反映和确认来支持自体的发展。',
+    category: 'self_psychology',
+    level: 3,
+    color: '#14B8A6',
+  },
+  {
+    id: 'idealization',
+    name: '理想化',
+    nameEn: 'Idealization',
+    description: '个体将完美的品质投射到自体客体身上。',
+    category: 'self_psychology',
+    level: 3,
+    color: '#14B8A6',
+  },
+  {
+    id: 'twinship',
+    name: '孪生体验',
+    nameEn: 'Twinship',
+    description: '与自体客体的相似性和共同性体验。',
+    category: 'self_psychology',
+    level: 3,
+    color: '#14B8A6',
+  },
+  {
+    id: 'empathy',
+    name: '同理心',
+    nameEn: 'Empathy',
+    description: '自体心理学强调的治疗关键，进入他人的内在世界。',
+    category: 'self_psychology',
+    level: 3,
+    color: '#14B8A6',
+  },
+
+  // 客体关系理论
+  {
+    id: 'object_relations',
+    name: '客体关系',
+    nameEn: 'Object Relations',
+    description: '强调内在客体表征和人际关系的理论。',
+    category: 'object_relations',
+    level: 2,
+    color: '#8B5CF6',
+  },
+  {
+    id: 'internal_object',
+    name: '内在客体',
+    nameEn: 'Internal Object',
+    description: '个体内心中他人的心理表征，受投射和内摄影响。',
+    category: 'object_relations',
+    level: 3,
+    color: '#A855F7',
+  },
+  {
+    id: 'projective_identification',
+    name: '投射认同',
+    nameEn: 'Projective Identification',
+    description: '克莱因理论，将内在冲突投射到他人身上并认同。',
+    category: 'object_relations',
+    level: 3,
+    color: '#A855F7',
+  },
+  {
+    id: 'introjection',
+    name: '内摄',
+    nameEn: 'Introjection',
+    description: '将外部客体的特质吸收到自我中。',
+    category: 'object_relations',
+    level: 3,
+    color: '#A855F7',
+  },
+  {
+    id: 'good_bad_object',
+    name: '好坏客体',
+    nameEn: 'Good and Bad Object',
+    description: '克莱因的分裂理论，婴儿将客体分为全好或全坏。',
+    category: 'object_relations',
+    level: 3,
+    color: '#A855F7',
+  },
+  {
+    id: 'transitional_object',
+    name: '过渡客体',
+    nameEn: 'Transitional Object',
+    description: '温尼科特理论，儿童用来过渡的物体（如毛绒玩具）。',
+    category: 'object_relations',
+    level: 3,
+    color: '#A855F7',
+  },
+  {
+    id: 'holding_environment',
+    name: '容纳环境',
+    nameEn: 'Holding Environment',
+    description: '温尼科特概念，母亲提供的安全、支持的环境。',
+    category: 'object_relations',
+    level: 3,
+    color: '#A855F7',
   },
 ];
 
@@ -331,6 +544,48 @@ export const conceptLinks: ConceptLink[] = [
   { source: 'freud', target: 'oedipus_complex', type: 'relates', strength: 0.9 },
   { source: 'jung', target: 'unconscious', type: 'relates', strength: 0.8 },
   { source: 'lacan', target: 'unconscious', type: 'relates', strength: 0.8 },
+  { source: 'kohut', target: 'self', type: 'relates', strength: 1 },
+  { source: 'klein', target: 'object_relations', type: 'relates', strength: 1 },
+  { source: 'winnicott', target: 'object_relations', type: 'relates', strength: 1 },
+
+  // 拉康理论与无意识
+  { source: 'unconscious', target: 'symbolic_order', type: 'relates', strength: 0.9 },
+  { source: 'unconscious', target: 'imaginary_order', type: 'relates', strength: 0.8 },
+  { source: 'unconscious', target: 'real_order', type: 'relates', strength: 0.8 },
+  { source: 'symbolic_order', target: 'desire', type: 'relates', strength: 0.9 },
+  { source: 'imaginary_order', target: 'mirror_stage', type: 'relates', strength: 1 },
+  { source: 'real_order', target: 'jouissance', type: 'relates', strength: 0.9 },
+  { source: 'symbolic_order', target: 'lack', type: 'relates', strength: 0.9 },
+
+  // 自体心理学与无意识
+  { source: 'unconscious', target: 'self', type: 'relates', strength: 0.8 },
+  { source: 'self', target: 'selfobject', type: 'contains', strength: 1 },
+  { source: 'selfobject', target: 'mirroring', type: 'manifests', strength: 0.9 },
+  { source: 'selfobject', target: 'idealization', type: 'manifests', strength: 0.9 },
+  { source: 'selfobject', target: 'twinship', type: 'manifests', strength: 0.8 },
+  { source: 'empathy', target: 'mirroring', type: 'relates', strength: 0.9 },
+
+  // 客体关系与无意识
+  { source: 'unconscious', target: 'object_relations', type: 'relates', strength: 0.9 },
+  { source: 'object_relations', target: 'internal_object', type: 'contains', strength: 1 },
+  { source: 'internal_object', target: 'projective_identification', type: 'manifests', strength: 0.9 },
+  { source: 'internal_object', target: 'introjection', type: 'manifests', strength: 0.9 },
+  { source: 'internal_object', target: 'good_bad_object', type: 'manifests', strength: 0.8 },
+  { source: 'object_relations', target: 'transitional_object', type: 'relates', strength: 0.8 },
+  { source: 'object_relations', target: 'holding_environment', type: 'relates', strength: 0.8 },
+
+  // 防御机制与客体关系
+  { source: 'projection', target: 'projective_identification', type: 'relates', strength: 0.8 },
+  { source: 'defense_mechanisms', target: 'introjection', type: 'relates', strength: 0.7 },
+
+  // 转移与自体心理学
+  { source: 'transference', target: 'selfobject', type: 'relates', strength: 0.8 },
+  { source: 'transference', target: 'empathy', type: 'relates', strength: 0.7 },
+
+  // 拉康理论之间的关系
+  { source: 'mirror_stage', target: 'imaginary_order', type: 'relates', strength: 0.9 },
+  { source: 'desire', target: 'lack', type: 'relates', strength: 0.9 },
+  { source: 'jouissance', target: 'real_order', type: 'relates', strength: 0.9 },
 ];
 
 export const categoryColors = {
@@ -340,6 +595,9 @@ export const categoryColors = {
   therapy: '#34D399',
   phenomena: '#F472B6',
   theorist: '#FBBF24',
+  lacan: '#EC4899',
+  self_psychology: '#06B6D4',
+  object_relations: '#8B5CF6',
 };
 
 export const categoryLabels = {
@@ -349,4 +607,7 @@ export const categoryLabels = {
   therapy: '治疗方法',
   phenomena: '心理现象',
   theorist: '理论家',
+  lacan: '拉康理论',
+  self_psychology: '自体心理学',
+  object_relations: '客体关系',
 };
