@@ -1,13 +1,14 @@
 import { useRef, useState, useEffect } from 'react';
 import { conceptNodes, conceptLinks, categoryLabels } from '../../../psychoanalysis_data';
-import DraggablePanel from './DraggablePanel';
-import { Search, X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight } from 'lucide-react';
 
 interface Node {
   id: string;
   name: string;
   nameEn: string;
   description: string;
+  definition?: string;
+  example?: string;
   category: string;
   level: number;
   color: string;
@@ -30,6 +31,7 @@ export default function PsychoanalysisNetwork() {
   const [visibleCategories, setVisibleCategories] = useState<Set<string>>(new Set(Object.keys(categoryLabels)));
   const [hoveredLink, setHoveredLink] = useState<{source: string; target: string; type: string} | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // 关系类型描述
   const relationshipDescriptions: Record<string, string> = {
@@ -51,11 +53,10 @@ export default function PsychoanalysisNetwork() {
     setVisibleCategories(newVisible);
   };
 
-  // 初始化节点位置 - 使用更优化的分布算法
+  // 初始化节点位置
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
       const angle = (index / conceptNodes.length) * Math.PI * 2;
-      // 根据节点层级调整半径，确保所有节点都在可见范围内
       const baseRadius = 80;
       const levelRadius = node.level * 50;
       const radius = baseRadius + levelRadius;
@@ -100,7 +101,6 @@ export default function PsychoanalysisNetwork() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // 设置canvas尺寸
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
     setCanvasSize({ width: canvas.width, height: canvas.height });
@@ -108,11 +108,9 @@ export default function PsychoanalysisNetwork() {
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
 
-    // 清空画布
     ctx.fillStyle = '#0F172A';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // 应用缩放和平移变换
     ctx.save();
     ctx.translate(centerX + pan.x, centerY + pan.y);
     ctx.scale(scale, scale);
@@ -140,7 +138,6 @@ export default function PsychoanalysisNetwork() {
       const targetNode = nodes.find((n) => n.id === link.target);
       if (!sourceNode || !targetNode) return;
       
-      // 检查两个节点是否都可见
       if (!visibleCategories.has(sourceNode.category) || !visibleCategories.has(targetNode.category)) return;
 
       const x1 = centerX + sourceNode.x;
@@ -166,7 +163,6 @@ export default function PsychoanalysisNetwork() {
       ctx.lineTo(x2, y2);
       ctx.stroke();
 
-      // 绘制箭头
       if (link.type === 'influences' || link.type === 'treats' || link.type === 'manifests') {
         const angle = Math.atan2(y2 - y1, x2 - x1);
         const arrowSize = 8;
@@ -191,7 +187,6 @@ export default function PsychoanalysisNetwork() {
 
     // 绘制节点
     nodes.forEach((node) => {
-      // 检查节点是否可见
       if (!visibleCategories.has(node.category)) return;
       
       const x = centerX + node.x;
@@ -211,14 +206,12 @@ export default function PsychoanalysisNetwork() {
         ctx.fill();
       }
 
-      // 绘制节点
       const radius = node.id === 'unconscious' ? 16 : node.level === 1 ? 12 : node.level === 2 ? 9 : 7;
       ctx.fillStyle = node.color;
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // 绘制边框
       ctx.strokeStyle = hoveredNode === node.id ? '#FFFFFF' : 'rgba(255, 255, 255, 0.3)';
       ctx.lineWidth = hoveredNode === node.id ? 2 : 1;
       ctx.stroke();
@@ -244,7 +237,6 @@ export default function PsychoanalysisNetwork() {
     let foundNode: string | null = null;
     let foundLink: {source: string; target: string; type: string} | null = null;
     
-    // 检查节点悬停
     nodes.forEach((node) => {
       const nodeX = centerX + node.x;
       const nodeY = centerY + node.y;
@@ -255,7 +247,6 @@ export default function PsychoanalysisNetwork() {
       }
     });
 
-    // 检查连接线悬停
     if (!foundNode) {
       conceptLinks.forEach((link) => {
         const sourceNode = nodes.find((n) => n.id === link.source);
@@ -268,7 +259,6 @@ export default function PsychoanalysisNetwork() {
         const x2 = centerX + targetNode.x;
         const y2 = centerY + targetNode.y;
         
-        // 计算点到线段的距离
         const dx = x2 - x1;
         const dy = y2 - y1;
         const len = Math.sqrt(dx * dx + dy * dy);
@@ -327,7 +317,6 @@ export default function PsychoanalysisNetwork() {
     setSearchResults([]);
   };
 
-  // 缩放控制
   const handleZoom = (direction: 'in' | 'out') => {
     const zoomFactor = direction === 'in' ? 1.2 : 0.8;
     const newScale = Math.max(0.5, Math.min(3, scale * zoomFactor));
@@ -340,185 +329,219 @@ export default function PsychoanalysisNetwork() {
   };
 
   return (
-    <div className="relative w-full h-full bg-background">
-      {/* 搜索框 */}
-      <div className="absolute top-4 right-4 z-10">
-        <div className="relative w-80">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="搜索概念（如：防御机制、弗洛伊德...）"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-10 py-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-          />
-          {searchQuery && (
-            <button
-              onClick={clearSearch}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
-          {searchResults.length > 0 && (
-            <div className="absolute top-full mt-2 left-0 right-0 bg-card/90 backdrop-blur-sm border border-border rounded-lg p-2 text-xs text-muted-foreground">
-              找到 {searchResults.length} 个结果
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full cursor-grab active:cursor-grabbing"
-        onMouseMove={(e) => {
-          if (isPanning) {
-            const dx = e.clientX - panStart.x;
-            const dy = e.clientY - panStart.y;
-            setPan({ x: pan.x + dx, y: pan.y + dy });
-            setPanStart({ x: e.clientX, y: e.clientY });
-          }
-          handleMouseMove(e);
-        }}
-        onClick={handleClick}
-        onMouseDown={(e) => {
-          if (e.button === 2 || (e.button === 0 && e.ctrlKey)) {
-            setIsPanning(true);
-            setPanStart({ x: e.clientX, y: e.clientY });
-          }
-        }}
-        onMouseUp={() => setIsPanning(false)}
-        onMouseLeave={() => {
-          setIsPanning(false);
-          setHoveredNode(null);
-          setHoveredLink(null);
-        }}
-        onWheel={(e) => {
-          e.preventDefault();
-          handleZoom(e.deltaY < 0 ? 'in' : 'out');
-        }}
-        onContextMenu={(e) => e.preventDefault()}
-      />
-
-      {/* 缩放控制 */}
-      <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-10">
-        <button
-          onClick={() => handleZoom('in')}
-          className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
-          title="放大"
-        >
-          <ZoomIn className="w-4 h-4" />
-        </button>
-        <button
-          onClick={() => handleZoom('out')}
-          className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
-          title="缩小"
-        >
-          <ZoomOut className="w-4 h-4" />
-        </button>
-        <button
-          onClick={resetView}
-          className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
-          title="重置视图"
-        >
-          <RotateCcw className="w-4 h-4" />
-        </button>
-      </div>
-
-      {/* 图例 - 可交互筛选 */}
-      <div className="absolute top-4 left-4 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-3 max-w-xs text-sm z-10">
-        <h3 className="text-sm font-semibold text-foreground mb-3">图例（点击筛选）</h3>
-        <div className="space-y-1 text-xs">
-          {Object.entries(categoryLabels).map(([key, label]) => {
-            const isVisible = visibleCategories.has(key);
-            const categoryColor = key === 'core' ? '#D97706' : key === 'personality' ? '#A78BFA' : key === 'defense' ? '#A78BFA' : key === 'therapy' ? '#34D399' : key === 'phenomena' ? '#F472B6' : key === 'theorist' ? '#FBBF24' : key === 'lacan' ? '#EC4899' : key === 'self_psychology' ? '#06B6D4' : '#8B5CF6';
-            return (
-              <button key={key} onClick={() => toggleCategory(key)} className={`flex items-center gap-2 w-full px-2 py-1 rounded transition-colors ${isVisible ? 'bg-secondary/50 hover:bg-secondary' : 'bg-muted/30 hover:bg-muted/50 opacity-50'}`}>
-                <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{backgroundColor: categoryColor, opacity: isVisible ? 1 : 0.5}} />
-                <span className="text-muted-foreground text-xs">{label}</span>
+    <div className="relative w-full h-full bg-background flex">
+      {/* 主要网络图区域 */}
+      <div className="flex-1 relative">
+        {/* 搜索框 */}
+        <div className="absolute top-4 right-4 z-10">
+          <div className="relative w-80">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="搜索概念（如：防御机制、弗洛伊德...）"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-10 py-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+            {searchQuery && (
+              <button
+                onClick={clearSearch}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                <X className="w-4 h-4" />
               </button>
-            );
-          })}
-        </div>
-        <div className="mt-3 pt-3 border-t border-border">
-          <div className="flex items-center gap-2 text-xs">
-            <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-            <span className="text-muted-foreground">搜索结果</span>
-          </div>
-        </div>
-      </div>
-
-      {/* 可拖拽信息面板 */}
-      {selectedNodeData && (
-        <DraggablePanel
-          title={`${selectedNodeData.name} (${selectedNodeData.nameEn})`}
-          onClose={() => setSelectedNode(null)}
-          defaultWidth={600}
-          defaultHeight={window.innerHeight - 160}
-        >
-          <div className="space-y-4 text-sm overflow-y-auto pr-2 max-h-full">
-            <div>
-              <div className="text-xs font-medium text-muted-foreground mb-1">简述</div>
-              <div className="text-sm text-foreground">{selectedNodeData.description}</div>
-            </div>
-            
-            {selectedNodeData.definition && (
-              <div>
-                <div className="text-xs font-medium text-muted-foreground mb-1">详细定义</div>
-                <div className="text-sm text-foreground leading-relaxed">{selectedNodeData.definition}</div>
+            )}
+            {searchResults.length > 0 && (
+              <div className="absolute top-full mt-2 left-0 right-0 bg-card/90 backdrop-blur-sm border border-border rounded-lg p-2 text-xs text-muted-foreground">
+                找到 {searchResults.length} 个结果
               </div>
             )}
-            
-            {selectedNodeData.example && (
-              <div>
-                <div className="text-xs font-medium text-muted-foreground mb-1">案例说明</div>
-                <div className="text-sm text-foreground leading-relaxed italic">{selectedNodeData.example}</div>
-              </div>
-            )}
-            
-            <div className="pt-2 border-t border-border">
-              <div className="text-xs font-medium text-muted-foreground mb-1">分类</div>
-              <div className="text-sm text-foreground">{categoryLabels[selectedNodeData.category as keyof typeof categoryLabels]}</div>
-            </div>
           </div>
-        </DraggablePanel>
-      )}
+        </div>
 
-      {/* 连接线信息提示 */}
-      {hoveredLinkData && (
-        <div
-          className="fixed bg-card/90 backdrop-blur-sm border border-border rounded-lg p-3 text-sm z-20 pointer-events-none"
-          style={{
-            left: `${tooltipPos.x + 10}px`,
-            top: `${tooltipPos.y + 10}px`,
-            maxWidth: '300px',
+        {/* Canvas */}
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full cursor-grab active:cursor-grabbing"
+          onMouseMove={(e) => {
+            if (isPanning) {
+              const dx = e.clientX - panStart.x;
+              const dy = e.clientY - panStart.y;
+              setPan({ x: pan.x + dx, y: pan.y + dy });
+              setPanStart({ x: e.clientX, y: e.clientY });
+            }
+            handleMouseMove(e);
           }}
-        >
-          <div className="font-semibold text-foreground mb-2">
-            {hoveredLinkData.source?.name} → {hoveredLinkData.target?.name}
+          onClick={handleClick}
+          onMouseDown={(e) => {
+            if (e.button === 2 || (e.button === 0 && e.ctrlKey)) {
+              setIsPanning(true);
+              setPanStart({ x: e.clientX, y: e.clientY });
+            }
+          }}
+          onMouseUp={() => setIsPanning(false)}
+          onMouseLeave={() => {
+            setIsPanning(false);
+            setHoveredNode(null);
+            setHoveredLink(null);
+          }}
+          onWheel={(e) => {
+            e.preventDefault();
+            handleZoom(e.deltaY < 0 ? 'in' : 'out');
+          }}
+          onContextMenu={(e) => e.preventDefault()}
+        />
+
+        {/* 缩放控制 */}
+        <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-10">
+          <button
+            onClick={() => handleZoom('in')}
+            className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
+            title="放大"
+          >
+            <ZoomIn className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => handleZoom('out')}
+            className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
+            title="缩小"
+          >
+            <ZoomOut className="w-4 h-4" />
+          </button>
+          <button
+            onClick={resetView}
+            className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
+            title="重置视图"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* 图例 */}
+        <div className="absolute top-4 left-4 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-3 max-w-xs text-sm z-10">
+          <h3 className="text-sm font-semibold text-foreground mb-3">图例（点击筛选）</h3>
+          <div className="space-y-1 text-xs">
+            {Object.entries(categoryLabels).map(([key, label]) => {
+              const isVisible = visibleCategories.has(key);
+              const categoryColor = key === 'core' ? '#D97706' : key === 'personality' ? '#A78BFA' : key === 'defense' ? '#A78BFA' : key === 'therapy' ? '#34D399' : key === 'phenomena' ? '#F472B6' : key === 'theorist' ? '#FBBF24' : key === 'lacan' ? '#EC4899' : key === 'self_psychology' ? '#06B6D4' : '#8B5CF6';
+              return (
+                <button key={key} onClick={() => toggleCategory(key)} className={`flex items-center gap-2 w-full px-2 py-1 rounded transition-colors ${isVisible ? 'bg-secondary/50 hover:bg-secondary' : 'bg-muted/30 hover:bg-muted/50 opacity-50'}`}>
+                  <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{backgroundColor: categoryColor, opacity: isVisible ? 1 : 0.5}} />
+                  <span className="text-muted-foreground text-xs">{label}</span>
+                </button>
+              );
+            })}
           </div>
-          <div className="text-xs text-muted-foreground">
-            <div className="mb-1">
-              <span className="font-medium">关系：</span>
-              {relationshipDescriptions[hoveredLinkData.type] || hoveredLinkData.type}
-            </div>
-            <div>
-              <span className="font-medium">来源：</span>
-              {hoveredLinkData.source?.nameEn}
-            </div>
-            <div>
-              <span className="font-medium">目标：</span>
-              {hoveredLinkData.target?.nameEn}
+          <div className="mt-3 pt-3 border-t border-border">
+            <div className="flex items-center gap-2 text-xs">
+              <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+              <span className="text-muted-foreground">搜索结果</span>
             </div>
           </div>
         </div>
-      )}
 
-      {/* 底部版权 */}
-      <div className="absolute bottom-4 left-4 text-xs text-muted-foreground">
-        © 2026
+        {/* 连接线信息提示 */}
+        {hoveredLinkData && (
+          <div
+            className="fixed bg-card/90 backdrop-blur-sm border border-border rounded-lg p-3 text-sm z-20 pointer-events-none"
+            style={{
+              left: `${tooltipPos.x + 10}px`,
+              top: `${tooltipPos.y + 10}px`,
+              maxWidth: '300px',
+            }}
+          >
+            <div className="font-semibold text-foreground mb-2">
+              {hoveredLinkData.source?.name} → {hoveredLinkData.target?.name}
+            </div>
+            <div className="text-xs text-muted-foreground">
+              <div className="mb-1">
+                <span className="font-medium">关系：</span>
+                {relationshipDescriptions[hoveredLinkData.type] || hoveredLinkData.type}
+              </div>
+              <div>
+                <span className="font-medium">来源：</span>
+                {hoveredLinkData.source?.nameEn}
+              </div>
+              <div>
+                <span className="font-medium">目标：</span>
+                {hoveredLinkData.target?.nameEn}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 底部版权 */}
+        <div className="absolute bottom-4 left-4 text-xs text-muted-foreground">
+          © 2026
+        </div>
       </div>
+
+      {/* 右侧侧边栏 */}
+      <div className={`fixed right-0 top-0 h-full bg-card border-l border-border transition-all duration-300 z-50 flex flex-col ${sidebarOpen ? 'w-96' : 'w-0'} overflow-hidden`}>
+        {/* 侧边栏头部 */}
+        <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+          <h2 className="text-lg font-semibold text-foreground">
+            {selectedNodeData ? selectedNodeData.name : '选择概念'}
+          </h2>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="p-1 hover:bg-secondary rounded transition-colors"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* 侧边栏内容 */}
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {selectedNodeData ? (
+            <>
+              <div>
+                <div className="text-xs font-medium text-muted-foreground mb-1">英文名</div>
+                <div className="text-sm text-foreground">{selectedNodeData.nameEn}</div>
+              </div>
+
+              <div>
+                <div className="text-xs font-medium text-muted-foreground mb-1">简述</div>
+                <div className="text-sm text-foreground">{selectedNodeData.description}</div>
+              </div>
+
+              {selectedNodeData.definition && (
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground mb-1">详细定义</div>
+                  <div className="text-sm text-foreground leading-relaxed">{selectedNodeData.definition}</div>
+                </div>
+              )}
+
+              {selectedNodeData.example && (
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground mb-1">案例说明</div>
+                  <div className="text-sm text-foreground leading-relaxed italic">{selectedNodeData.example}</div>
+                </div>
+              )}
+
+              <div className="pt-2 border-t border-border">
+                <div className="text-xs font-medium text-muted-foreground mb-1">分类</div>
+                <div className="text-sm text-foreground">{categoryLabels[selectedNodeData.category as keyof typeof categoryLabels]}</div>
+              </div>
+            </>
+          ) : (
+            <div className="text-center text-muted-foreground text-sm py-8">
+              点击网络图中的节点查看详细信息
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* 侧边栏打开按钮 */}
+      {!sidebarOpen && (
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="fixed right-0 top-1/2 transform -translate-y-1/2 p-2 bg-card/80 backdrop-blur-sm border border-border rounded-l-lg hover:bg-secondary transition-colors z-40"
+          title="打开侧边栏"
+        >
+          <ChevronRight className="w-5 h-5 transform rotate-180" />
+        </button>
+      )}
     </div>
   );
 }
