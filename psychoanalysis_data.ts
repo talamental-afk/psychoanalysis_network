@@ -1,4 +1,13 @@
 // 精神分析概念网络数据结构
+export interface Reference {
+  id: string;
+  title: string;
+  author?: string;
+  year?: number;
+  url?: string;
+  type: 'book' | 'paper' | 'website' | 'article';
+}
+
 export interface ConceptNode {
   id: string;
   name: string;
@@ -6,6 +15,7 @@ export interface ConceptNode {
   description: string;
   definition?: string; // 详细定义
   example?: string; // 案例说明
+  references?: string[]; // 参考文献ID列表
   category: 'core' | 'personality' | 'defense' | 'therapy' | 'phenomena' | 'theorist' | 'lacan' | 'self_psychology' | 'object_relations';
   level: number; // 0: 中心, 1: 第一层, 2: 第二层, 3: 第三层
   color: string;
@@ -713,4 +723,172 @@ export const categoryLabels = {
   lacan: '拉康理论',
   self_psychology: '自体心理学',
   object_relations: '客体关系',
+};
+
+// 参考文献数据库
+export const references: Reference[] = [
+  // 弗洛伊德相关
+  {
+    id: 'freud-interpretation-dreams',
+    title: '梦的解析',
+    author: '西格蒙德·弗洛伊德',
+    year: 1900,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/The_Interpretation_of_Dreams'
+  },
+  {
+    id: 'freud-unconscious',
+    title: '无意识',
+    author: '西格蒙德·弗洛伊德',
+    year: 1915,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/Unconscious_mind'
+  },
+  {
+    id: 'freud-ego-defense',
+    title: '自我与防御机制',
+    author: '西格蒙德·弗洛伊德',
+    year: 1923,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Ego_and_the_Id'
+  },
+  // 荣格相关
+  {
+    id: 'jung-collective-unconscious',
+    title: '集体无意识',
+    author: '卡尔·荣格',
+    year: 1934,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/Collective_unconscious'
+  },
+  {
+    id: 'jung-archetypes',
+    title: '原型与无意识',
+    author: '卡尔·荣格',
+    year: 1959,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Jungian_archetypes'
+  },
+  // 拉康相关
+  {
+    id: 'lacan-mirror-stage',
+    title: '镜像阶段',
+    author: '雅克·拉康',
+    year: 1949,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/Mirror_stage'
+  },
+  {
+    id: 'lacan-symbolic-order',
+    title: '符号秩序',
+    author: '雅克·拉康',
+    year: 1966,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Lacanian_theory'
+  },
+  // 克莱因相关
+  {
+    id: 'klein-object-relations',
+    title: '客体关系理论',
+    author: '梅兰妮·克莱因',
+    year: 1932,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Object_relations_theory'
+  },
+  {
+    id: 'klein-paranoid-depressive',
+    title: '偏执-抑郁位置',
+    author: '梅兰妮·克莱因',
+    year: 1935,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/Paranoid-schizoid_and_depressive_positions'
+  },
+  // 科胡特相关
+  {
+    id: 'kohut-self-psychology',
+    title: '自体心理学',
+    author: '海因茨·科胡特',
+    year: 1971,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Self_psychology'
+  },
+  {
+    id: 'kohut-selfobject',
+    title: '自体客体',
+    author: '海因茨·科胡特',
+    year: 1977,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/Selfobject'
+  },
+  // 防御机制相关
+  {
+    id: 'anna-freud-defense',
+    title: '防御机制',
+    author: '安娜·弗洛伊德',
+    year: 1936,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Defence_mechanism'
+  },
+  // 转移与反转移
+  {
+    id: 'transference-countertransference',
+    title: '转移与反转移',
+    author: '精神分析文献',
+    year: 1950,
+    type: 'article',
+    url: 'https://en.wikipedia.org/wiki/Transference'
+  },
+  // 治疗方法
+  {
+    id: 'psychoanalytic-therapy',
+    title: '精神分析治疗',
+    author: '精神分析文献',
+    year: 1990,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Psychoanalysis'
+  },
+];
+
+// 为节点添加参考文献关联
+export const nodeReferences: Record<string, string[]> = {
+  unconscious: ['freud-unconscious', 'jung-collective-unconscious'],
+  id: ['freud-ego-defense'],
+  ego: ['freud-ego-defense'],
+  superego: ['freud-ego-defense'],
+  repression: ['freud-interpretation-dreams', 'anna-freud-defense'],
+  denial: ['anna-freud-defense'],
+  projection: ['anna-freud-defense'],
+  displacement: ['anna-freud-defense'],
+  sublimation: ['anna-freud-defense'],
+  rationalization: ['anna-freud-defense'],
+  archetype: ['jung-archetypes', 'jung-collective-unconscious'],
+  shadow: ['jung-archetypes'],
+  anima_animus: ['jung-archetypes'],
+  synchronicity: ['jung-collective-unconscious'],
+  mirror_stage: ['lacan-mirror-stage'],
+  imaginary_order: ['lacan-symbolic-order'],
+  symbolic_order: ['lacan-symbolic-order'],
+  real_order: ['lacan-symbolic-order'],
+  lack: ['lacan-symbolic-order'],
+  desire: ['lacan-symbolic-order'],
+  jouissance: ['lacan-symbolic-order'],
+  object_relations: ['klein-object-relations'],
+  internal_object: ['klein-object-relations'],
+  good_bad_object: ['klein-paranoid-depressive'],
+  paranoid_schizoid: ['klein-paranoid-depressive'],
+  depressive_position: ['klein-paranoid-depressive'],
+  projective_identification: ['klein-object-relations'],
+  introjection: ['klein-object-relations'],
+  holding_environment: ['klein-object-relations'],
+  transitional_object: ['klein-object-relations'],
+  selfobject: ['kohut-selfobject', 'kohut-self-psychology'],
+  mirroring: ['kohut-self-psychology'],
+  idealization: ['kohut-self-psychology'],
+  twinship: ['kohut-self-psychology'],
+  empathy: ['kohut-self-psychology'],
+  transference: ['transference-countertransference'],
+  countertransference: ['transference-countertransference'],
+  free_association: ['freud-interpretation-dreams'],
+  dream_analysis: ['freud-interpretation-dreams'],
+  psychoanalytic_therapy: ['psychoanalytic-therapy'],
 };

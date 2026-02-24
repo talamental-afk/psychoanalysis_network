@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { conceptNodes, conceptLinks, categoryLabels } from '../../../psychoanalysis_data';
+import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences, Reference } from '../../../psychoanalysis_data';
 import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight } from 'lucide-react';
 
 interface Node {
@@ -664,6 +664,8 @@ export default function PsychoanalysisNetwork() {
   }, [selectedNode, isAutoClosing]);
 
   const selectedNodeData = selectedNode ? conceptNodes.find((n) => n.id === selectedNode) : null;
+  const selectedNodeReferences = selectedNode && nodeReferences[selectedNode] ? nodeReferences[selectedNode] : [];
+  const selectedNodeRefData = selectedNodeReferences.map(refId => references.find(r => r.id === refId)).filter(Boolean) as Reference[];
   const hoveredLinkData = hoveredLink ? {
     source: conceptNodes.find((n) => n.id === hoveredLink.source),
     target: conceptNodes.find((n) => n.id === hoveredLink.target),
@@ -986,6 +988,36 @@ export default function PsychoanalysisNetwork() {
                 <div>
                   <div className="text-xs font-medium text-muted-foreground mb-1">案例说明</div>
                   <div className="text-sm text-foreground leading-relaxed italic">{selectedNodeData.example}</div>
+                </div>
+              )}
+
+              {selectedNodeRefData.length > 0 && (
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground mb-2">参考文献</div>
+                  <div className="space-y-2">
+                    {selectedNodeRefData.map(ref => (
+                      <div key={ref.id} className="text-xs bg-secondary/30 rounded p-2 border border-border/50 hover:bg-secondary/50 transition-colors">
+                        {ref.url ? (
+                          <a
+                            href={ref.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline block"
+                          >
+                            {ref.title}
+                          </a>
+                        ) : (
+                          <div className="text-foreground">{ref.title}</div>
+                        )}
+                        {ref.author && (
+                          <div className="text-muted-foreground text-xs mt-1">{ref.author}</div>
+                        )}
+                        {ref.year && (
+                          <div className="text-muted-foreground text-xs">{ref.year}</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
