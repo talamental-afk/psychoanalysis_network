@@ -33,7 +33,7 @@ export default function PsychoanalysisNetwork() {
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
       const angle = (index / conceptNodes.length) * Math.PI * 2;
-      const radius = 120 + node.level * 100;
+      const radius = 60 + node.level * 50;
       return {
         ...node,
         x: Math.cos(angle) * radius,
@@ -186,19 +186,19 @@ export default function PsychoanalysisNetwork() {
           const dy = -node.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           if (distance > 0) {
-            fx += (dx / distance) * 0.1;
-            fy += (dy / distance) * 0.1;
+            fx += (dx / distance) * 0.05;
+            fy += (dy / distance) * 0.05;
           }
 
-          // 节点之间的斥力
+          // 节点之间的斐力
           prevNodes.forEach((other) => {
             if (node.id === other.id) return;
             const dx = node.x - other.x;
             const dy = node.y - other.y;
             const distance = Math.sqrt(dx * dx + dy * dy) + 1;
-            if (distance < 200) {
-              fx += (dx / distance) * 0.05;
-              fy += (dy / distance) * 0.05;
+            if (distance < 150) {
+              fx += (dx / distance) * 0.03;
+              fy += (dy / distance) * 0.03;
             }
           });
 
@@ -211,8 +211,8 @@ export default function PsychoanalysisNetwork() {
                 const dy = target.y - node.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance > 0) {
-                  fx += (dx / distance) * 0.02 * link.strength;
-                  fy += (dy / distance) * 0.02 * link.strength;
+                  fx += (dx / distance) * 0.01 * link.strength;
+                  fy += (dy / distance) * 0.01 * link.strength;
                 }
               }
             } else if (link.target === node.id) {
@@ -222,16 +222,16 @@ export default function PsychoanalysisNetwork() {
                 const dy = source.y - node.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 if (distance > 0) {
-                  fx += (dx / distance) * 0.02 * link.strength;
-                  fy += (dy / distance) * 0.02 * link.strength;
+                  fx += (dx / distance) * 0.01 * link.strength;
+                  fy += (dy / distance) * 0.01 * link.strength;
                 }
               }
             }
           });
 
           // 更新速度和位置
-          const newVx = (node.vx + fx) * 0.95;
-          const newVy = (node.vy + fy) * 0.95;
+          const newVx = (node.vx + fx) * 0.98;
+          const newVy = (node.vy + fy) * 0.98;
           const newX = node.x + newVx;
           const newY = node.y + newVy;
 
