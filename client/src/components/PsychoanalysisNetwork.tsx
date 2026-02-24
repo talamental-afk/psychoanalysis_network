@@ -930,6 +930,13 @@ export default function PsychoanalysisNetwork() {
 
         {/* 缩放控制 */}
         <div className="absolute bottom-4 right-4 flex flex-col gap-2 z-10">
+          <a
+            href="/achievements"
+            className="flex items-center justify-center p-2 bg-primary/10 backdrop-blur-sm border border-primary/30 rounded-lg hover:bg-primary/20 transition-colors text-primary"
+            title="查看我的成就"
+          >
+            <Trophy className="w-4 h-4" />
+          </a>
           <button
             onClick={() => handleZoom('in')}
             className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
