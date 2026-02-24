@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences, Reference } from '../../../psychoanalysis_data';
-import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight } from 'lucide-react';
+import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy } from 'lucide-react';
 
 interface Node {
   id: string;
