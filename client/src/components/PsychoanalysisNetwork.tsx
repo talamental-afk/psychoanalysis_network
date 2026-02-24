@@ -473,10 +473,7 @@ export default function PsychoanalysisNetwork() {
         )}
       </div>
 
-      {/* 底部说明 */}
-      <div className="bg-card/50 border-t border-border px-4 py-3 text-xs text-muted-foreground">
-        <p>💡 提示：滚轮缩放 | 右键或Ctrl+左键拖拽平移 | 使用搜索框快速定位概念 | 点击节点查看详细信息</p>
-      </div>
+
     </div>
   );
 }
