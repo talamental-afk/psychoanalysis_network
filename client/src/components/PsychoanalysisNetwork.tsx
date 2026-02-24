@@ -47,6 +47,7 @@ export default function PsychoanalysisNetwork() {
   const [highlightedNodes, setHighlightedNodes] = useState<Set<string>>(new Set());
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [portraitsLoaded, setPortraitsLoaded] = useState(0);
+  const [completedNodes, setCompletedNodes] = useState<Set<string>>(new Set());
 
   // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
@@ -80,6 +81,14 @@ export default function PsychoanalysisNetwork() {
       description: '理解客体关系如何塑造人格',
       nodes: ['object_relations', 'internal_object', 'projective_identification', 'introjection', 'good_bad_object', 'transitional_object', 'klein']
     }
+  };
+
+  // 计算学习路径的完成度
+  const getPathProgress = (pathKey: string): number => {
+    const path = learningPaths[pathKey];
+    if (!path || path.nodes.length === 0) return 0;
+    const completedCount = path.nodes.filter(nodeId => completedNodes.has(nodeId)).length;
+    return Math.round((completedCount / path.nodes.length) * 100);
   };
 
   // 处理学习路径选择
@@ -589,18 +598,28 @@ export default function PsychoanalysisNetwork() {
             </summary>
             <div className="px-4 pb-4 space-y-1 text-xs border-t border-border pt-3">
               {Object.entries(learningPaths).map(([key, path]) => (
-                <button
-                  key={key}
-                  onClick={() => selectLearningPath(key)}
-                  className={`block w-full text-left px-2 py-1 rounded text-xs transition-colors ${
-                    activeLearningPath === key
-                      ? 'bg-primary/50 text-primary-foreground'
-                      : 'bg-secondary/30 hover:bg-secondary/50 text-muted-foreground'
-                  }`}
-                  title={path.description}
-                >
-                  {path.name}
-                </button>
+                <div key={key} className="space-y-1">
+                  <button
+                    onClick={() => selectLearningPath(key)}
+                    className={`block w-full text-left px-2 py-1 rounded text-xs transition-colors ${
+                      activeLearningPath === key
+                        ? 'bg-primary/50 text-primary-foreground'
+                        : 'bg-secondary/30 hover:bg-secondary/50 text-muted-foreground'
+                    }`}
+                    title={path.description}
+                  >
+                    {path.name}
+                  </button>
+                  <div className="px-2 flex items-center gap-2">
+                    <div className="flex-1 h-1.5 bg-secondary/30 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-primary transition-all duration-300"
+                        style={{ width: `${getPathProgress(key)}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">{getPathProgress(key)}%</span>
+                  </div>
+                </div>
               ))}
             </div>
           </details>
