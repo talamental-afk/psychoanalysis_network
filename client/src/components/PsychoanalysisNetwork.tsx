@@ -137,14 +137,14 @@ export default function PsychoanalysisNetwork() {
       });
       setHighlightedNodes(categoryNodes);
     }
-  };
+  }; // 移除依赖数组，这个函数在其他地方调用
 
   // 初始化节点位置
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
       const angle = (index / conceptNodes.length) * Math.PI * 2;
-      const baseRadius = 80;
-      const levelRadius = node.level * 50;
+      const baseRadius = 100; // 增加基础半径
+      const levelRadius = node.level * 60; // 增加级别半径
       const radius = baseRadius + levelRadius;
       
       return {
