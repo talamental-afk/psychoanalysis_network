@@ -599,17 +599,27 @@ export default function PsychoanalysisNetwork() {
             <div className="px-4 pb-4 space-y-1 text-xs border-t border-border pt-3">
               {Object.entries(learningPaths).map(([key, path]) => (
                 <div key={key} className="space-y-1">
-                  <button
-                    onClick={() => selectLearningPath(key)}
-                    className={`block w-full text-left px-2 py-1 rounded text-xs transition-colors ${
-                      activeLearningPath === key
-                        ? 'bg-primary/50 text-primary-foreground'
-                        : 'bg-secondary/30 hover:bg-secondary/50 text-muted-foreground'
-                    }`}
-                    title={path.description}
-                  >
-                    {path.name}
-                  </button>
+                  <div className="flex items-center justify-between gap-2">
+                    <button
+                      onClick={() => selectLearningPath(key)}
+                      className={`flex-1 text-left px-2 py-1 rounded text-xs transition-colors ${
+                        activeLearningPath === key
+                          ? 'bg-primary/50 text-primary-foreground'
+                          : 'bg-secondary/30 hover:bg-secondary/50 text-muted-foreground'
+                      }`}
+                      title={path.description}
+                    >
+                      {path.name}
+                    </button>
+                    {getPathProgress(key) === 100 && (
+                      <div className="relative group">
+                        <div className="text-lg animate-bounce">🏆</div>
+                        <div className="absolute right-0 bottom-full mb-2 px-2 py-1 bg-primary text-primary-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                          已完成
+                        </div>
+                      </div>
+                    )}
+                  </div>
                   <div className="px-2 flex items-center gap-2">
                     <div className="flex-1 h-1.5 bg-secondary/30 rounded-full overflow-hidden">
                       <div
