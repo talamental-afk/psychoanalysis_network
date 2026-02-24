@@ -441,10 +441,10 @@ export default function PsychoanalysisNetwork() {
           <DraggablePanel
             title={selectedNodeData.name}
             onClose={() => setSelectedNode(null)}
-            defaultWidth={420}
-            defaultHeight={280}
-            defaultX={typeof window !== 'undefined' ? window.innerWidth - 450 : 0}
-            defaultY={100}
+            defaultWidth={600}
+            defaultHeight={400}
+            defaultX={typeof window !== 'undefined' ? window.innerWidth - 650 : 0}
+            defaultY={80}
           >
             <div>
               <p className="text-xs text-muted-foreground mb-3">{selectedNodeData.nameEn}</p>
