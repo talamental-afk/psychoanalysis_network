@@ -102,7 +102,7 @@ export default function DraggablePanel({
 
   if (isMaximized) {
     return (
-      <div className="fixed inset-0 bg-card/95 backdrop-blur-sm border border-border flex flex-col shadow-2xl z-50">
+      <div className="fixed inset-0 bg-card/95 backdrop-blur-sm border border-border flex flex-col shadow-2xl" style={{ zIndex: 9999 }}>
         {/* 标题栏 */}
         <div
           ref={headerRef}
@@ -139,13 +139,14 @@ export default function DraggablePanel({
   return (
     <div
       ref={panelRef}
-      className="fixed bg-card/95 backdrop-blur-sm border border-border rounded-lg shadow-2xl flex flex-col z-50"
+      className="fixed bg-card/95 backdrop-blur-sm border border-border rounded-lg shadow-2xl flex flex-col"
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
         width: `${size.width}px`,
         height: `${size.height}px`,
         userSelect: isDragging ? 'none' : 'auto',
+        zIndex: 9999,
       }}
     >
       {/* 标题栏 - 可拖拽 */}
