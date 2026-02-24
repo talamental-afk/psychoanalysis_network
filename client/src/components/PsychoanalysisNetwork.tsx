@@ -1005,6 +1005,12 @@ export default function PsychoanalysisNetwork() {
       {/* 右侧侧边栏 */}
       {selectedNode && (
         <div className={`relative bg-card border-l border-border flex flex-col ${selectedNode ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
+          {/* 我的成就标识栏 */}
+          <div className="flex items-center gap-2 px-4 py-3 bg-primary/10 border-b border-border/50">
+            <Trophy className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-primary">我的成就</span>
+          </div>
+
           {/* 侧边栏头部 */}
           <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-lg font-semibold text-foreground">
