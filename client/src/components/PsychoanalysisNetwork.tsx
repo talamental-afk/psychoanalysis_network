@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { conceptNodes, conceptLinks, categoryLabels } from '../../../psychoanalysis_data';
 import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight } from 'lucide-react';
 
@@ -16,8 +16,18 @@ interface Node {
   y: number;
 }
 
+// 头像映射
+const portraitMap: Record<string, string> = {
+  freud: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663376544081/QhNfjWjPSHcZuguU.png',
+  jung: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663376544081/DQwEGuhKtYmBpHsR.png',
+  lacan: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663376544081/ocvvqMjwViCJUDvw.png',
+  kohut: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663376544081/XzkXegVpDcRFKmqp.png',
+  klein: 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663376544081/vLTUhZDdyceomXmO.png'
+};
+
 export default function PsychoanalysisNetwork() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const portraitImagesRef = useRef<Map<string, HTMLImageElement>>(new Map());
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -36,6 +46,7 @@ export default function PsychoanalysisNetwork() {
   const [activeLearningPath, setActiveLearningPath] = useState<string | null>(null);
   const [highlightedNodes, setHighlightedNodes] = useState<Set<string>>(new Set());
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [portraitsLoaded, setPortraitsLoaded] = useState(0);
 
   // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
@@ -143,6 +154,39 @@ export default function PsychoanalysisNetwork() {
       };
     });
     setNodes(initialNodes);
+  }, []);
+
+  // 加载头像图片
+  useEffect(() => {
+    let loadedCount = 0;
+    const totalPortraits = Object.keys(portraitMap).length;
+    
+    const loadPortraits = async () => {
+      for (const [nodeId, imageUrl] of Object.entries(portraitMap)) {
+        try {
+          const img = new Image();
+          img.onload = () => {
+            portraitImagesRef.current.set(nodeId, img);
+            console.log(`Loaded portrait: ${nodeId}`);
+            loadedCount++;
+            if (loadedCount === totalPortraits) {
+              setPortraitsLoaded(prev => prev + 1);
+            }
+          };
+          img.onerror = () => {
+            console.warn(`Failed to load portrait for ${nodeId}`);
+            loadedCount++;
+            if (loadedCount === totalPortraits) {
+              setPortraitsLoaded(prev => prev + 1);
+            }
+          };
+          img.src = imageUrl;
+        } catch (error) {
+          console.error(`Error loading portrait for ${nodeId}:`, error);
+        }
+      }
+    };
+    loadPortraits();
   }, []);
 
   // 搜索功能
@@ -319,6 +363,21 @@ export default function PsychoanalysisNetwork() {
       ctx.stroke();
       ctx.globalAlpha = 1;
 
+      // 绘制头像
+      if (portraitMap[node.id]) {
+        const portraitImage = portraitImagesRef.current.get(node.id);
+        if (portraitImage) {
+          ctx.globalAlpha = nodeOpacity;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.clip();
+          ctx.drawImage(portraitImage, x - radius, y - radius, radius * 2, radius * 2);
+          ctx.restore();
+          ctx.globalAlpha = 1;
+        }
+      }
+
       // 绘制节点文字标签
       ctx.fillStyle = '#E0E7FF';
       ctx.font = '11px Inter';
@@ -361,7 +420,7 @@ export default function PsychoanalysisNetwork() {
     }
 
     ctx.restore();
-  }, [nodes, hoveredNode, selectedNode, searchResults, scale, pan, visibleCategories, hoveredLink, highlightedNodes]);
+  }, [nodes, hoveredNode, selectedNode, searchResults, scale, pan, visibleCategories, hoveredLink, highlightedNodes, portraitsLoaded]);
 
   // 处理鼠标移动
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
