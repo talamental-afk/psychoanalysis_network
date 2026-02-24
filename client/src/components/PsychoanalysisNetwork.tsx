@@ -152,8 +152,8 @@ export default function PsychoanalysisNetwork() {
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
       const angle = (index / conceptNodes.length) * Math.PI * 2;
-      const baseRadius = 100; // 增加基础半径
-      const levelRadius = node.level * 60; // 增加级别半径
+      const baseRadius = 120; // 增加基础半径
+      const levelRadius = node.level * 70; // 增加级别半径
       const radius = baseRadius + levelRadius;
       
       return {
