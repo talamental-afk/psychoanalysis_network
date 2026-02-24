@@ -645,50 +645,7 @@ export default function PsychoanalysisNetwork() {
           </button>
         </div>
 
-        {/* 图例 */}
-        <div className="absolute top-4 left-4 bg-card/80 backdrop-blur-sm border border-border rounded-lg p-3 max-w-xs text-sm z-10">
-          <h3 className="text-sm font-semibold text-foreground mb-3">图例（点击筛选）</h3>
-          <div className="space-y-1 text-xs">
-            {Object.entries(categoryLabels).map(([key, label]) => {
-              const isVisible = visibleCategories.has(key);
-              const categoryColor = key === 'core' ? '#D97706' : key === 'personality' ? '#A78BFA' : key === 'defense' ? '#A78BFA' : key === 'therapy' ? '#34D399' : key === 'phenomena' ? '#F472B6' : key === 'theorist' ? '#FBBF24' : key === 'lacan' ? '#EC4899' : key === 'self_psychology' ? '#06B6D4' : '#8B5CF6';
-              return (
-                <button key={key} onClick={() => toggleCategory(key)} className={`flex items-center gap-2 w-full px-2 py-1 rounded transition-colors ${isVisible ? 'bg-secondary/50 hover:bg-secondary' : 'bg-muted/30 hover:bg-muted/50 opacity-50'}`}>
-                  <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{backgroundColor: categoryColor, opacity: isVisible ? 1 : 0.5}} />
-                  <span className="text-muted-foreground text-xs">{label}</span>
-                </button>
-              );
-            })}
-          </div>
-          <div className="mt-3 pt-3 border-t border-border">
-            <div className="flex items-center gap-2 text-xs">
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-              <span className="text-muted-foreground">搜索结果</span>
-            </div>
-          </div>
-          <div className="mt-3 pt-3 border-t border-border">
-            <div className="flex items-center gap-2 text-xs mb-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-              <span className="text-muted-foreground">学习路径</span>
-            </div>
-            <div className="space-y-1">
-              {Object.entries(learningPaths).map(([key, path]) => (
-                <button
-                  key={key}
-                  onClick={() => selectLearningPath(key)}
-                  className={`w-full text-left px-2 py-1 rounded text-xs transition-colors ${
-                    activeLearningPath === key
-                      ? 'bg-primary/50 text-primary-foreground'
-                      : 'bg-secondary/30 hover:bg-secondary/50 text-muted-foreground'
-                  }`}
-                  title={path.description}
-                >
-                  {path.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+
 
         {/* 连接线信息提示 */}
         {hoveredLinkData && (
@@ -820,6 +777,28 @@ export default function PsychoanalysisNetwork() {
               点击网络图中的节点查看详细信息
             </div>
           )}
+          </div>
+          
+          {/* 图例部分 */}
+          <div className="border-t border-border p-4 space-y-3 flex-shrink-0">
+            <details className="group">
+              <summary className="cursor-pointer font-semibold text-sm text-foreground hover:text-primary transition-colors flex items-center gap-2">
+                <ChevronRight className="w-4 h-4 group-open:rotate-90 transition-transform" />
+                图例（点击筛选）
+              </summary>
+              <div className="space-y-1 text-xs mt-2 ml-4">
+                {Object.entries(categoryLabels).map(([key, label]) => {
+                  const isVisible = visibleCategories.has(key);
+                  const categoryColor = key === 'core' ? '#D97706' : key === 'personality' ? '#A78BFA' : key === 'defense' ? '#A78BFA' : key === 'therapy' ? '#34D399' : key === 'phenomena' ? '#F472B6' : key === 'theorist' ? '#FBBF24' : key === 'lacan' ? '#EC4899' : key === 'self_psychology' ? '#06B6D4' : '#8B5CF6';
+                  return (
+                    <button key={key} onClick={() => toggleCategory(key)} className={`flex items-center gap-2 w-full px-2 py-1 rounded transition-colors ${isVisible ? 'bg-secondary/50 hover:bg-secondary' : 'bg-muted/30 hover:bg-muted/50 opacity-50'}`}>
+                      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{backgroundColor: categoryColor, opacity: isVisible ? 1 : 0.5}} />
+                      <span className="text-muted-foreground text-xs">{label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </details>
           </div>
         </div>
       )}
