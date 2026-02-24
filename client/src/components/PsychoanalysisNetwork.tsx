@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { conceptNodes, conceptLinks, categoryLabels } from '../../../psychoanalysis_data';
+import DraggablePanel from './DraggablePanel';
 
 interface Node {
   id: string;
@@ -215,7 +216,7 @@ export default function PsychoanalysisNetwork() {
 
   return (
     <div className="w-full h-full flex flex-col bg-background">
-      <div className="flex-1 relative">
+      <div className="flex-1 relative overflow-hidden">
         <canvas
           ref={canvasRef}
           className="w-full h-full cursor-pointer"
@@ -253,32 +254,30 @@ export default function PsychoanalysisNetwork() {
           </div>
         </div>
 
-        {/* 信息面板 */}
+        {/* 可拖拽信息面板 */}
         {selectedNodeData && (
-          <div className="absolute bottom-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-lg p-4 max-w-md shadow-lg animate-fade-in">
-            <div className="flex items-start justify-between mb-2">
-              <div>
-                <h3 className="text-base font-semibold text-foreground">{selectedNodeData.name}</h3>
-                <p className="text-xs text-muted-foreground">{selectedNodeData.nameEn}</p>
+          <DraggablePanel
+            title={selectedNodeData.name}
+            onClose={() => setSelectedNode(null)}
+            defaultWidth={420}
+            defaultHeight={280}
+            defaultX={typeof window !== 'undefined' ? window.innerWidth - 450 : 0}
+            defaultY={100}
+          >
+            <div>
+              <p className="text-xs text-muted-foreground mb-3">{selectedNodeData.nameEn}</p>
+              <p className="text-xs text-foreground leading-relaxed mb-4">{selectedNodeData.description}</p>
+              <div className="flex items-center gap-2 pt-3 border-t border-border">
+                <div
+                  className="w-2.5 h-2.5 rounded-full"
+                  style={{ backgroundColor: selectedNodeData.color }}
+                />
+                <span className="text-xs text-muted-foreground">
+                  {categoryLabels[selectedNodeData.category as keyof typeof categoryLabels]}
+                </span>
               </div>
-              <button
-                onClick={() => setSelectedNode(null)}
-                className="text-muted-foreground hover:text-foreground transition-colors text-lg leading-none"
-              >
-                ✕
-              </button>
             </div>
-            <p className="text-xs text-foreground leading-relaxed mb-3">{selectedNodeData.description}</p>
-            <div className="flex items-center gap-2">
-              <div
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ backgroundColor: selectedNodeData.color }}
-              />
-              <span className="text-xs text-muted-foreground">
-                {categoryLabels[selectedNodeData.category as keyof typeof categoryLabels]}
-              </span>
-            </div>
-          </div>
+          </DraggablePanel>
         )}
 
         {/* 悬停提示 */}
@@ -294,7 +293,7 @@ export default function PsychoanalysisNetwork() {
 
       {/* 底部说明 */}
       <div className="bg-card/50 border-t border-border px-4 py-3 text-xs text-muted-foreground">
-        <p>💡 提示：将鼠标悬停在节点上查看概念，点击节点查看详细信息。节点之间的连线表示理论关系。</p>
+        <p>💡 提示：将鼠标悬停在节点上查看概念，点击节点查看详细信息。信息面板可拖拽、调整大小和最大化。</p>
       </div>
     </div>
   );
