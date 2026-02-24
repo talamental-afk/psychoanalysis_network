@@ -48,6 +48,9 @@ export default function PsychoanalysisNetwork() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [portraitsLoaded, setPortraitsLoaded] = useState(0);
   const [completedNodes, setCompletedNodes] = useState<Set<string>>(new Set());
+  const [draggingNode, setDraggingNode] = useState<string | null>(null);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [nodeOffsets, setNodeOffsets] = useState<Record<string, {x: number; y: number}>>({});
 
   // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
@@ -325,6 +328,14 @@ export default function PsychoanalysisNetwork() {
     const autoScale = calculateAutoScale(nodes, canvas.width, canvas.height);
     const finalScale = scale || autoScale;
 
+    
+    // 设置光标样式
+    if (draggingNode) {
+      ctx.canvas.style.cursor = 'grabbing';
+    } else {
+      ctx.canvas.style.cursor = 'default';
+    }
+
     ctx.fillStyle = '#0F172A';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -440,6 +451,10 @@ export default function PsychoanalysisNetwork() {
         ctx.beginPath();
         ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
         ctx.fill();
+      
+      ctx.shadowColor = 'transparent';
+      ctx.shadowBlur = 0;
+
       }
 
       // 计算节点半径，高亮节点放大
@@ -450,6 +465,15 @@ export default function PsychoanalysisNetwork() {
       // 选中节点放大
       if (selectedNode === node.id) {
         radius = radius * 2;
+      }
+
+      
+      // 如果是拖拽中的节点，添加发光效果
+      if (node.id === draggingNode) {
+        ctx.shadowColor = 'rgba(168, 85, 247, 0.8)';
+        ctx.shadowBlur = 20;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       }
 
       ctx.fillStyle = node.color;
@@ -662,6 +686,53 @@ export default function PsychoanalysisNetwork() {
     setPan({ x: 0, y: 0 });
   };
 
+  // 处理Canvas鼠标按下事件
+  const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const x = (e.clientX - rect.left - (canvasSize.width / 2 + pan.x)) / scale;
+    const y = (e.clientY - rect.top - (canvasSize.height / 2 + pan.y)) / scale;
+
+    // 检查是否点击了节点
+    const clickedNode = nodes.find(node => {
+      const dx = node.x - x;
+      const dy = node.y - y;
+      return Math.hypot(dx, dy) < 25; // 节点半径
+    });
+
+    if (clickedNode && e.button === 0) { // 左键
+      setDraggingNode(clickedNode.id);
+      setDragStart({ x: clickedNode.x, y: clickedNode.y });
+      e.preventDefault();
+    }
+  };
+
+  // 处理Canvas鼠标移动事件
+  const handleCanvasMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!draggingNode) return;
+
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const x = (e.clientX - rect.left - (canvasSize.width / 2 + pan.x)) / scale;
+    const y = (e.clientY - rect.top - (canvasSize.height / 2 + pan.y)) / scale;
+
+    // 更新节点位置
+    setNodes(prevNodes =>
+      prevNodes.map(node =>
+        node.id === draggingNode
+          ? { ...node, x, y }
+          : node
+      )
+    );
+  };
+
+  // 处理Canvas鼠标抬起事件
+  const handleCanvasMouseUp = () => {
+    setDraggingNode(null);
+  };
+
   return (
     <div className="relative w-full h-full bg-background flex">
       {/* 主要网络图区域 */}
@@ -764,6 +835,7 @@ export default function PsychoanalysisNetwork() {
           ref={canvasRef}
           className="w-full h-full cursor-grab active:cursor-grabbing"
           onMouseMove={(e) => {
+            handleCanvasMouseMove(e);
             if (isPanning) {
               const dx = e.clientX - panStart.x;
               const dy = e.clientY - panStart.y;
@@ -774,16 +846,21 @@ export default function PsychoanalysisNetwork() {
           }}
           onClick={handleClick}
           onMouseDown={(e) => {
+            handleCanvasMouseDown(e);
             if (e.button === 2 || (e.button === 0 && e.ctrlKey)) {
               setIsPanning(true);
               setPanStart({ x: e.clientX, y: e.clientY });
             }
           }}
-          onMouseUp={() => setIsPanning(false)}
+          onMouseUp={() => {
+            setIsPanning(false);
+            handleCanvasMouseUp();
+          }}
           onMouseLeave={() => {
             setIsPanning(false);
             setHoveredNode(null);
             setHoveredLink(null);
+            handleCanvasMouseUp();
           }}
           onWheel={(e) => {
             e.preventDefault();
