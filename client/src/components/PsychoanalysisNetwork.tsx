@@ -477,7 +477,7 @@ export default function PsychoanalysisNetwork() {
       </div>
 
       {/* 右侧侧边栏 */}
-      <div className={`fixed right-0 top-0 h-full bg-card border-l border-border transition-all duration-300 z-50 flex flex-col ${sidebarOpen ? 'w-96' : 'w-0'} overflow-hidden`}>
+      <div className={`relative bg-card border-l border-border flex flex-col ${sidebarOpen ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
         {/* 侧边栏头部 */}
         <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
           <h2 className="text-lg font-semibold text-foreground">
@@ -536,7 +536,7 @@ export default function PsychoanalysisNetwork() {
       {!sidebarOpen && (
         <button
           onClick={() => setSidebarOpen(true)}
-          className="fixed right-0 top-1/2 transform -translate-y-1/2 p-2 bg-card/80 backdrop-blur-sm border border-border rounded-l-lg hover:bg-secondary transition-colors z-40"
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-full p-2 bg-card/80 backdrop-blur-sm border border-border rounded-r-lg hover:bg-secondary transition-colors"
           title="打开侧边栏"
         >
           <ChevronRight className="w-5 h-5 transform rotate-180" />
