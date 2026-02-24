@@ -797,24 +797,27 @@ export default function PsychoanalysisNetwork() {
           <button
             onClick={() => handleZoom('in')}
             className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
-            title="放大"
+            title="放大 (快捷键: + 或 =)"
           >
             <ZoomIn className="w-4 h-4" />
           </button>
           <button
             onClick={() => handleZoom('out')}
             className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
-            title="缩小"
+            title="缩小 (快捷键: - 或 _)"
           >
             <ZoomOut className="w-4 h-4" />
           </button>
           <button
             onClick={resetView}
             className="p-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors"
-            title="重置视图"
+            title="重置视图 (快捷键: 0)"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
+          <div className="text-xs text-muted-foreground text-center px-2 py-1">
+            缩放: {Math.round(scale * 100)}%
+          </div>
         </div>
 
 
