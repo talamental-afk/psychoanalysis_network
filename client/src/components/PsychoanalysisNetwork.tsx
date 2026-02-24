@@ -648,6 +648,14 @@ export default function PsychoanalysisNetwork() {
       const hitRadius = node.id === 'unconscious' ? 18 : 12;
       if (distance < hitRadius) {
         setSelectedNode(selectedNode === node.id ? null : node.id);
+        // 标记节点为已学习
+        if (selectedNode !== node.id) {
+          setCompletedNodes(prev => {
+            const newSet = new Set(prev);
+            newSet.add(node.id);
+            return newSet;
+          });
+        }
       }
     });
   };
