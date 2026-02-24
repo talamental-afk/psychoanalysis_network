@@ -378,20 +378,22 @@ export default function PsychoanalysisNetwork() {
         }
       }
 
-      // 绘制节点文字标签
+      // 绘制节点文字标签 - 单行外侧延展
       ctx.fillStyle = '#E0E7FF';
       ctx.font = '11px Inter';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'top';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
       ctx.globalAlpha = nodeOpacity;
-      const lines = node.name.split('');
-      let lineIndex = 0;
-      const lineHeight = 14;
-      for (let i = 0; i < node.name.length; i += 2) {
-        const line = node.name.substring(i, i + 2);
-        ctx.fillText(line, x, y + radius + 8 + lineIndex * lineHeight);
-        lineIndex++;
-      }
+      
+      // 计算文字的总宽度
+      const textMetrics = ctx.measureText(node.name);
+      const textWidth = textMetrics.width;
+      
+      // 文字从圆圈右侧开始，向右延展
+      const textStartX = x + radius + 6;
+      const textY = y;
+      
+      ctx.fillText(node.name, textStartX, textY);
       ctx.globalAlpha = 1;
     });
 
