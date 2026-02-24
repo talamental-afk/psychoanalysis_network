@@ -442,7 +442,7 @@ export default function PsychoanalysisNetwork() {
             title={selectedNodeData.name}
             onClose={() => setSelectedNode(null)}
             defaultWidth={600}
-            defaultHeight={400}
+            defaultHeight={typeof window !== 'undefined' ? window.innerHeight - 160 : 600}
             defaultX={typeof window !== 'undefined' ? window.innerWidth - 650 : 0}
             defaultY={80}
           >
