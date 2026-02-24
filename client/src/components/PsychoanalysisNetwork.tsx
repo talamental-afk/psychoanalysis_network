@@ -33,7 +33,7 @@ export default function PsychoanalysisNetwork() {
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
       const angle = (index / conceptNodes.length) * Math.PI * 2;
-      const radius = 80 + node.level * 60;
+      const radius = 120 + node.level * 100;
       return {
         ...node,
         x: Math.cos(angle) * radius,
@@ -137,36 +137,38 @@ export default function PsychoanalysisNetwork() {
 
       // 绘制光晕效果
       if (hoveredNode === node.id || selectedNode === node.id) {
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, 30);
+        const glowRadius = node.id === 'unconscious' ? 35 : 25;
+        const gradient = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
         gradient.addColorStop(0, 'rgba(217, 119, 6, 0.4)');
         gradient.addColorStop(1, 'rgba(217, 119, 6, 0)');
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(x, y, 30, 0, Math.PI * 2);
+        ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
         ctx.fill();
       }
 
       // 绘制节点圆圈
+      const nodeRadius = node.id === 'unconscious' ? (hoveredNode === node.id || selectedNode === node.id ? 16 : 14) : (hoveredNode === node.id || selectedNode === node.id ? 10 : 7);
       ctx.fillStyle = node.color;
       ctx.beginPath();
-      ctx.arc(x, y, hoveredNode === node.id || selectedNode === node.id ? 12 : 8, 0, Math.PI * 2);
+      ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
       ctx.fill();
 
       // 绘制节点边框
       ctx.strokeStyle = hoveredNode === node.id || selectedNode === node.id ? '#FEF3C7' : node.color;
-      ctx.lineWidth = hoveredNode === node.id || selectedNode === node.id ? 2 : 1;
+      ctx.lineWidth = hoveredNode === node.id || selectedNode === node.id ? 2.5 : 1.5;
       ctx.beginPath();
-      ctx.arc(x, y, hoveredNode === node.id || selectedNode === node.id ? 12 : 8, 0, Math.PI * 2);
+      ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
       ctx.stroke();
 
       // 绘制中心节点的特殊效果
       if (node.id === 'unconscious') {
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, 15);
+        const gradient = ctx.createRadialGradient(x, y, 0, x, y, 20);
         gradient.addColorStop(0, 'rgba(217, 119, 6, 0.8)');
         gradient.addColorStop(1, 'rgba(217, 119, 6, 0.2)');
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(x, y, 15, 0, Math.PI * 2);
+        ctx.arc(x, y, 20, 0, Math.PI * 2);
         ctx.fill();
       }
     });
@@ -271,7 +273,8 @@ export default function PsychoanalysisNetwork() {
       const nodeX = centerX + node.x;
       const nodeY = centerY + node.y;
       const distance = Math.sqrt((x - nodeX) ** 2 + (y - nodeY) ** 2);
-      if (distance < 15) {
+      const hitRadius = node.id === 'unconscious' ? 18 : 12;
+      if (distance < hitRadius) {
         foundNode = node.id;
       }
     });
@@ -295,7 +298,8 @@ export default function PsychoanalysisNetwork() {
       const nodeX = centerX + node.x;
       const nodeY = centerY + node.y;
       const distance = Math.sqrt((x - nodeX) ** 2 + (y - nodeY) ** 2);
-      if (distance < 15) {
+      const hitRadius = node.id === 'unconscious' ? 18 : 12;
+      if (distance < hitRadius) {
         setSelectedNode(selectedNode === node.id ? null : node.id);
       }
     });
