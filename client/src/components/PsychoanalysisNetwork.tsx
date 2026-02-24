@@ -99,6 +99,7 @@ export default function PsychoanalysisNetwork() {
       newVisible.add(category);
     }
     setVisibleCategories(newVisible);
+    // 不清除学习路径的高亮状态
   };
 
   // 初始化节点位置
