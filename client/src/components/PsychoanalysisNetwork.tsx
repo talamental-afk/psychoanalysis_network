@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { conceptNodes, conceptLinks, categoryLabels } from '../../../psychoanalysis_data';
 import DraggablePanel from './DraggablePanel';
+import { Search, X } from 'lucide-react';
 
 interface Node {
   id: string;
@@ -19,6 +20,8 @@ export default function PsychoanalysisNetwork() {
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [nodes, setNodes] = useState<Node[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<string[]>([]);
 
   // 初始化节点位置
   useEffect(() => {
@@ -33,6 +36,31 @@ export default function PsychoanalysisNetwork() {
     });
     setNodes(initialNodes);
   }, []);
+
+  // 搜索功能
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const query = searchQuery.toLowerCase();
+    const results = (conceptNodes as any[])
+      .filter(
+        (node) =>
+          node.name.toLowerCase().includes(query) ||
+          node.nameEn.toLowerCase().includes(query) ||
+          node.description.toLowerCase().includes(query)
+      )
+      .map((node) => node.id);
+
+    setSearchResults(results);
+
+    // 自动选中第一个搜索结果
+    if (results.length > 0) {
+      setSelectedNode(results[0]);
+    }
+  }, [searchQuery]);
 
   // 绘制网络图
   useEffect(() => {
@@ -85,7 +113,9 @@ export default function PsychoanalysisNetwork() {
         hoveredNode === link.source ||
         hoveredNode === link.target ||
         selectedNode === link.source ||
-        selectedNode === link.target;
+        selectedNode === link.target ||
+        searchResults.includes(link.source) ||
+        searchResults.includes(link.target);
 
       ctx.strokeStyle = isRelated
         ? 'rgba(167, 139, 250, 0.8)'
@@ -124,12 +154,16 @@ export default function PsychoanalysisNetwork() {
       const x = centerX + node.x;
       const y = centerY + node.y;
 
+      // 检查是否是搜索结果
+      const isSearchResult = searchResults.includes(node.id);
+
       // 绘制光晕效果
-      if (hoveredNode === node.id || selectedNode === node.id) {
+      if (hoveredNode === node.id || selectedNode === node.id || isSearchResult) {
         const glowRadius = node.id === 'unconscious' ? 35 : 25;
+        const glowColor = isSearchResult ? 'rgba(34, 197, 94, 0.4)' : 'rgba(217, 119, 6, 0.4)';
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, glowRadius);
-        gradient.addColorStop(0, 'rgba(217, 119, 6, 0.4)');
-        gradient.addColorStop(1, 'rgba(217, 119, 6, 0)');
+        gradient.addColorStop(0, glowColor);
+        gradient.addColorStop(1, glowColor.replace('0.4', '0'));
         ctx.fillStyle = gradient;
         ctx.beginPath();
         ctx.arc(x, y, glowRadius, 0, Math.PI * 2);
@@ -137,15 +171,16 @@ export default function PsychoanalysisNetwork() {
       }
 
       // 绘制节点圆圈
-      const nodeRadius = node.id === 'unconscious' ? (hoveredNode === node.id || selectedNode === node.id ? 16 : 14) : (hoveredNode === node.id || selectedNode === node.id ? 10 : 7);
+      const nodeRadius = node.id === 'unconscious' ? (hoveredNode === node.id || selectedNode === node.id || isSearchResult ? 16 : 14) : (hoveredNode === node.id || selectedNode === node.id || isSearchResult ? 10 : 7);
       ctx.fillStyle = node.color;
       ctx.beginPath();
       ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
       ctx.fill();
 
       // 绘制节点边框
-      ctx.strokeStyle = hoveredNode === node.id || selectedNode === node.id ? '#FEF3C7' : node.color;
-      ctx.lineWidth = hoveredNode === node.id || selectedNode === node.id ? 2.5 : 1.5;
+      const borderColor = isSearchResult ? '#22C55E' : (hoveredNode === node.id || selectedNode === node.id ? '#FEF3C7' : node.color);
+      ctx.strokeStyle = borderColor;
+      ctx.lineWidth = hoveredNode === node.id || selectedNode === node.id || isSearchResult ? 2.5 : 1.5;
       ctx.beginPath();
       ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
       ctx.stroke();
@@ -161,7 +196,7 @@ export default function PsychoanalysisNetwork() {
         ctx.fill();
       }
     });
-  }, [nodes, hoveredNode, selectedNode]);
+  }, [nodes, hoveredNode, selectedNode, searchResults]);
 
   // 处理鼠标移动
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -214,8 +249,41 @@ export default function PsychoanalysisNetwork() {
 
   const selectedNodeData = selectedNode ? conceptNodes.find((n) => n.id === selectedNode) : null;
 
+  // 清空搜索
+  const clearSearch = () => {
+    setSearchQuery('');
+    setSearchResults([]);
+  };
+
   return (
     <div className="w-full h-full flex flex-col bg-background">
+      {/* 搜索栏 */}
+      <div className="bg-card/80 backdrop-blur-sm border-b border-border px-4 py-3 flex items-center gap-2">
+        <div className="flex-1 flex items-center gap-2 bg-background border border-border rounded-lg px-3 py-2">
+          <Search className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+          <input
+            type="text"
+            placeholder="搜索概念（如：防御机制、俄狄浦斯情结...）"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="flex-1 bg-transparent outline-none text-sm text-foreground placeholder-muted-foreground"
+          />
+          {searchQuery && (
+            <button
+              onClick={clearSearch}
+              className="text-muted-foreground hover:text-foreground transition-colors p-1"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+        {searchResults.length > 0 && (
+          <div className="text-xs text-muted-foreground whitespace-nowrap">
+            找到 {searchResults.length} 个结果
+          </div>
+        )}
+      </div>
+
       <div className="flex-1 relative overflow-hidden">
         <canvas
           ref={canvasRef}
@@ -251,6 +319,12 @@ export default function PsychoanalysisNetwork() {
                 <span className="text-muted-foreground">{label}</span>
               </div>
             ))}
+          </div>
+          <div className="mt-3 pt-3 border-t border-border">
+            <div className="flex items-center gap-2 text-xs">
+              <div className="w-2 h-2 rounded-full bg-green-500" />
+              <span className="text-muted-foreground">搜索结果</span>
+            </div>
           </div>
         </div>
 
@@ -293,7 +367,7 @@ export default function PsychoanalysisNetwork() {
 
       {/* 底部说明 */}
       <div className="bg-card/50 border-t border-border px-4 py-3 text-xs text-muted-foreground">
-        <p>💡 提示：将鼠标悬停在节点上查看概念，点击节点查看详细信息。信息面板可拖拽、调整大小和最大化。</p>
+        <p>💡 提示：使用搜索框快速定位概念。搜索结果会以绿色高亮显示。点击节点查看详细信息，面板可拖拽、调整大小和最大化。</p>
       </div>
     </div>
   );
