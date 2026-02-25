@@ -459,6 +459,7 @@ export default function PsychoanalysisNetwork() {
     // 绘制节点
     nodes.forEach((node) => {
       if (!visibleCategories.has(node.category)) return;
+      if (node.category === 'theorist') return; // 隐藏人物节点
       
       const x = centerX + node.x;
       const y = centerY + node.y;
