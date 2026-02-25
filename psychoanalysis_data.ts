@@ -323,73 +323,6 @@ export const conceptNodes: ConceptNode[] = [
     color: '#FCA5A5',
   },
 
-  // 理论家
-  {
-    id: 'freud',
-    name: '西格蒙德·弗洛伊德',
-    nameEn: 'Sigmund Freud',
-    description: '精神分析的创始人，奠基人。',
-    definition: '弗洛伊德（1856-1939）是奥地利神经医生和精神分析学的创始人。他开创了精神分析理论和治疗方法，提出了无意识、本我-自我-超我、防御机制等核心概念，深刻影响了现代心理学、文化和社会思想。',
-    example: '弗洛伊德通过治疗患有歇斯底里症的患者，发现了无意识的存在和压抑的作用，从而开创了精神分析学派。',
-    category: 'theorist',
-    level: 2,
-    color: '#FBBF24',
-  },
-  {
-    id: 'jung',
-    name: '卡尔·荣格',
-    nameEn: 'Carl Jung',
-    description: '弗洛伊德的弟子，发展了分析心理学。',
-    definition: '荣格（1875-1961）是瑞士精神病医生，最初是弗洛伊德的学生和同事。他后来发展了分析心理学，引入了集体无意识、原型、心理类型等概念，强调个体化和精神成长。',
-    example: '荣格提出的"影子"原型概念，指个体无意识中被压抑的、不被接受的部分，这对现代心理治疗产生了重要影响。',
-    category: 'theorist',
-    level: 2,
-    color: '#FBBF24',
-  },
-  {
-    id: 'lacan',
-    name: '雅各·拉康',
-    nameEn: 'Jacques Lacan',
-    description: '后继理论家，重新解释精神分析理论，强调语言的作用。',
-    definition: '拉康（1901-1981）是法国精神分析家，对弗洛伊德理论进行了激进的重新解释，强调语言和符号在心理形成中的作用，提出了象征界、想象界、实在界等核心概念。',
-    example: '拉康的镜像阶段理论解释了婴儿如何通过镜子中的形象建立自我认同，这个过程涉及想象界和象征界的相互作用。',
-    category: 'theorist',
-    level: 2,
-    color: '#FBBF24',
-  },
-  {
-    id: 'kohut',
-    name: '海因茨·科胡特',
-    nameEn: 'Heinz Kohut',
-    description: '自体心理学的创始人，强调同理心和自体的重要性。',
-    definition: '科胡特（1913-1981）是奥地利裔美国精神分析家，创立了自体心理学。他强调同理心在治疗中的中心作用，提出了自体客体的概念，认为个体需要通过与他人的关系来维持和发展自体。',
-    example: '科胡特认为，母亲通过镜映婴儿的需求和感受，帮助婴儿建立健康的自体。缺乏这种镜映会导致自体缺陷。',
-    category: 'theorist',
-    level: 2,
-    color: '#FBBF24',
-  },
-  {
-    id: 'klein',
-    name: '梅兰妮·克莱因',
-    nameEn: 'Melanie Klein',
-    description: '客体关系理论的先驱，强调内在客体和投射认同。',
-    definition: '克莱因（1882-1960）是英国精神分析家，是客体关系理论的先驱。她强调婴幼儿期的心理发展，提出了分裂、投射认同等机制，认为内在客体的表征对人格发展至关重要。',
-    example: '克莱因观察到婴儿将母亲分裂为"好乳房"和"坏乳房"，这种分裂是心理发展的正常阶段。',
-    category: 'theorist',
-    level: 2,
-    color: '#FBBF24',
-  },
-  {
-    id: 'winnicott',
-    name: '唐纳德·温尼科特',
-    nameEn: 'Donald Winnicott',
-    description: '客体关系理论家，强调母婴关系和过渡对象。',
-    definition: '温尼科特（1896-1971）是英国儿科医生和精神分析家，强调母婴关系的重要性。他提出了"足够好的母亲"、过渡对象和过渡空间等概念，对儿童心理发展和创造性的理解产生了深远影响。',
-    example: '温尼科特的"过渡对象"概念解释了为什么幼儿会依恋毛绒玩具或毯子——这些对象帮助儿童从完全依赖母亲过渡到独立。',
-    category: 'theorist',
-    level: 2,
-    color: '#FBBF24',
-  },
 
   // 拉康理论
   {
@@ -779,15 +712,7 @@ export const conceptLinks: ConceptLink[] = [
   // 屏记忆
   { source: 'unconscious', target: 'screen_memory', type: 'manifests', strength: 0.8 },
 
-  // 理论家与概念
-  { source: 'freud', target: 'unconscious', type: 'relates', strength: 1 },
-  { source: 'freud', target: 'id', type: 'relates', strength: 1 },
-  { source: 'freud', target: 'oedipus_complex', type: 'relates', strength: 0.9 },
-  { source: 'jung', target: 'unconscious', type: 'relates', strength: 0.8 },
-  { source: 'lacan', target: 'unconscious', type: 'relates', strength: 0.8 },
-  { source: 'kohut', target: 'self', type: 'relates', strength: 1 },
-  { source: 'klein', target: 'object_relations', type: 'relates', strength: 1 },
-  { source: 'winnicott', target: 'object_relations', type: 'relates', strength: 1 },
+
 
   // 拉康理论与无意识
   { source: 'unconscious', target: 'symbolic_order', type: 'relates', strength: 0.9 },
@@ -829,7 +754,6 @@ export const conceptLinks: ConceptLink[] = [
   { source: 'jouissance', target: 'real_order', type: 'relates', strength: 0.9 },
 
   // 荣格理论之间的关系
-  { source: 'jung', target: 'collective_unconscious', type: 'relates', strength: 1 },
   { source: 'collective_unconscious', target: 'archetype', type: 'contains', strength: 1 },
   { source: 'archetype', target: 'shadow', type: 'contains', strength: 0.9 },
   { source: 'archetype', target: 'anima_animus', type: 'contains', strength: 0.9 },
