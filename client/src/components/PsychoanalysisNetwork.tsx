@@ -532,26 +532,39 @@ export default function PsychoanalysisNetwork() {
         }
       }
 
-      // 绘制循环论证标记
+      // 绘制循环论证标签
       const conceptNode = conceptNodes.find(cn => cn.id === node.id);
       if (conceptNode && conceptNode.hasCircularLogic) {
-        ctx.fillStyle = 'rgba(239, 68, 68, 0.8)';
+        // 绘制标签背景框
+        const labelText = '循环论证';
+        ctx.font = 'bold 9px Inter';
+        const labelMetrics = ctx.measureText(labelText);
+        const labelWidth = labelMetrics.width + 6;
+        const labelHeight = 14;
+        
+        // 标签位置（节点右下方）
+        const labelX = x + radius + 15;
+        const labelY = y + radius + 8;
+        
+        // 绘制背景框
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
         ctx.beginPath();
-        // 绘制小三角形标记在节点右上角
-        const markX = x + radius - 5;
-        const markY = y - radius + 5;
-        ctx.moveTo(markX - 4, markY - 4);
-        ctx.lineTo(markX + 4, markY - 4);
-        ctx.lineTo(markX, markY + 4);
-        ctx.closePath();
+        ctx.moveTo(labelX - labelWidth / 2 + 2, labelY - labelHeight / 2);
+        ctx.lineTo(labelX + labelWidth / 2 - 2, labelY - labelHeight / 2);
+        ctx.quadraticCurveTo(labelX + labelWidth / 2, labelY - labelHeight / 2, labelX + labelWidth / 2, labelY - labelHeight / 2 + 2);
+        ctx.lineTo(labelX + labelWidth / 2, labelY + labelHeight / 2 - 2);
+        ctx.quadraticCurveTo(labelX + labelWidth / 2, labelY + labelHeight / 2, labelX + labelWidth / 2 - 2, labelY + labelHeight / 2);
+        ctx.lineTo(labelX - labelWidth / 2 + 2, labelY + labelHeight / 2);
+        ctx.quadraticCurveTo(labelX - labelWidth / 2, labelY + labelHeight / 2, labelX - labelWidth / 2, labelY + labelHeight / 2 - 2);
+        ctx.lineTo(labelX - labelWidth / 2, labelY - labelHeight / 2 + 2);
+        ctx.quadraticCurveTo(labelX - labelWidth / 2, labelY - labelHeight / 2, labelX - labelWidth / 2 + 2, labelY - labelHeight / 2);
         ctx.fill();
         
-        // 绘制红色边框圆
-        ctx.strokeStyle = 'rgba(239, 68, 68, 0.6)';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.arc(x, y, radius + 2, 0, Math.PI * 2);
-        ctx.stroke();
+        // 绘制文字
+        ctx.fillStyle = '#FFFFFF';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(labelText, labelX, labelY);
       }
 
       // 绘制节点文字标签 - 从圆心向外径向排列
