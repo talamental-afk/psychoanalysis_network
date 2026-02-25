@@ -6,6 +6,8 @@ export interface Reference {
   year?: number;
   url?: string;
   type: 'book' | 'paper' | 'website' | 'article';
+  doubanUrl?: string; // 豆瓣读书链接
+  scholarUrl?: string; // 谷歌学术链接
 }
 
 export interface ConceptNode {
@@ -919,7 +921,9 @@ export const references: Reference[] = [
     author: '西格蒙德·弗洛伊德',
     year: 1900,
     type: 'book',
-    url: 'https://en.wikipedia.org/wiki/The_Interpretation_of_Dreams'
+    url: 'https://en.wikipedia.org/wiki/The_Interpretation_of_Dreams',
+    doubanUrl: 'https://book.douban.com/search?q=梦的解析',
+    scholarUrl: 'https://scholar.google.com/scholar?q=The+Interpretation+of+Dreams+Freud'
   },
   {
     id: 'freud-unconscious',
@@ -927,7 +931,9 @@ export const references: Reference[] = [
     author: '西格蒙德·弗洛伊德',
     year: 1915,
     type: 'paper',
-    url: 'https://en.wikipedia.org/wiki/Unconscious_mind'
+    url: 'https://en.wikipedia.org/wiki/Unconscious_mind',
+    doubanUrl: 'https://book.douban.com/search?q=无意识+弗洛伊德',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Unconscious+Freud'
   },
   {
     id: 'freud-ego-defense',
@@ -935,7 +941,9 @@ export const references: Reference[] = [
     author: '西格蒙德·弗洛伊德',
     year: 1923,
     type: 'book',
-    url: 'https://en.wikipedia.org/wiki/Ego_and_the_Id'
+    url: 'https://en.wikipedia.org/wiki/Ego_and_the_Id',
+    doubanUrl: 'https://book.douban.com/search?q=自我与防御机制',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Ego+and+the+Id+Freud'
   },
   // 荣格相关
   {
@@ -944,7 +952,9 @@ export const references: Reference[] = [
     author: '卡尔·荣格',
     year: 1934,
     type: 'paper',
-    url: 'https://en.wikipedia.org/wiki/Collective_unconscious'
+    url: 'https://en.wikipedia.org/wiki/Collective_unconscious',
+    doubanUrl: 'https://book.douban.com/search?q=集体无意识+荣格',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Collective+unconscious+Jung'
   },
   {
     id: 'jung-archetypes',
@@ -952,7 +962,9 @@ export const references: Reference[] = [
     author: '卡尔·荣格',
     year: 1959,
     type: 'book',
-    url: 'https://en.wikipedia.org/wiki/Jungian_archetypes'
+    url: 'https://en.wikipedia.org/wiki/Jungian_archetypes',
+    doubanUrl: 'https://book.douban.com/search?q=原型+荣格',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Archetypes+Jung'
   },
   // 拉康相关
   {
@@ -961,7 +973,9 @@ export const references: Reference[] = [
     author: '雅克·拉康',
     year: 1949,
     type: 'paper',
-    url: 'https://en.wikipedia.org/wiki/Mirror_stage'
+    url: 'https://en.wikipedia.org/wiki/Mirror_stage',
+    doubanUrl: 'https://book.douban.com/search?q=镜像阶段+拉康',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Mirror+stage+Lacan'
   },
   {
     id: 'lacan-symbolic-order',
@@ -969,7 +983,9 @@ export const references: Reference[] = [
     author: '雅克·拉康',
     year: 1966,
     type: 'book',
-    url: 'https://en.wikipedia.org/wiki/Lacanian_theory'
+    url: 'https://en.wikipedia.org/wiki/Lacanian_theory',
+    doubanUrl: 'https://book.douban.com/search?q=符号秩序+拉康',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Symbolic+order+Lacan'
   },
   // 克莱因相关
   {
@@ -978,7 +994,9 @@ export const references: Reference[] = [
     author: '梅兰妮·克莱因',
     year: 1932,
     type: 'book',
-    url: 'https://en.wikipedia.org/wiki/Object_relations_theory'
+    url: 'https://en.wikipedia.org/wiki/Object_relations_theory',
+    doubanUrl: 'https://book.douban.com/search?q=客体关系理论+克莱因',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Object+relations+Klein'
   },
   {
     id: 'klein-paranoid-depressive',
@@ -986,7 +1004,9 @@ export const references: Reference[] = [
     author: '梅兰妮·克莱因',
     year: 1935,
     type: 'paper',
-    url: 'https://en.wikipedia.org/wiki/Paranoid-schizoid_and_depressive_positions'
+    url: 'https://en.wikipedia.org/wiki/Paranoid-schizoid_and_depressive_positions',
+    doubanUrl: 'https://book.douban.com/search?q=偏执抑郁位置+克莱因',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Paranoid+depressive+position+Klein'
   },
   // 科胡特相关
   {
@@ -995,7 +1015,9 @@ export const references: Reference[] = [
     author: '海因茨·科胡特',
     year: 1971,
     type: 'book',
-    url: 'https://en.wikipedia.org/wiki/Self_psychology'
+    url: 'https://en.wikipedia.org/wiki/Self_psychology',
+    doubanUrl: 'https://book.douban.com/search?q=自体心理学+科胡特',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Self+psychology+Kohut'
   },
   {
     id: 'kohut-selfobject',
@@ -1003,7 +1025,9 @@ export const references: Reference[] = [
     author: '海因茨·科胡特',
     year: 1977,
     type: 'paper',
-    url: 'https://en.wikipedia.org/wiki/Selfobject'
+    url: 'https://en.wikipedia.org/wiki/Selfobject',
+    doubanUrl: 'https://book.douban.com/search?q=自体客体+科胡特',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Selfobject+Kohut'
   },
   // 防御机制相关
   {
@@ -1012,7 +1036,9 @@ export const references: Reference[] = [
     author: '安娜·弗洛伊德',
     year: 1936,
     type: 'book',
-    url: 'https://en.wikipedia.org/wiki/Defence_mechanism'
+    url: 'https://en.wikipedia.org/wiki/Defence_mechanism',
+    doubanUrl: 'https://book.douban.com/search?q=防御机制+安娜',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Defence+mechanism+Anna+Freud'
   },
   // 转移与反转移
   {
@@ -1021,7 +1047,9 @@ export const references: Reference[] = [
     author: '精神分析文献',
     year: 1950,
     type: 'article',
-    url: 'https://en.wikipedia.org/wiki/Transference'
+    url: 'https://en.wikipedia.org/wiki/Transference',
+    doubanUrl: 'https://book.douban.com/search?q=转移+反转移',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Transference+countertransference'
   },
   // 治疗方法
   {
@@ -1030,7 +1058,9 @@ export const references: Reference[] = [
     author: '精神分析文献',
     year: 1990,
     type: 'book',
-    url: 'https://en.wikipedia.org/wiki/Psychoanalysis'
+    url: 'https://en.wikipedia.org/wiki/Psychoanalysis',
+    doubanUrl: 'https://book.douban.com/search?q=精神分析治疗',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Psychoanalytic+therapy'
   },
 ];
 

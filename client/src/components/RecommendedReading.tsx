@@ -7,6 +7,8 @@ interface Reference {
   year?: number;
   url?: string;
   type: 'book' | 'paper' | 'website' | 'article';
+  doubanUrl?: string;
+  scholarUrl?: string;
 }
 
 interface RecommendedReadingProps {
@@ -47,6 +49,30 @@ export const RecommendedReading: React.FC<RecommendedReadingProps> = ({ referenc
                     </span>
                   )}
                 </div>
+                {(ref.doubanUrl || ref.scholarUrl) && (
+                  <div className="flex gap-2 mt-1.5 flex-wrap">
+                    {ref.doubanUrl && (
+                      <a
+                        href={ref.doubanUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-2 py-1 text-xs bg-green-500/20 text-green-400 hover:text-green-300 hover:bg-green-500/30 rounded transition-colors"
+                      >
+                        豆瓣
+                      </a>
+                    )}
+                    {ref.scholarUrl && (
+                      <a
+                        href={ref.scholarUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-2 py-1 text-xs bg-blue-500/20 text-blue-400 hover:text-blue-300 hover:bg-blue-500/30 rounded transition-colors"
+                      >
+                        Google Scholar
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
