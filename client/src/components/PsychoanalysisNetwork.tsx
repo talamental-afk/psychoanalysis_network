@@ -279,17 +279,20 @@ export default function PsychoanalysisNetwork() {
         };
       }
       
-      // 概念节点放在中心和右侧
-      const angle = (index / conceptNodes.length) * Math.PI * 2;
-      const baseRadius = 140;
-      const levelRadius = node.level * 85;
-      const dynamicSpacing = calculateDynamicSpacing(node);
-      const radius = baseRadius + levelRadius + dynamicSpacing;
+      // 概念节点按分类和级别排列
+      const categoryIndex = Object.keys(categoryLabels).indexOf(node.category);
+      const categoryCount = Object.keys(categoryLabels).length - 1;
+      const categoryAngle = (categoryIndex / Math.max(categoryCount, 1)) * Math.PI * 2;
+      const categoryRadius = 200;
+      const categoryX = Math.cos(categoryAngle) * categoryRadius;
+      const categoryY = Math.sin(categoryAngle) * categoryRadius;
+      const levelAngle = ((node.level - 1) / 3) * Math.PI * 2;
+      const levelRadius = 60 + (node.level - 1) * 35;
       
       return {
         ...node,
-        x: Math.cos(angle) * radius,
-        y: Math.sin(angle) * radius,
+        x: categoryX + Math.cos(levelAngle) * levelRadius,
+        y: categoryY + Math.sin(levelAngle) * levelRadius,
       };
     });
     const adjustedNodes = detectAndResolveCollisions(initialNodes);
