@@ -42,7 +42,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '无意识是指个体不能直接认识到的心理过程和内容，包括被压抑的欲望、冲突和创伤记忆。它对个体的行为、情感和思维方式产生深远影响，但个体通常无法意识到这些影响的来源。',
     example: '一个人可能无法解释自己对某种特定情况的强烈恐惧反应，这种恐惧可能源于童年的创伤记忆，已被压入无意识中。',
     category: 'core',
-    level: 0,
+    level: 1,
     color: '#D97706',
     hasCircularLogic: true,
     circularLogicExplanation: '循环论证：无意识通过压抑来隐藏不可接受的内容，而压抑本身又是由无意识执行的。我们知道无意识存在是因为有压抑现象，但压抑现象的存在本身又被用来证明无意识的存在，形成循环论证。',
@@ -242,7 +242,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '力比多是弗洛伊德理论中的心理能量或性欲驱力。它不仅指性欲，还指所有形式的心理能量和生命力，驱动个体的行为、思想和创造活动。',
     example: '艺术家的创作热情、运动员的竞争欲望，都可以被理解为力比多的升华表现。',
     category: 'phenomena',
-    level: 3,
+    level: 2,
     color: '#FCA5A5',
   },
   {
@@ -253,7 +253,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '幼儿性欲理论认为儿童从出生起就具有性欲（广义的），并经历口腔期、肛门期、性器期等心理性发展阶段。这些阶段的经历影响成人的人格和性心理。',
     example: '婴儿通过吸吮获得快感（口腔期），幼儿通过排便控制获得满足感（肛门期），这些都是幼儿性欲的表现。',
     category: 'phenomena',
-    level: 3,
+    level: 2,
     color: '#FCA5A5',
   },
   {
@@ -264,7 +264,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '享乐原则是本我的基本运作原则，指个体自动地追求快乐、满足和舒适，同时避免痛苦、不适和紧张。',
     example: '一个饥饿的人会立即寻找食物来消除饥饿的不适，这就是享乐原则的直接体现。',
     category: 'phenomena',
-    level: 3,
+    level: 2,
     color: '#FCA5A5',
   },
   {
@@ -275,7 +275,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '现实原则是自我的运作原则，指个体在追求满足时考虑现实的限制、社会规范和长期后果，采用理性和延迟满足的方式。',
     example: '一个学生想要玩游戏（享乐原则），但意识到必须先完成作业（现实原则），所以延迟了玩游戏的时间。',
     category: 'phenomena',
-    level: 3,
+    level: 2,
     color: '#FCA5A5',
   },
   {
@@ -286,7 +286,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '道德原则是超我的运作原则，指个体根据内化的道德标准、社会规范和理想自我来指导行为，追求道德完美和社会认可。',
     example: '一个人拒绝做不诚实的事情，即使这样做能获得利益，因为道德原则驱使其保持诚实。',
     category: 'phenomena',
-    level: 3,
+    level: 2,
     color: '#FCA5A5',
   },
   {
@@ -333,7 +333,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '象征界是拉康三界中的一个，由语言、文化、社会规则和法律组成。它是意义的领域，个体通过进入象征界获得语言和社会身份，但也因此受到符号秩序的限制。',
     example: '当一个婴儿被命名时，它进入了象征界，获得了社会身份和语言能力，但也受到了社会规范的约束。',
     category: 'lacan',
-    level: 2,
+    level: 3,
     color: '#EC4899',
   },
   {
@@ -344,7 +344,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '想象界是拉康三界中的一个，由自我与他人的镜像关系组成。在这个领域中，个体通过识别和镜像来形成自我认同，但这种认同是虚幻和分裂的。',
     example: '婴儿在镜子中看到自己的形象，产生了自我的幻觉，这是想象界的典型表现。',
     category: 'lacan',
-    level: 2,
+    level: 3,
     color: '#EC4899',
   },
   {
@@ -355,7 +355,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '实在界是拉康三界中最难理解的一个，指超越象征和想象的绝对他者，无法被语言或想象完全表达。它是创伤、死亡和绝对差异的领域。',
     example: '死亡是实在界的表现，它超越了我们的想象和语言表达能力，是绝对的他者。',
     category: 'lacan',
-    level: 2,
+    level: 3,
     color: '#EC4899',
   },
   {
@@ -418,7 +418,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '在自体心理学中，自体是人格的核心和统一性的源头。它不同于弗洛伊德的自我，而是指个体的核心身份、价值观和生命目标的整体感。健康的自体需要通过与自体客体的关系来维持和发展。',
     example: '一个人的自体包括其独特的才能、价值观和人生目标。当这个自体得到他人的认可和支持时，个体会感到完整和有活力。',
     category: 'self_psychology',
-    level: 2,
+    level: 3,
     color: '#06B6D4',
   },
   {
@@ -429,7 +429,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '自体客体是自体心理学的核心概念，指他人作为自体的心理延伸而被体验。自体客体通过镜映、理想化和孪生体验来支持和维持个体的自体。',
     example: '母亲作为婴儿的自体客体，通过镜映婴儿的需求和感受，帮助婴儿建立自体。',
     category: 'self_psychology',
-    level: 2,
+    level: 3,
     color: '#06B6D4',
     hasCircularLogic: true,
     circularLogicExplanation: '循环论证：自体客体的功能被定义为维持自体，而自体的健康状态又被用来证明自体客体功能的有效性。自体缺陷被解释为缺乏自体客体，但缺乏自体客体的证据本身就是自体缺陷，形成循环。',
@@ -490,7 +490,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '客体关系理论强调个体内心中他人的心理表征（内在客体）对人格和行为的影响。这个理论认为，人与人之间的关系，特别是早期的母婴关系，塑造了个体的内在世界和人际关系模式。',
     example: '一个在童年缺乏安全依恋的人，可能在成年后的亲密关系中表现出不信任和回避，因为他内在的客体表征是不安全的。',
     category: 'object_relations',
-    level: 2,
+    level: 3,
     color: '#8B5CF6',
   },
   {
@@ -577,7 +577,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '集体无意识是荣格提出的概念，指整个人类物种共同的无意识层次，它不是个人的，而是人类整体的。集体无意识中包含了原型、神话主题和普遍的人类经验。',
     example: '各个文化中都有类似的神话故事，比如洪水消毁世界的故事，这可能反映了人类集体无意识中的普遍主题。',
     category: 'phenomena',
-    level: 2,
+    level: 4,
     color: '#EC4899',
     hasCircularLogic: true,
     circularLogicExplanation: '循环论证：集体无意识是不可观察的，但我们通过各种文化中的相似性来推断其存在。然而，任何相似性都可以被解释为集体无意识的证据，但不相似的地方也可以被解释为文化差异或下意识的压抑，使理论无法被证伪。',
@@ -590,7 +590,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '原型是荣格提出的概念，指集体无意识中的普遍水准、原始的人物形象或事件模式。原型是不个人的，是人类共同的。它们在神话、宗教、文学和艺术中重复出现。',
     example: '英雄、老一辈、魔鬼、圣人等原型在世界各地的神话和故事中重复出现。',
     category: 'phenomena',
-    level: 2,
+    level: 4,
     color: '#EC4899',
   },
   {
@@ -601,7 +601,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '阴影是荣格提出的概念，指个人中被压抑的、不被接受的、黑暗的、被不接受的部分。阴影包括被压抑的本能、欲望、情感和人格特质。它是个u6027化过程中必须面对的部分。',
     example: '一个以温和、什么为主的人可能将自己的攻击性、自私性和欲望压抑到无意识中，但这些被压抑的部分会在其他人身上投射出来。',
     category: 'phenomena',
-    level: 2,
+    level: 4,
     color: '#EC4899',
   },
   {
@@ -612,7 +612,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '阿尼玛是男性无意识中的女性一面，阿尼姆斯是女性无意识中的男性一面。它们是荣格原型的一部分，代表了每个人都具有的对立性别特质。与阿尼玛或阿尼姆斯的整合是个u6027化的重要部分。',
     example: '一个男性可能对一个女性的关注是由于他无意识中的阿尼玛原型被激活了，他在这个女性身上投射了自己的女性特质。',
     category: 'phenomena',
-    level: 2,
+    level: 4,
     color: '#EC4899',
   },
   {
@@ -623,7 +623,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '个u6027化是荣格提出的所有心理发展的最终目标。它是个u4eba实现自我、整合个u4eba的各个方面、成为真正自己的过程。这个过程涉及与阴影、阿尼玛、阿尼姆斯等原型的整合。',
     example: '一个人通过分析、沙疗或精神修行逐渐了解自己的不同方面，整合了自己的矛盾，最终成为一个更完整、更真实的自我。',
     category: 'phenomena',
-    level: 2,
+    level: 4,
     color: '#EC4899',
   },
   {
@@ -634,7 +634,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '同时性是荣格提出的概念，指两个或多个事件的有意义的巧合，但不是由因果关系联系的。同时性表明心理事件与物理事件之间可能存在一种深层的联系。',
     example: '一个人正想起一个久违的朋友，然后突然接到了这个朋友的电话，这是同时性的一个例子。',
     category: 'phenomena',
-    level: 2,
+    level: 4,
     color: '#EC4899',
     hasCircularLogic: true,
     circularLogicExplanation: '循环论证：同时性是不可验证的，但任何巧合都可以被解释为同时性的证据，而不是巧合。不存在明确的标准来区分有意义的巧合和纯粹的巧合。',
@@ -647,7 +647,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '情结是荣格提出的概念，指一组由相似的情感、思想、记忆和感受组成的无意识结构。情结具有自主性，影响个人的不同方面，可以引起不同的情感和行为。',
     example: '一个人的"母亲情结"可能会影响他与其他女性的关系，例如他可能对不像母亲的女性不感兴趣。',
     category: 'phenomena',
-    level: 2,
+    level: 4,
     color: '#EC4899',
   },
   {
@@ -658,7 +658,7 @@ export const conceptNodes: ConceptNode[] = [
     definition: '心理类型是荣格提出的概念，用于描述不同的人格特质。荣格提出了内向、外向、思维、感受、直觉、感觉等维度，组成了不同的心理类型。',
     example: '内向的人借内部世界获得能量，外向的人借外部世界获得能量。',
     category: 'phenomena',
-    level: 2,
+    level: 4,
     color: '#EC4899',
   },
 ];
