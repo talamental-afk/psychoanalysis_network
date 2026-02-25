@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences, Reference } from '../../../psychoanalysis_data';
+import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences, Reference, schoolLabels, schoolColors } from '../../../psychoanalysis_data';
 import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy, Medal } from 'lucide-react';
 import { Link } from 'wouter';
 
@@ -20,6 +20,7 @@ interface Node {
   circularLogicExplanation?: string;
   alternativeNames?: string[];
   translationNotes?: string;
+  school?: string;
 }
 
 // 头像映射
@@ -1292,8 +1293,22 @@ export default function PsychoanalysisNetwork() {
               )}
 
               <div className="pt-2 border-t border-border">
-                <div className="text-xs font-medium text-muted-foreground mb-1">分类</div>
-                <div className="text-sm text-foreground">{categoryLabels[selectedNodeData.category as keyof typeof categoryLabels]}</div>
+                <div className="text-xs font-medium text-muted-foreground mb-2">分类</div>
+                <div className="flex flex-wrap gap-2">
+                  <span className="inline-block px-2 py-1 text-xs rounded bg-secondary/50 text-foreground">
+                    {categoryLabels[selectedNodeData.category as keyof typeof categoryLabels]}
+                  </span>
+                  {selectedNodeData.school && (
+                    <span 
+                      className="inline-block px-2 py-1 text-xs rounded text-white font-medium"
+                      style={{
+                        backgroundColor: schoolColors[selectedNodeData.school as keyof typeof schoolColors] || '#666'
+                      }}
+                    >
+                      {schoolLabels[selectedNodeData.school as keyof typeof schoolLabels] || selectedNodeData.school}
+                    </span>
+                  )}
+                </div>
               </div>
 
               {(() => {

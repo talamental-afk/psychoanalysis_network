@@ -25,6 +25,7 @@ export interface ConceptNode {
   circularLogicExplanation?: string; // 循环论证的解释
   alternativeNames?: string[]; // 替代翻译或别名
   translationNotes?: string; // 翻译注记
+  school?: 'freud' | 'lacan' | 'jung' | 'klein' | 'kohut' | 'winnicott' | 'bion'; // 所属学派
 }
 
 export interface ConceptLink {
@@ -47,7 +48,8 @@ export const conceptNodes: ConceptNode[] = [
     level: 1,
     color: '#D97706',
     hasCircularLogic: true,
-    circularLogicExplanation: '循环论证：无意识通过压抑来隐藏不可接受的内容，而压抑本身又是由无意识执行的。我们知道无意识存在是因为有压抑现象，但压抑现象的存在本身又被用来证明无意识的存在，形成循环论证。',
+    circularLogicExplanation: '循环论证：无意识通过压抱来隐藏不可接受的内容，而压抱本身又是由无意识执行的。我们知道无意识存在是因为有压抱现象，但压抱现象的存在本身又被用来证明无意识的存在，形成循环论证。',
+    school: 'freud',
   },
 
   // 第一层：人格结构
@@ -61,6 +63,7 @@ export const conceptNodes: ConceptNode[] = [
     category: 'personality',
     level: 1,
     color: '#F59E0B',
+    school: 'freud',
   },
   {
     id: 'ego',
@@ -72,6 +75,7 @@ export const conceptNodes: ConceptNode[] = [
     category: 'personality',
     level: 1,
     color: '#A78BFA',
+    school: 'freud',
   },
   {
     id: 'superego',
@@ -83,6 +87,7 @@ export const conceptNodes: ConceptNode[] = [
     category: 'personality',
     level: 1,
     color: '#60A5FA',
+    school: 'freud',
   },
 
   // 第二层：防御机制
@@ -1071,4 +1076,26 @@ export const nodeReferences: Record<string, string[]> = {
   free_association: ['freud-interpretation-dreams'],
   dream_analysis: ['freud-interpretation-dreams'],
   psychoanalytic_therapy: ['psychoanalytic-therapy'],
+};
+
+// 学派标签定义
+export const schoolLabels: Record<string, string> = {
+  freud: '弗洛伊德',
+  lacan: '拉康',
+  jung: '荣格',
+  klein: '克莱因',
+  kohut: '科胡特',
+  winnicott: '温尼科特',
+  bion: '比昂',
+};
+
+// 学派颜色定义
+export const schoolColors: Record<string, string> = {
+  freud: '#3B82F6',      // 蓝色
+  lacan: '#EC4899',      // 粉色
+  jung: '#8B5CF6',       // 紫色
+  klein: '#F59E0B',      // 橙色
+  kohut: '#10B981',      // 绿色
+  winnicott: '#06B6D4',  // 青绿色
+  bion: '#F87171',       // 红色
 };
