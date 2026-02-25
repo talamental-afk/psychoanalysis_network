@@ -1064,43 +1064,87 @@ export default function PsychoanalysisNetwork() {
       </div>
 
       {/* 右侧侧边栏 */}
-      {selectedNode && (
-        <div className={`relative bg-card border-l border-border flex flex-col ${selectedNode ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
-          {/* 选项卡头部 */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 flex-shrink-0 gap-2">
-            <div className="flex gap-2">
+      {(selectedNode || hoveredNode) && (
+        <div className={`relative bg-card border-l border-border flex flex-col ${(selectedNode || hoveredNode) ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
+          {/* 选项卡头部 - 仅在选中节点时显示 */}
+          {selectedNode && (
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 flex-shrink-0 gap-2">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setSidebarTab('achievements')}
+                  className={`px-3 py-2 text-xs font-medium rounded transition-colors flex items-center gap-1 ${
+                    sidebarTab === 'achievements'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-secondary/50 text-foreground hover:bg-secondary'
+                  }`}
+                >
+                  <Trophy className="w-3 h-3" />
+                  成就
+                </button>
+                <button
+                  onClick={() => setSidebarTab('details')}
+                  className={`px-3 py-2 text-xs font-medium rounded transition-colors ${
+                    sidebarTab === 'details'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-secondary/50 text-foreground hover:bg-secondary'
+                  }`}
+                >
+                  详情
+                </button>
+              </div>
               <button
-                onClick={() => setSidebarTab('achievements')}
-                className={`px-3 py-2 text-xs font-medium rounded transition-colors flex items-center gap-1 ${
-                  sidebarTab === 'achievements'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-secondary/50 text-foreground hover:bg-secondary'
-                }`}
+                onClick={() => setSelectedNode(null)}
+                className="p-1 hover:bg-secondary rounded transition-colors"
               >
-                <Trophy className="w-3 h-3" />
-                成就
-              </button>
-              <button
-                onClick={() => setSidebarTab('details')}
-                className={`px-3 py-2 text-xs font-medium rounded transition-colors ${
-                  sidebarTab === 'details'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-secondary/50 text-foreground hover:bg-secondary'
-                }`}
-              >
-                详情
+                <X className="w-5 h-5" />
               </button>
             </div>
-            <button
-              onClick={() => setSelectedNode(null)}
-              className="p-1 hover:bg-secondary rounded transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+          )}
+
+          {/* 悬停预览 - 仅在悬停节点时显示 */}
+          {hoveredNode && !selectedNode && (() => {
+            const hoveredNodeData = conceptNodes.find(n => n.id === hoveredNode);
+            return hoveredNodeData ? (
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{hoveredNodeData.name}</h3>
+                  <div className="text-xs font-medium text-muted-foreground mb-2">英文名</div>
+                  <div className="text-sm text-foreground mb-4">{hoveredNodeData.nameEn}</div>
+                </div>
+                
+                <div className="border-t border-border pt-4">
+                  <div className="text-xs font-medium text-muted-foreground mb-2">简要定义</div>
+                  <div className="text-sm text-foreground leading-relaxed">{hoveredNodeData.description}</div>
+                </div>
+
+                {hoveredNodeData.definition && (
+                  <div className="border-t border-border pt-4">
+                    <div className="text-xs font-medium text-muted-foreground mb-2">详细定义</div>
+                    <div className="text-sm text-foreground leading-relaxed">{hoveredNodeData.definition}</div>
+                  </div>
+                )}
+
+                {hoveredNodeData.hasCircularLogic && hoveredNodeData.circularLogicExplanation && (
+                  <div className="bg-red-500/10 border border-red-500/30 rounded p-3">
+                    <div className="text-xs font-medium text-red-500 mb-2">⚠️ 循环论证警示</div>
+                    <div className="text-xs text-red-400/90 leading-relaxed">{hoveredNodeData.circularLogicExplanation}</div>
+                  </div>
+                )}
+
+                <div className="border-t border-border pt-4">
+                  <button
+                    onClick={() => setSelectedNode(hoveredNode)}
+                    className="w-full px-3 py-2 text-xs font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
+                  >
+                    查看完整详情
+                  </button>
+                </div>
+              </div>
+            ) : null;
+          })()}
 
           {/* 成就标签页 */}
-          {sidebarTab === 'achievements' && (
+          {selectedNode && sidebarTab === 'achievements' && (
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
               <div className="space-y-3">
                 <div>
@@ -1145,7 +1189,7 @@ export default function PsychoanalysisNetwork() {
           )}
 
           {/* 详情标签页 */}
-          {sidebarTab === 'details' && (
+          {selectedNode && sidebarTab === 'details' && (
             <>
               {/* 详情头部 */}
               <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
