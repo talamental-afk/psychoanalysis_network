@@ -838,7 +838,7 @@ export const conceptLinks: ConceptLink[] = [
   { source: 'anima_animus', target: 'individuation', type: 'relates', strength: 0.9 },
   { source: 'individuation', target: 'self', type: 'relates', strength: 0.9 },
   { source: 'synchronicity', target: 'collective_unconscious', type: 'relates', strength: 0.7 },
-  { source: 'psychological_types', target: 'personality', type: 'relates', strength: 0.8 },
+
   { source: 'complex', target: 'unconscious', type: 'manifests', strength: 0.8 },
   { source: 'collective_unconscious', target: 'unconscious', type: 'contains', strength: 0.9 },
 ];
