@@ -246,6 +246,19 @@ export const conceptNodes: ConceptNode[] = [
     color: '#FCA5A5',
   },
   {
+    id: 'repetition_compulsion',
+    name: '强迫重复',
+    nameEn: 'Repetition Compulsion',
+    description: '个体不断重复创伤性的经历或不幸的事件，似乎无法控制。',
+    definition: '强迫重复是指个体不断重复创伤性的经历、不幸的事件或痛苦的感受，似乎无法控制。这种重复不是为了获得快乐，而是一种无意识的需要，可能与死亡本能相关。',
+    example: '一个遭遭受虐的人可能会一次次选择不安全的伴侣或危险的关系，似乎是在重复创伤，但希望能够控制它。',
+    category: 'phenomena',
+    level: 2,
+    color: '#F472B6',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：强迫重复被定义为无意识的重复行为，但一个人的重复行为是无意识的一部分还是有意识的选择，这个界限很难畎定。任何重复行为都可以被解释为强迫重复或不是，使得理论无法被证伪。',
+  },
+  {
     id: 'infantile_sexuality',
     name: '幼儿性欲',
     nameEn: 'Infantile Sexuality',
@@ -775,6 +788,8 @@ export const conceptLinks: ConceptLink[] = [
   { source: 'unconscious', target: 'psychic_determinism', type: 'manifests', strength: 1 },
   { source: 'unconscious', target: 'oedipus_complex', type: 'manifests', strength: 0.9 },
   { source: 'unconscious', target: 'resistance', type: 'manifests', strength: 0.9 },
+  { source: 'unconscious', target: 'repetition_compulsion', type: 'manifests', strength: 0.9 },
+  { source: 'repetition_compulsion', target: 'transference', type: 'relates', strength: 0.8 },
 
   // 具体概念与抽象概念
   { source: 'id', target: 'libido', type: 'relates', strength: 0.9 },
