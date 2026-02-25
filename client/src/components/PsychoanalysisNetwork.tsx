@@ -1064,8 +1064,8 @@ export default function PsychoanalysisNetwork() {
       </div>
 
       {/* 右侧侧边栏 */}
-      {(selectedNode || hoveredNode) && (
-        <div className={`relative bg-card border-l border-border flex flex-col ${(selectedNode || hoveredNode) ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
+      {selectedNode && (
+        <div className={`relative bg-card border-l border-border flex flex-col ${selectedNode ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
           {/* 选项卡头部 - 仅在选中节点时显示 */}
           {selectedNode && (
             <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 flex-shrink-0 gap-2">
@@ -1101,11 +1101,19 @@ export default function PsychoanalysisNetwork() {
             </div>
           )}
 
-          {/* 悬停预览 - 仅在悬停节点时显示 */}
+          {/* 悬停预览 - 仅作为tooltip显示，不改变panel宽度 */}
           {hoveredNode && !selectedNode && (() => {
             const hoveredNodeData = conceptNodes.find(n => n.id === hoveredNode);
             return hoveredNodeData ? (
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="fixed bg-card/95 backdrop-blur-sm border border-border rounded-lg p-4 z-20 pointer-events-none shadow-lg" 
+                   style={{
+                     left: '50%',
+                     top: '50%',
+                     transform: 'translate(-50%, -50%)',
+                     maxWidth: '320px',
+                     maxHeight: '400px',
+                     overflowY: 'auto'
+                   }}>
                 <div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">{hoveredNodeData.name}</h3>
                   <div className="text-xs font-medium text-muted-foreground mb-2">英文名</div>
@@ -1125,20 +1133,11 @@ export default function PsychoanalysisNetwork() {
                 )}
 
                 {hoveredNodeData.hasCircularLogic && hoveredNodeData.circularLogicExplanation && (
-                  <div className="bg-red-500/10 border border-red-500/30 rounded p-3">
+                  <div className="bg-red-500/10 border border-red-500/30 rounded p-3 mt-4">
                     <div className="text-xs font-medium text-red-500 mb-2">⚠️ 循环论证警示</div>
                     <div className="text-xs text-red-400/90 leading-relaxed">{hoveredNodeData.circularLogicExplanation}</div>
                   </div>
                 )}
-
-                <div className="border-t border-border pt-4">
-                  <button
-                    onClick={() => setSelectedNode(hoveredNode)}
-                    className="w-full px-3 py-2 text-xs font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors"
-                  >
-                    查看完整详情
-                  </button>
-                </div>
               </div>
             ) : null;
           })()}
