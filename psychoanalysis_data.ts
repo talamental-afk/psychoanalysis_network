@@ -1322,6 +1322,56 @@ export const references: Reference[] = [
   { source: 'true_self', target: 'selfobject', type: 'relates', strength: 0.7 },
   { source: 'reverie', target: 'empathy', type: 'relates', strength: 0.8 },
 
+,
+  // 温尼科特概念与现有网络的连接
+  { source: 'holding_environment', target: 'mother_complex', type: 'relates', strength: 0.8 },
+  { source: 'transitional_object', target: 'object_relations', type: 'manifests', strength: 0.9 },
+  { source: 'true_self', target: 'self', type: 'relates', strength: 0.8 },
+  { source: 'false_self', target: 'persona', type: 'relates', strength: 0.7 },
+
+  // 比昂概念与现有网络的连接
+  { source: 'container_contained', target: 'transference', type: 'manifests', strength: 0.9 },
+  { source: 'alpha_function', target: 'unconscious', type: 'relates', strength: 0.8 },
+  { source: 'beta_elements', target: 'trauma', type: 'relates', strength: 0.8 },
+  { source: 'reverie', target: 'empathy', type: 'relates', strength: 0.9 },
+
+  // 费尔贝恩概念与现有网络的连接
+  { source: 'internal_objects', target: 'introjection', type: 'manifests', strength: 0.9 },
+  { source: 'libidinal_object', target: 'desire', type: 'relates', strength: 0.8 },
+  { source: 'exciting_object', target: 'jouissance', type: 'relates', strength: 0.7 },
+  { source: 'rejecting_object', target: 'projection', type: 'relates', strength: 0.8 },
+
+  // 新概念与防御机制的连接
+  { source: 'false_self', target: 'repression', type: 'relates', strength: 0.7 },
+  { source: 'beta_elements', target: 'denial', type: 'relates', strength: 0.7 },
+  { source: 'internal_objects', target: 'projective_identification', type: 'manifests', strength: 0.9 },
+
+  // 新概念与治疗方法的连接
+  { source: 'reverie', target: 'free_association', type: 'relates', strength: 0.7 },
+  { source: 'container_contained', target: 'psychoanalytic_therapy', type: 'manifests', strength: 0.9 },
+  { source: 'holding_environment', target: 'psychoanalytic_therapy', type: 'relates', strength: 0.8 },
+
+  // 新概念与克莱因理论的连接
+  { source: 'internal_objects', target: 'good_bad_object', type: 'relates', strength: 0.8 },
+  { source: 'projective_identification', target: 'container_contained', type: 'relates', strength: 0.9 },
+  { source: 'internal_objects', target: 'paranoid_schizoid', type: 'relates', strength: 0.8 },
+  { source: 'internal_objects', target: 'depressive_position', type: 'relates', strength: 0.8 },
+
+  // 新概念与拉康理论的连接
+  { source: 'true_self', target: 'subjectivity', type: 'relates', strength: 0.7 },
+  { source: 'false_self', target: 'imaginary_order', type: 'relates', strength: 0.7 },
+  { source: 'libidinal_object', target: 'objet_petit_a', type: 'relates', strength: 0.8 },
+
+  // 新概念与荣格理论的连接
+  { source: 'true_self', target: 'self', type: 'relates', strength: 0.8 },
+  { source: 'persona', target: 'false_self', type: 'relates', strength: 0.8 },
+  { source: 'shadow', target: 'rejecting_object', type: 'relates', strength: 0.7 },
+
+  // 新概念与科胡特理论的连接
+  { source: 'holding_environment', target: 'selfobject', type: 'relates', strength: 0.8 },
+  { source: 'reverie', target: 'empathy', type: 'relates', strength: 0.9 },
+  { source: 'mirroring', target: 'holding_environment', type: 'relates', strength: 0.7 },
+
 ];
 
 // 为节点添加参考文献关联
