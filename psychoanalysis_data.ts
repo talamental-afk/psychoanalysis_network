@@ -1062,6 +1062,90 @@ export const references: Reference[] = [
     doubanUrl: 'https://book.douban.com/search?q=精神分析治疗',
     scholarUrl: 'https://scholar.google.com/scholar?q=Psychoanalytic+therapy'
   },
+  // 温尼科特相关
+  {
+    id: 'winnicott-transitional-objects',
+    title: '《过渡对象与过渡现象》',
+    author: '唐纳德·温尼科特',
+    year: 1951,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/Transitional_object',
+    doubanUrl: 'https://book.douban.com/search?q=过渡对象+温尼科特',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Transitional+objects+Winnicott'
+  },
+  {
+    id: 'winnicott-holding-environment',
+    title: '《抱持环境》',
+    author: '唐纳德·温尼科特',
+    year: 1960,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/Holding_(psychology)',
+    doubanUrl: 'https://book.douban.com/search?q=抱持环境+温尼科特',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Holding+environment+Winnicott'
+  },
+  {
+    id: 'winnicott-true-false-self',
+    title: '《真实自体与虚假自体》',
+    author: '唐纳德·温尼科特',
+    year: 1960,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/True_self_and_false_self',
+    doubanUrl: 'https://book.douban.com/search?q=真实自体+虚假自体+温尼科特',
+    scholarUrl: 'https://scholar.google.com/scholar?q=True+self+false+self+Winnicott'
+  },
+  // 比昂相关
+  {
+    id: 'bion-container-contained',
+    title: '《容器与被容纳物》',
+    author: '威尔弗雷德·比昂',
+    year: 1962,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/Wilfred_Bion',
+    doubanUrl: 'https://book.douban.com/search?q=容器+被容纳物+比昂',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Container+contained+Bion'
+  },
+  {
+    id: 'bion-alpha-function',
+    title: '《α功能》',
+    author: '威尔弗雷德·比昂',
+    year: 1962,
+    type: 'paper',
+    url: 'https://en.wikipedia.org/wiki/Wilfred_Bion',
+    doubanUrl: 'https://book.douban.com/search?q=α功能+比昂',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Alpha+function+Bion'
+  },
+  {
+    id: 'bion-grid',
+    title: '《比昂网格》',
+    author: '威尔弗雷德·比昂',
+    year: 1963,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Wilfred_Bion',
+    doubanUrl: 'https://book.douban.com/search?q=比昂网格',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Bion+grid'
+  },
+  // 其他重要理论家
+  {
+    id: 'fairbairn-object-relations',
+    title: '《客体关系理论基础》',
+    author: '罗纳德·费尔贝恩',
+    year: 1952,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Ronald_Fairbairn',
+    doubanUrl: 'https://book.douban.com/search?q=客体关系+费尔贝恩',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Object+relations+Fairbairn'
+  },
+  {
+    id: 'balint-primary-love',
+    title: '《原始爱与心理分析技术》',
+    author: '迈克尔·巴林特',
+    year: 1952,
+    type: 'book',
+    url: 'https://en.wikipedia.org/wiki/Michael_Balint',
+    doubanUrl: 'https://book.douban.com/search?q=原始爱+巴林特',
+    scholarUrl: 'https://scholar.google.com/scholar?q=Primary+love+Balint'
+  },
+
 ];
 
 // 为节点添加参考文献关联
@@ -1094,8 +1178,8 @@ export const nodeReferences: Record<string, string[]> = {
   depressive_position: ['klein-paranoid-depressive'],
   projective_identification: ['klein-object-relations'],
   introjection: ['klein-object-relations'],
-  holding_environment: ['klein-object-relations'],
-  transitional_object: ['klein-object-relations'],
+  holding_environment: ['winnicott-holding-environment', 'klein-object-relations'],
+  transitional_object: ['winnicott-transitional-objects', 'klein-object-relations'],
   selfobject: ['kohut-selfobject', 'kohut-self-psychology'],
   mirroring: ['kohut-self-psychology'],
   idealization: ['kohut-self-psychology'],
@@ -1128,6 +1212,12 @@ export const nodeReferences: Record<string, string[]> = {
   persona: ['jung-archetypes'],
   self: ['jung-archetypes'],
   complex: ['jung-collective-unconscious'],
+  true_self: ['winnicott-true-false-self'],
+  false_self: ['winnicott-true-false-self'],
+  container_contained: ['bion-container-contained'],
+  alpha_function: ['bion-alpha-function'],
+  beta_elements: ['bion-alpha-function'],
+  reverie: ['bion-container-contained'],
 };
 
 // 学派标签定义
