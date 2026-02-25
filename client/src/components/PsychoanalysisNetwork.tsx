@@ -1263,29 +1263,36 @@ export default function PsychoanalysisNetwork() {
               )}
 
               {selectedNodeRefData.length > 0 && (
-                <div>
-                  <div className="text-xs font-medium text-muted-foreground mb-2">参考文献</div>
+                <div className="pt-2 border-t border-border">
+                  <div className="text-xs font-medium text-muted-foreground mb-3">推荐阅读</div>
                   <div className="space-y-2">
                     {selectedNodeRefData.map(ref => (
-                      <div key={ref.id} className="text-xs bg-secondary/30 rounded p-2 border border-border/50 hover:bg-secondary/50 transition-colors">
+                      <div key={ref.id} className="text-xs bg-blue-500/10 rounded p-2.5 border border-blue-500/30 hover:border-blue-500/50 hover:bg-blue-500/15 transition-all">
                         {ref.url ? (
                           <a
                             href={ref.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-primary hover:underline block"
+                            className="text-blue-400 hover:text-blue-300 hover:underline block font-medium"
                           >
                             {ref.title}
                           </a>
                         ) : (
-                          <div className="text-foreground">{ref.title}</div>
+                          <div className="text-foreground font-medium">{ref.title}</div>
                         )}
-                        {ref.author && (
-                          <div className="text-muted-foreground text-xs mt-1">{ref.author}</div>
-                        )}
-                        {ref.year && (
-                          <div className="text-muted-foreground text-xs">{ref.year}</div>
-                        )}
+                        <div className="flex items-center gap-2 mt-1 flex-wrap">
+                          {ref.author && (
+                            <div className="text-muted-foreground text-xs">{ref.author}</div>
+                          )}
+                          {ref.year && (
+                            <div className="text-muted-foreground text-xs">({ref.year})</div>
+                          )}
+                          {ref.type && (
+                            <span className="inline-block px-1.5 py-0.5 bg-secondary/50 rounded text-xs text-muted-foreground">
+                              {ref.type === 'book' ? '书籍' : ref.type === 'paper' ? '论文' : '其他'}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
