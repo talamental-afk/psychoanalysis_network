@@ -16,6 +16,8 @@ interface Node {
   color: string;
   x: number;
   y: number;
+  hasCircularLogic?: boolean;
+  circularLogicExplanation?: string;
 }
 
 // 头像映射
@@ -528,6 +530,28 @@ export default function PsychoanalysisNetwork() {
           ctx.restore();
           ctx.globalAlpha = 1;
         }
+      }
+
+      // 绘制循环论证标记
+      const conceptNode = conceptNodes.find(cn => cn.id === node.id);
+      if (conceptNode && conceptNode.hasCircularLogic) {
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.8)';
+        ctx.beginPath();
+        // 绘制小三角形标记在节点右上角
+        const markX = x + radius - 5;
+        const markY = y - radius + 5;
+        ctx.moveTo(markX - 4, markY - 4);
+        ctx.lineTo(markX + 4, markY - 4);
+        ctx.lineTo(markX, markY + 4);
+        ctx.closePath();
+        ctx.fill();
+        
+        // 绘制红色边框圆
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(x, y, radius + 2, 0, Math.PI * 2);
+        ctx.stroke();
       }
 
       // 绘制节点文字标签 - 从圆心向外径向排列
@@ -1090,6 +1114,13 @@ export default function PsychoanalysisNetwork() {
                 <div>
                   <div className="text-xs font-medium text-muted-foreground mb-1">案例说明</div>
                   <div className="text-sm text-foreground leading-relaxed italic">{selectedNodeData.example}</div>
+                </div>
+              )}
+
+              {selectedNodeData.hasCircularLogic && selectedNodeData.circularLogicExplanation && (
+                <div className="bg-red-500/10 border border-red-500/30 rounded p-3">
+                  <div className="text-xs font-medium text-red-500 mb-2">循环论证警示</div>
+                  <div className="text-xs text-red-400/90 leading-relaxed">{selectedNodeData.circularLogicExplanation}</div>
                 </div>
               )}
 

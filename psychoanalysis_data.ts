@@ -21,6 +21,8 @@ export interface ConceptNode {
   color: string;
   icon?: string;
   avatar?: string; // 头像URL
+  hasCircularLogic?: boolean; // 是否涉及循环论证
+  circularLogicExplanation?: string; // 循环论证的解释
 }
 
 export interface ConceptLink {
@@ -42,6 +44,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'core',
     level: 0,
     color: '#D97706',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：无意识通过压抑来隐藏不可接受的内容，而压抑本身又是由无意识执行的。我们知道无意识存在是因为有压抑现象，但压抑现象的存在本身又被用来证明无意识的存在，形成循环论证。',
   },
 
   // 第一层：人格结构
@@ -90,6 +94,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'defense',
     level: 2,
     color: '#A78BFA',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：压抑是无意识的机制，但我们无法直接观察压抑的过程（因为它是无意识的）。我们只能通过其结果（遗忘、症状）来推断压抑的存在。这形成了循环：无意识导致压抑，压抑的存在证明无意识存在。',
   },
   {
     id: 'denial',
@@ -158,6 +164,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'therapy',
     level: 2,
     color: '#34D399',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：分析师声称患者的某些反应是转移，但患者可能真的对分析师有这些感受。分析师如何区分真实的反应和转移？任何患者的否认都可以被解释为抵抗转移的表现，形成循环。',
   },
   {
     id: 'interpretation',
@@ -182,6 +190,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F472B6',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：精神决定论声称所有行为都有无意识原因，但如果任何行为都可以被解释为有无意识原因，那么这个理论就无法被证伪。任何看似反例的行为都可以被重新解释为符合理论，形成不可反驳的循环论证。',
   },
   {
     id: 'oedipus_complex',
@@ -193,6 +203,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F472B6',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：俄狄浦斯情结被定义为普遍的心理发展阶段，但任何不符合这个模式的行为都可以被解释为压抑或否认情结。任何行为都可以被解释为符合理论，使得理论无法被证伪。',
   },
   {
     id: 'defense_mechanisms',
@@ -204,6 +216,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F472B6',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：防御机制被定义为减轻焦虑的无意识策略，但焦虑本身的存在又被用来解释为什么需要防御机制。同时，防御机制的成功标志是个体感到焦虑减少，但这种减少本身可能就是防御机制的作用，形成循环。',
   },
   {
     id: 'resistance',
@@ -215,6 +229,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F472B6',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：抵抗被定义为无意识地避免面对无意识内容，但我们如何知道患者在抵抗而不是真的遗忘或不感兴趣？分析师通过解释患者的行为为抵抗来证明抵抗的存在，但这个解释本身可能就是分析师的投射。',
   },
 
   // 第三层：具体概念
@@ -419,6 +435,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'lacan',
     level: 3,
     color: '#F97316',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：镜像阶段被用来解释自我认同的形成，但自我认同本身又被用来验证镜像阶段理论的正确性。我们如何独立地验证这个理论？婴儿无法用语言表达，所以理论的验证依赖于成人的解释。',
   },
   {
     id: 'lack',
@@ -430,6 +448,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'lacan',
     level: 3,
     color: '#F97316',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：缺失导致欲望，而欲望的永远无法满足又证明了缺失的存在。任何满足都被解释为暂时的，最终仍会回到缺失的状态。这形成了一个无法破解的循环：缺失→欲望→暂时满足→回到缺失。',
   },
   {
     id: 'desire',
@@ -441,6 +461,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'lacan',
     level: 3,
     color: '#F97316',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：欲望被定义为永远无法满足的，但如果欲望永远无法满足，我们如何区分真正的欲望和其他心理状态？任何看似满足都可以被重新解释为欲望的转移，形成循环。',
   },
   {
     id: 'jouissance',
@@ -476,6 +498,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'self_psychology',
     level: 2,
     color: '#06B6D4',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：自体客体的功能被定义为维持自体，而自体的健康状态又被用来证明自体客体功能的有效性。自体缺陷被解释为缺乏自体客体，但缺乏自体客体的证据本身就是自体缺陷，形成循环。',
   },
   {
     id: 'mirroring',
@@ -487,6 +511,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'self_psychology',
     level: 3,
     color: '#14B8A6',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：镜映被定义为增强自体的过程，而自体的增强又被用来证明镜映的发生。自体缺陷被解释为缺乏镜映，但缺乏镜映的证据本身就是自体缺陷。',
   },
   {
     id: 'idealization',
@@ -544,6 +570,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'object_relations',
     level: 3,
     color: '#A855F7',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：内在客体是通过投射和内摄形成的，但投射和内摄本身又被用来解释为什么存在内在客体。我们无法直接观察内在客体，只能通过行为推断其存在，然后用内在客体来解释这些行为。',
   },
   {
     id: 'projective_identification',
@@ -555,6 +583,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'object_relations',
     level: 3,
     color: '#A855F7',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：投射认同既是个体的无意识过程，也是他人对个体影响的结果。但这个概念本身很难被证伪：如果他人没有被影响，可以说投射认同失败了；如果他人被影响了，可以说投射认同成功了。任何结果都符合理论。',
   },
   {
     id: 'introjection',
@@ -566,6 +596,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'object_relations',
     level: 3,
     color: '#A855F7',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：内摄被用来解释为什么孩子会采纳父母的特质，但父母特质的存在又被用来证明内摄的发生。我们无法独立地观察内摄过程本身，只能通过结果来推断。',
   },
   {
     id: 'good_bad_object',
@@ -577,6 +609,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'object_relations',
     level: 3,
     color: '#A855F7',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：好坏客体的分裂被定义为婴儿的正常发展，但任何表现出整合或分裂的行为都可以被解释为符合理论。理论的正确性无法通过观察来验证，因为所有可能的行为都可以被纳入理论框架。',
   },
   {
     id: 'transitional_object',
@@ -599,6 +633,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'object_relations',
     level: 3,
     color: '#A855F7',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：容纳环境被定义为导致安全感的环境，而安全感的存在又被用来证明容纳环境的存在。缺乏安全感被解释为缺乏容纳环境，但缺乏容纳环境的证据本身就是缺乏安全感。',
   },
 ];
 
