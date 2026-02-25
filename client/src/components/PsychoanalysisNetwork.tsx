@@ -856,7 +856,7 @@ export default function PsychoanalysisNetwork() {
           <details className="group">
             <summary className="cursor-pointer font-semibold text-sm text-foreground hover:text-primary transition-colors flex items-center gap-2 px-4 py-3 select-none">
               <ChevronRight className="w-4 h-4 group-open:rotate-90 transition-transform" />
-              图例
+              分类
             </summary>
             <div className="px-4 pb-4 space-y-1 text-xs border-t border-border pt-3">
               {Object.entries(categoryLabels).map(([key, label]) => {
