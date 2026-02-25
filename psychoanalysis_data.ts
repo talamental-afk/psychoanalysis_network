@@ -15,14 +15,16 @@ export interface ConceptNode {
   description: string;
   definition?: string; // 详细定义
   example?: string; // 案例说明
-  references?: string[]; // 参考文献ID列表
+  references?: string[]; // 参考文献 ID列表
   category: 'core' | 'personality' | 'defense' | 'therapy' | 'phenomena' | 'theorist' | 'lacan' | 'self_psychology' | 'object_relations';
   level: number; // 0: 中心, 1: 第一层, 2: 第二层, 3: 第三层
   color: string;
   icon?: string;
-  avatar?: string; // 头像URL
+  avatar?: string; // 头像 URL
   hasCircularLogic?: boolean; // 是否涉及循环论证
   circularLogicExplanation?: string; // 循环论证的解释
+  alternativeNames?: string[]; // 替代翻译或别名
+  translationNotes?: string; // 翻译注记
 }
 
 export interface ConceptLink {
@@ -166,6 +168,8 @@ export const conceptNodes: ConceptNode[] = [
     color: '#34D399',
     hasCircularLogic: true,
     circularLogicExplanation: '循环论证：分析师声称患者的某些反应是转移，但患者可能真的对分析师有这些感受。分析师如何区分真实的反应和转移？任何患者的否认都可以被解释为抵抗转移的表现，形成循环。',
+    alternativeNames: ['转移', '转移现象'],
+    translationNotes: '移情是最常用的中文翻译，转移是较旧的翻译。移情更好地体现了情感的流动性。',
   },
   {
     id: 'interpretation',
@@ -231,6 +235,8 @@ export const conceptNodes: ConceptNode[] = [
     color: '#F472B6',
     hasCircularLogic: true,
     circularLogicExplanation: '循环论证：抵抗被定义为无意识地避免面对无意识内容，但我们如何知道患者在抵抗而不是真的遗忘或不感兴趣？分析师通过解释患者的行为为抵抗来证明抵抗的存在，但这个解释本身可能就是分析师的投射。',
+    alternativeNames: ['抵抗', '抵抗现象'],
+    translationNotes: '阻抗是最常用的中文翻译，抵抗是较旧的翻译。阻抗更体现了对分析过程的阻挡作用。',
   },
 
   // 第三层：具体概念
@@ -710,11 +716,13 @@ export const conceptNodes: ConceptNode[] = [
     name: '自性化',
     nameEn: 'Individuation',
     description: '荣格概念，个u4eba实现自我、成为真正自己的过程。',
-    definition: '个u6027化是荣格提出的所有心理发展的最终目标。它是个u4eba实现自我、整合个u4eba的各个方面、成为真正自己的过程。这个过程涉及与阴影、阿尼玛、阿尼姆斯等原型的整合。',
+    definition: '个u6027化是荣格提出的所有心理发展的最终目标。它是个u4eba实现自我、整合个u4eba的各个方面、成为真正自己的过程。这个过程涉及与阴影、阿尼玻、阿尼姨斯等原型的整合。',
     example: '一个人通过分析、沙疗或精神修行逐渐了解自己的不同方面，整合了自己的矛盾，最终成为一个更完整、更真实的自我。',
     category: 'phenomena',
     level: 4,
     color: '#EC4899',
+    alternativeNames: ['个性化', '个体化'],
+    translationNotes: '自性化是最常用的中文翻译，个性化是较旧的翻译。自性化更体现了对真实自我的追求。',
   },
   {
     id: 'synchronicity',

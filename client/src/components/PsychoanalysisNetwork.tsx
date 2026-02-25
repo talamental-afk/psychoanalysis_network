@@ -18,6 +18,8 @@ interface Node {
   y: number;
   hasCircularLogic?: boolean;
   circularLogicExplanation?: string;
+  alternativeNames?: string[];
+  translationNotes?: string;
 }
 
 // 头像映射
@@ -57,7 +59,7 @@ export default function PsychoanalysisNetwork() {
   const [draggingNode, setDraggingNode] = useState<string | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [nodeOffsets, setNodeOffsets] = useState<Record<string, {x: number; y: number}>>({});
-  const [sidebarTab, setSidebarTab] = useState<'achievements' | 'details'>('details');
+  const [sidebarTab, setSidebarTab] = useState<'achievements' | 'details' | 'glossary'>('details');
 
   // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
@@ -1091,6 +1093,16 @@ export default function PsychoanalysisNetwork() {
                 >
                   详情
                 </button>
+                <button
+                  onClick={() => setSidebarTab('glossary')}
+                  className={`px-3 py-2 text-xs font-medium rounded transition-colors ${
+                    sidebarTab === 'glossary'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-secondary/50 text-foreground hover:bg-secondary'
+                  }`}
+                >
+                  术语
+                </button>
               </div>
               <button
                 onClick={() => setSelectedNode(null)}
@@ -1312,6 +1324,61 @@ export default function PsychoanalysisNetwork() {
               点击网络图中的节点查看详细信息
             </div>
           )}
+              </div>
+            </>
+          )}
+
+          {selectedNode && sidebarTab === 'glossary' && (
+            <>
+              <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+                <h2 className="text-lg font-semibold text-foreground">
+                  术语词汇表
+                </h2>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {selectedNodeData ? (
+                  <>
+                    <div className="bg-secondary/30 rounded-lg p-3 border border-border/50">
+                      <div className="text-xs font-medium text-muted-foreground mb-1">中文名称</div>
+                      <div className="text-lg font-semibold text-foreground">{selectedNodeData.name}</div>
+                    </div>
+
+                    <div className="bg-secondary/30 rounded-lg p-3 border border-border/50">
+                      <div className="text-xs font-medium text-muted-foreground mb-1">English Name</div>
+                      <div className="text-lg font-semibold text-foreground italic">{selectedNodeData.nameEn}</div>
+                    </div>
+
+                    {selectedNodeData.alternativeNames && selectedNodeData.alternativeNames.length > 0 && (
+                      <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-500/30">
+                        <div className="text-xs font-medium text-blue-500 mb-2">替代翻译 / 别名</div>
+                        <div className="space-y-2">
+                          {selectedNodeData.alternativeNames.map((altName, idx) => (
+                            <div key={idx} className="text-sm text-foreground">
+                              • {altName}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedNodeData.translationNotes && (
+                      <div className="bg-amber-500/10 rounded-lg p-3 border border-amber-500/30">
+                        <div className="text-xs font-medium text-amber-600 mb-2">翻译注记</div>
+                        <div className="text-sm text-foreground leading-relaxed">{selectedNodeData.translationNotes}</div>
+                      </div>
+                    )}
+
+                    <div className="bg-secondary/30 rounded-lg p-3 border border-border/50">
+                      <div className="text-xs font-medium text-muted-foreground mb-2">概念简述</div>
+                      <div className="text-sm text-foreground leading-relaxed">{selectedNodeData.description}</div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center text-muted-foreground text-sm py-8">
+                    点击网络图中的节点查看术语词汇
+                  </div>
+                )}
               </div>
             </>
           )}
