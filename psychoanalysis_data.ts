@@ -915,7 +915,7 @@ export const references: Reference[] = [
   // 弗洛伊德相关
   {
     id: 'freud-interpretation-dreams',
-    title: '梦的解析',
+    title: '《梦的解析》',
     author: '西格蒙德·弗洛伊德',
     year: 1900,
     type: 'book',
@@ -923,7 +923,7 @@ export const references: Reference[] = [
   },
   {
     id: 'freud-unconscious',
-    title: '无意识',
+    title: '《无意识》',
     author: '西格蒙德·弗洛伊德',
     year: 1915,
     type: 'paper',
@@ -931,7 +931,7 @@ export const references: Reference[] = [
   },
   {
     id: 'freud-ego-defense',
-    title: '自我与防御机制',
+    title: '《自我与防御机制》',
     author: '西格蒙德·弗洛伊德',
     year: 1923,
     type: 'book',
@@ -940,7 +940,7 @@ export const references: Reference[] = [
   // 荣格相关
   {
     id: 'jung-collective-unconscious',
-    title: '集体无意识',
+    title: '《集体无意识》',
     author: '卡尔·荣格',
     year: 1934,
     type: 'paper',
@@ -948,7 +948,7 @@ export const references: Reference[] = [
   },
   {
     id: 'jung-archetypes',
-    title: '原型与无意识',
+    title: '《原型与无意识》',
     author: '卡尔·荣格',
     year: 1959,
     type: 'book',
@@ -957,7 +957,7 @@ export const references: Reference[] = [
   // 拉康相关
   {
     id: 'lacan-mirror-stage',
-    title: '镜像阶段',
+    title: '《镜像阶段》',
     author: '雅克·拉康',
     year: 1949,
     type: 'paper',
@@ -965,7 +965,7 @@ export const references: Reference[] = [
   },
   {
     id: 'lacan-symbolic-order',
-    title: '符号秩序',
+    title: '《符号秩序》',
     author: '雅克·拉康',
     year: 1966,
     type: 'book',
@@ -974,7 +974,7 @@ export const references: Reference[] = [
   // 克莱因相关
   {
     id: 'klein-object-relations',
-    title: '客体关系理论',
+    title: '《客体关系理论》',
     author: '梅兰妮·克莱因',
     year: 1932,
     type: 'book',
@@ -982,7 +982,7 @@ export const references: Reference[] = [
   },
   {
     id: 'klein-paranoid-depressive',
-    title: '偏执-抑郁位置',
+    title: '《偏执-抑郁位置》',
     author: '梅兰妮·克莱因',
     year: 1935,
     type: 'paper',
@@ -991,7 +991,7 @@ export const references: Reference[] = [
   // 科胡特相关
   {
     id: 'kohut-self-psychology',
-    title: '自体心理学',
+    title: '《自体心理学》',
     author: '海因茨·科胡特',
     year: 1971,
     type: 'book',
@@ -999,7 +999,7 @@ export const references: Reference[] = [
   },
   {
     id: 'kohut-selfobject',
-    title: '自体客体',
+    title: '《自体客体》',
     author: '海因茨·科胡特',
     year: 1977,
     type: 'paper',
@@ -1008,7 +1008,7 @@ export const references: Reference[] = [
   // 防御机制相关
   {
     id: 'anna-freud-defense',
-    title: '防御机制',
+    title: '《防御机制》',
     author: '安娜·弗洛伊德',
     year: 1936,
     type: 'book',
@@ -1017,7 +1017,7 @@ export const references: Reference[] = [
   // 转移与反转移
   {
     id: 'transference-countertransference',
-    title: '转移与反转移',
+    title: '《转移与反转移》',
     author: '精神分析文献',
     year: 1950,
     type: 'article',
@@ -1026,7 +1026,7 @@ export const references: Reference[] = [
   // 治疗方法
   {
     id: 'psychoanalytic-therapy',
-    title: '精神分析治疗',
+    title: '《精神分析治疗》',
     author: '精神分析文献',
     year: 1990,
     type: 'book',
