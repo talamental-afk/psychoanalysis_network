@@ -915,9 +915,51 @@ export default function PsychoanalysisNetwork() {
               ))}
             </div>
           </details>
+          
+          {/* 推荐学习顺序 */}
+          <details className="group border-t border-border">
+            <summary className="cursor-pointer font-semibold text-sm text-foreground hover:text-primary transition-colors flex items-center gap-2 px-4 py-3 select-none">
+              <ChevronRight className="w-4 h-4 group-open:rotate-90 transition-transform" />
+              推荐学习顺序
+            </summary>
+            <div className="px-4 pb-4 space-y-3 text-xs border-t border-border pt-3 max-h-96 overflow-y-auto">
+              {[1, 2, 3, 4].map((level) => {
+                const levelNodes = nodes.filter(n => n.level === level);
+                const levelNames = ['第一阶段：基础概念', '第二阶段：基础机制', '第三阶段：深化理解', '第四阶段：现代理论'];
+                return (
+                  <div key={level} className="space-y-1.5">
+                    <button
+                      onClick={() => {
+                        const nodeIds = new Set(levelNodes.map(n => n.id));
+                        setHighlightedNodes(nodeIds);
+                      }}
+                      className="w-full text-left px-2 py-1.5 rounded bg-secondary/30 hover:bg-secondary/50 transition-colors font-medium text-foreground"
+                    >
+                      {levelNames[level - 1]} ({levelNodes.length})
+                    </button>
+                    <div className="pl-2 space-y-0.5">
+                      {levelNodes.map((node) => (
+                        <button
+                          key={node.id}
+                          onClick={() => {
+                            setSelectedNode(node.id);
+                            setHighlightedNodes(new Set([node.id]));
+                          }}
+                          className="w-full text-left px-2 py-0.5 rounded text-xs hover:bg-secondary/40 transition-colors text-muted-foreground hover:text-foreground truncate"
+                          title={node.name}
+                        >
+                          · {node.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </details>
         </div>
 
-        {/* 搜索框和成就按黿 */}
+        {/* 搜索框和成就按钮 */}
         <div className="absolute top-4 right-4 z-10 flex items-center gap-3">
           {/* 排行榜按黿 */}
           <a
