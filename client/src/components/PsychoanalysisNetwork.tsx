@@ -1044,10 +1044,7 @@ export default function PsychoanalysisNetwork() {
           </div>
         )}
 
-        {/* 底部版权 */}
-        <div className="absolute bottom-4 left-4 text-xs text-muted-foreground">
-          © 2026
-        </div>
+
       </div>
 
       {/* 右侧侧边栏 */}
