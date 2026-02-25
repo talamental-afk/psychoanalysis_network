@@ -57,6 +57,7 @@ export default function PsychoanalysisNetwork() {
   const [draggingNode, setDraggingNode] = useState<string | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [nodeOffsets, setNodeOffsets] = useState<Record<string, {x: number; y: number}>>({});
+  const [sidebarTab, setSidebarTab] = useState<'achievements' | 'details'>('details');
 
   // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
@@ -1052,48 +1053,96 @@ export default function PsychoanalysisNetwork() {
       {/* 右侧侧边栏 */}
       {selectedNode && (
         <div className={`relative bg-card border-l border-border flex flex-col ${selectedNode ? 'w-96' : 'w-0'} overflow-hidden transition-all duration-300`}>
-          {/* 我的成就标识栏 */}
-          <div className="flex items-center gap-2 px-4 py-3 bg-primary/10 border-b border-border/50">
-            <Trophy className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">我的成就</span>
-          </div>
-
-          {/* 成就统计信息 */}
-          <div className="px-4 py-3 space-y-3 border-b border-border/50">
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-muted-foreground">学习路径完成</span>
-              <span className="font-semibold text-foreground">{completedPaths.size}/{Object.keys(learningPaths).length}</span>
-            </div>
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-muted-foreground">学习节点数</span>
-              <span className="font-semibold text-foreground">{completedNodes.size}</span>
-            </div>
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-muted-foreground">整体进度</span>
-              <span className="font-semibold text-primary">{Math.round((completedNodes.size / conceptNodes.length) * 100)}%</span>
-            </div>
-            <Link href="/leaderboard" className="block w-full mt-2">
-              <button className="w-full px-3 py-2 text-xs font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors">
-                查看完整排行榜
+          {/* 选项卡头部 */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-border/50 flex-shrink-0 gap-2">
+            <div className="flex gap-2">
+              <button
+                onClick={() => setSidebarTab('achievements')}
+                className={`px-3 py-2 text-xs font-medium rounded transition-colors flex items-center gap-1 ${
+                  sidebarTab === 'achievements'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-secondary/50 text-foreground hover:bg-secondary'
+                }`}
+              >
+                <Trophy className="w-3 h-3" />
+                成就
               </button>
-            </Link>
+              <button
+                onClick={() => setSidebarTab('details')}
+                className={`px-3 py-2 text-xs font-medium rounded transition-colors ${
+                  sidebarTab === 'details'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-secondary/50 text-foreground hover:bg-secondary'
+                }`}
+              >
+                详情
+              </button>
+            </div>
+            <button
+              onClick={() => setSelectedNode(null)}
+              className="p-1 hover:bg-secondary rounded transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
-          {/* 侧边栏头部 */}
-          <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
-          <h2 className="text-lg font-semibold text-foreground">
-            {selectedNodeData ? selectedNodeData.name : '选择概念'}
-          </h2>
-          <button
-            onClick={() => setSelectedNode(null)}
-            className="p-1 hover:bg-secondary rounded transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+          {/* 成就标签页 */}
+          {sidebarTab === 'achievements' && (
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="space-y-3">
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground mb-2">学习路径完成</div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-secondary rounded-full h-2">
+                      <div
+                        className="bg-primary h-2 rounded-full transition-all"
+                        style={{
+                          width: `${(completedPaths.size / Object.keys(learningPaths).length) * 100}%`
+                        }}
+                      />
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">{completedPaths.size}/{Object.keys(learningPaths).length}</span>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground mb-2">学习节点数</div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 bg-secondary rounded-full h-2">
+                      <div
+                        className="bg-primary h-2 rounded-full transition-all"
+                        style={{
+                          width: `${(completedNodes.size / conceptNodes.length) * 100}%`
+                        }}
+                      />
+                    </div>
+                    <span className="text-sm font-semibold text-foreground">{completedNodes.size}/{conceptNodes.length}</span>
+                  </div>
+                </div>
+                <div>
+                  <div className="text-xs font-medium text-muted-foreground mb-2">整体进度</div>
+                  <div className="text-2xl font-bold text-primary">{Math.round((completedNodes.size / conceptNodes.length) * 100)}%</div>
+                </div>
+              </div>
+              <Link href="/leaderboard" className="block w-full mt-4">
+                <button className="w-full px-3 py-2 text-xs font-medium bg-primary text-primary-foreground rounded hover:bg-primary/90 transition-colors">
+                  查看完整排行榜
+                </button>
+              </Link>
+            </div>
+          )}
 
-          {/* 侧边栏内容 */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {/* 详情标签页 */}
+          {sidebarTab === 'details' && (
+            <>
+              {/* 详情头部 */}
+              <div className="flex items-center justify-between p-4 border-b border-border flex-shrink-0">
+                <h2 className="text-lg font-semibold text-foreground">
+                  {selectedNodeData ? selectedNodeData.name : '选择概念'}
+                </h2>
+              </div>
+
+              {/* 详情内容 */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {selectedNodeData ? (
             <>
               {portraitImagesRef.current.has(selectedNode) && (
@@ -1207,7 +1256,9 @@ export default function PsychoanalysisNetwork() {
               点击网络图中的节点查看详细信息
             </div>
           )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
