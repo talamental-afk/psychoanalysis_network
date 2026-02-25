@@ -156,7 +156,7 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'transference',
-    name: '转移',
+    name: '移情',
     nameEn: 'Transference',
     description: '分析者将对他人的感情投射到分析师身上。',
     definition: '转移是指分析者将对过去重要人物（如父母）的感情、态度和期望无意识地投射到分析师身上。这是治疗中的关键现象，可以揭示个体的深层心理冲突。',
@@ -221,7 +221,7 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'resistance',
-    name: '抵抗',
+    name: '阻抗',
     nameEn: 'Resistance',
     description: '分析者无意识地抵抗分析过程，保护无意识内容。',
     definition: '抵抗是指分析者在治疗过程中无意识地抵抗，避免面对令人不快的无意识内容。表现为遗忘、沉默、迟到或改变话题等。',
@@ -707,7 +707,7 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'individuation',
-    name: '个u6027化',
+    name: '自性化',
     nameEn: 'Individuation',
     description: '荣格概念，个u4eba实现自我、成为真正自己的过程。',
     definition: '个u6027化是荣格提出的所有心理发展的最终目标。它是个u4eba实现自我、整合个u4eba的各个方面、成为真正自己的过程。这个过程涉及与阴影、阿尼玛、阿尼姆斯等原型的整合。',
