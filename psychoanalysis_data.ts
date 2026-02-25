@@ -37,7 +37,7 @@ export const conceptNodes: ConceptNode[] = [
   {
     id: 'unconscious',
     name: '无意识',
-    nameEn: 'Unconscious',
+    nameEn: 'The Unconscious',
     description: '精神分析的基础。包含被压抑的思想、欲望和记忆，对行为有强大影响。',
     definition: '无意识是指个体不能直接认识到的心理过程和内容，包括被压抑的欲望、冲突和创伤记忆。它对个体的行为、情感和思维方式产生深远影响，但个体通常无法意识到这些影响的来源。',
     example: '一个人可能无法解释自己对某种特定情况的强烈恐惧反应，这种恐惧可能源于童年的创伤记忆，已被压入无意识中。',
@@ -183,7 +183,7 @@ export const conceptNodes: ConceptNode[] = [
   {
     id: 'psychic_determinism',
     name: '精神决定论',
-    nameEn: 'Psychic Determinism',
+    nameEn: 'Psychical Determinism',
     description: '所有心理过程都不是自发的，而是受无意识决定。',
     definition: '精神决定论认为所有心理过程、行为和思想都不是随意的，而是由无意识的动机、欲望和过去经历决定的。没有真正的偶然，每个行为都有其无意识的原因。',
     example: '一个人"不小心"忘记了重要的约会，实际上可能是无意识地想要避免这个约会。',
@@ -196,7 +196,7 @@ export const conceptNodes: ConceptNode[] = [
   {
     id: 'oedipus_complex',
     name: '俄狄浦斯情结',
-    nameEn: 'Oedipus Complex',
+    nameEn: 'Oedipal Complex',
     description: '幼儿对异性父母的欲望和对同性父母的竞争。',
     definition: '俄狄浦斯情结是指幼儿对异性父母的潜意识欲望和对同性父母的竞争或敌意。这是心理发展的关键阶段，其解决方式影响个体的性别认同和人格发展。',
     example: '一个3-5岁的男孩可能表现出对母亲的特殊依恋，对父亲的竞争意识，这是正常的发展阶段。',
@@ -209,7 +209,7 @@ export const conceptNodes: ConceptNode[] = [
   {
     id: 'defense_mechanisms',
     name: '防御机制',
-    nameEn: 'Defense Mechanisms',
+    nameEn: 'Defense Mechanism',
     description: '自我用来应对焦虑和冲突的无意识策略。',
     definition: '防御机制是自我为了保护个体免受焦虑、冲突和痛苦而采用的无意识心理策略。这些机制扭曲、否认或隐藏现实，以维持心理平衡。',
     example: '一个人使用幽默来应对严肃的冲突情况，这是一种防御机制，帮助其减轻焦虑。',
@@ -417,7 +417,7 @@ export const conceptNodes: ConceptNode[] = [
   {
     id: 'real_order',
     name: '实在界',
-    nameEn: 'Real Order',
+    nameEn: 'The Real',
     description: '拉康三界之一。超越象征和想象的绝对他者。',
     definition: '实在界是拉康三界中最难理解的一个，指超越象征和想象的绝对他者，无法被语言或想象完全表达。它是创伤、死亡和绝对差异的领域。',
     example: '死亡是实在界的表现，它超越了我们的想象和语言表达能力，是绝对的他者。',
@@ -491,7 +491,7 @@ export const conceptNodes: ConceptNode[] = [
   {
     id: 'selfobject',
     name: '自体客体',
-    nameEn: 'Selfobject',
+    nameEn: 'Self-object',
     description: '他人作为自体的延伸，提供镜映、理想化和孪生体验。',
     definition: '自体客体是自体心理学的核心概念，指他人作为自体的心理延伸而被体验。自体客体通过镜映、理想化和孪生体验来支持和维持个体的自体。',
     example: '母亲作为婴儿的自体客体，通过镜映婴儿的需求和感受，帮助婴儿建立自体。',
@@ -602,7 +602,7 @@ export const conceptNodes: ConceptNode[] = [
   {
     id: 'good_bad_object',
     name: '好坏客体',
-    nameEn: 'Good and Bad Object',
+    nameEn: 'Good and Bad Objects',
     description: '克莱因的分裂理论，婴儿将客体分为全好或全坏。',
     definition: '好坏客体是克莱因的分裂理论，指婴儿在早期发展阶段将客体（特别是母亲）分裂为全好或全坏。当母亲满足需求时是"好乳房"，当母亲不在或拒绝时是"坏乳房"。这种分裂是正常的发展阶段。',
     example: '一个婴儿可能在饥饿时对母亲充满敌意（坏客体），但在被喂食后对母亲充满爱（好客体），这种分裂是正常的。',
