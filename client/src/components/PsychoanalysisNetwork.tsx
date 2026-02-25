@@ -266,6 +266,20 @@ export default function PsychoanalysisNetwork() {
   // 初始化节点位置
   useEffect(() => {
     const initialNodes: Node[] = (conceptNodes as any[]).map((node, index) => {
+      // 人物节点（理论家）放在左侧
+      if (node.category === 'theorist') {
+        const theoristIndex = (conceptNodes as any[]).filter((n: any) => n.category === 'theorist').indexOf(node);
+        const theoristCount = (conceptNodes as any[]).filter((n: any) => n.category === 'theorist').length;
+        const theoristAngle = (theoristIndex / Math.max(theoristCount, 1)) * Math.PI - Math.PI / 2;
+        const theoristRadius = 200;
+        return {
+          ...node,
+          x: Math.cos(theoristAngle) * theoristRadius - 400,
+          y: Math.sin(theoristAngle) * theoristRadius,
+        };
+      }
+      
+      // 概念节点放在中心和右侧
       const angle = (index / conceptNodes.length) * Math.PI * 2;
       const baseRadius = 140;
       const levelRadius = node.level * 85;
