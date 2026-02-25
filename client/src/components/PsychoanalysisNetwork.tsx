@@ -57,6 +57,15 @@ export default function PsychoanalysisNetwork() {
   const [draggingNode, setDraggingNode] = useState<string | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [nodeOffsets, setNodeOffsets] = useState<Record<string, {x: number; y: number}>>({});
+  const [language, setLanguage] = useState<'zh' | 'en'>('zh');
+
+  // 标签翻译
+  const labelTranslations = {
+    circularLogic: {
+      zh: '循环论证',
+      en: 'Circular Logic'
+    }
+  };
 
   // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
@@ -560,7 +569,7 @@ export default function PsychoanalysisNetwork() {
       // 绘制循环论证标签（节点名字下一行）
       const conceptNode = conceptNodes.find(cn => cn.id === node.id);
       if (conceptNode && conceptNode.hasCircularLogic) {
-        const labelText = '循环论证';
+        const labelText = labelTranslations.circularLogic[language];
         ctx.font = 'bold 8px Inter';
         ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
         
@@ -620,7 +629,7 @@ export default function PsychoanalysisNetwork() {
     }
 
     ctx.restore();
-  }, [nodes, hoveredNode, selectedNode, searchResults, scale, pan, visibleCategories, hoveredLink, highlightedNodes, portraitsLoaded]);
+  }, [nodes, hoveredNode, selectedNode, searchResults, scale, pan, visibleCategories, hoveredLink, highlightedNodes, portraitsLoaded, language, labelTranslations]);
 
   // 处理鼠标移动
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -919,6 +928,13 @@ export default function PsychoanalysisNetwork() {
           >
             <Trophy className="w-4 h-4" />
           </a>
+          <button
+            onClick={() => setLanguage(language === 'zh' ? 'en' : 'zh')}
+            className="px-3 py-2 bg-card/80 backdrop-blur-sm border border-border rounded-lg hover:bg-secondary transition-colors text-sm font-medium text-foreground"
+            title="Switch Language"
+          >
+            {language === 'zh' ? 'EN' : 'ZH'}
+          </button>
           <div className="relative w-80">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
