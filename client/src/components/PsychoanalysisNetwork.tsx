@@ -5,6 +5,7 @@ import { Link } from 'wouter';
 import { RecommendedReading } from './RecommendedReading';
 import { RatingPanel } from './RatingPanel';
 import { AssumptionChainTracer } from './AssumptionChainTracer';
+import { SchoolPerspectives } from './SchoolPerspectives';
 
 
 interface Node {
@@ -1304,6 +1305,9 @@ export default function PsychoanalysisNetwork() {
 
               {/* 评分面板 */}
               <RatingPanel concept={selectedNodeData} />
+
+              {/* 学派对标 */}
+              <SchoolPerspectives concept={selectedNodeData} />
 
               {selectedNodeRefData.length > 0 && (
                 <RecommendedReading references={selectedNodeRefData} />

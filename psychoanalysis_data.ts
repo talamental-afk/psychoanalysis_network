@@ -34,6 +34,9 @@ export interface ConceptNode {
     logical_coherence?: number; // 用户对逻辑自洽性的评分
   };
   coreAssumption?: string; // 核心假设
+  schoolPerspectives?: {
+    [school: string]: string; // 学派对该概念的见解
+  };
 }
 
 export interface ConceptLink {
