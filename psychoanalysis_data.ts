@@ -102,6 +102,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'defense',
     level: 2,
     color: '#EF4444',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：压抑是将不可接受的内容推入无意识，但我们知道某些内容被压抑是因为它们在无意识中。我们通过症状、梦或言语错误来推断压抑的存在，但这些症状本身又被解释为压抑的证据，形成循环。',
     school: 'freud',
   },
   {
@@ -174,6 +176,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'defense',
     level: 2,
     color: '#EF4444',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：防御机制被定义为保护自我免受焦虑的无意识过程。但任何行为都可以被解释为防御机制的表现。如果一个人表现出某种行为，这可能是防御机制；如果一个人不表现出这种行为，这可能是压抑或否认，也是防御机制。',
     school: 'freud',
   },
 
@@ -212,6 +216,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'therapy',
     level: 2,
     color: '#10B981',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：移情被定义为患者将过去的感受投射到分析师身上，但分析师如何知道这是移情而不是对分析师的真实反应？分析师通常将患者的所有反应解释为移情，这使得理论无法被证伪。',
     alternativeNames: ['转移', '转移现象'],
     translationNotes: '移情是最常用的中文翻译，转移是较旧的翻译。移情更准确地反映了情感的转移特性。',
     school: 'freud',
@@ -226,6 +232,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'therapy',
     level: 2,
     color: '#10B981',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：反移情被定义为分析师对患者的无意识反应。但分析师如何知道他的反应是反移情而不是对患者的真实反应？任何分析师的反应都可以被解释为反移情。',
     school: 'freud',
   },
   {
@@ -238,6 +246,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'therapy',
     level: 2,
     color: '#10B981',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：诠释的有效性由患者的反应来判断。如果患者同意诠释，这被视为正确的诠释；如果患者不同意，这被解释为阻抗或压抑，仍然被视为诠释是正确的。',
     school: 'freud',
   },
   {
@@ -264,6 +274,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：心理决定论认为所有心理现象都有原因。但这个理论本身是不可证伪的——任何看似随意的现象都可以被解释为有无意识的原因。',
     school: 'freud',
   },
   {
@@ -276,6 +288,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：俄狄浦斯情结被定义为儿童对异性父母的无意识欲望。但如果儿童表现出这种欲望，这被视为情结的证据；如果儿童不表现出这种欲望，这被解释为压抑或否认，仍然被视为情结存在的证据。',
     school: 'freud',
   },
   {
@@ -288,6 +302,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：阻抗被定义为患者无意识地抵抗接近无意识内容。但如果患者同意分析师的诠释，这被视为治疗进展；如果患者不同意，这被视为阻抗。任何反应都可以被解释为阻抗的证据。',
     alternativeNames: ['抵抗', '抵抗现象'],
     translationNotes: '阻抗是最常用的中文翻译，抵抗是较旧的翻译。阻抗更准确地反映了心理阻力的特性。',
     school: 'freud',
@@ -302,6 +318,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：重复强迫被定义为无意识地重复痛苦的经历。但如果一个人重复痛苦的经历，这被视为重复强迫；如果一个人避免痛苦的经历，这也可能被解释为压抑或否认。',
     school: 'freud',
   },
   {
@@ -314,6 +332,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：屏记忆被定义为隐藏更重要记忆的无关记忆。但我们如何知道一个记忆是屏记忆而不是真实的记忆？任何记忆都可能被解释为屏记忆。',
     school: 'freud',
   },
 
@@ -342,6 +362,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：力比多被定义为驱动人类行为的心理能量。但任何行为都可以被解释为力比多的表现。如果一个人表现出某种行为，这是力比多的证据；如果一个人不表现出这种行为，这可能是压抑，仍然是力比多的证据。',
     school: 'freud',
   },
   {
@@ -354,6 +376,8 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：享乐原则被定义为追求快乐和避免痛苦。但任何行为都可以被解释为追求快乐或避免痛苦。这个原则太宽泛，无法被证伪。',
     school: 'freud',
   },
   {
