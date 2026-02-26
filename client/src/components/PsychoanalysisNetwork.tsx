@@ -1277,6 +1277,14 @@ export default function PsychoanalysisNetwork() {
               {/* 评分面板 */}
               <RatingPanel concept={selectedNodeData} />
 
+              {/* 核心假设 */}
+              {selectedNodeData.coreAssumption && (
+                <div className="p-4 border-t border-gray-700 space-y-2">
+                  <h4 className="text-sm font-semibold text-gray-300">💡 核心假设</h4>
+                  <p className="text-sm text-gray-400 leading-relaxed">{selectedNodeData.coreAssumption}</p>
+                </div>
+              )}
+
               <div className="pt-2 border-t border-border">
                 <div className="text-xs font-medium text-muted-foreground mb-2">分类</div>
                 <div className="flex flex-wrap gap-2">

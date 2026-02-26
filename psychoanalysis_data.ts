@@ -33,6 +33,7 @@ export interface ConceptNode {
     falsifiability?: number; // 用户对可证伪性的评分
     logical_coherence?: number; // 用户对逻辑自洽性的评分
   };
+  coreAssumption?: string; // 核心假设
 }
 
 export interface ConceptLink {
@@ -59,6 +60,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '心理生活的大部分发生在意识之外，无意识内容通过各种方式影响行为和思维。',
     school: 'freud',
   },
 
@@ -76,6 +79,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '人类最原始的部分由本能冲动组成，这些冲动不受理性或道德约束。',
     school: 'freud',
   },
   {
@@ -91,6 +96,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '理性的自我能够调解本我的冲动与超我的道德要求，实现适应性行为。',
     school: 'freud',
   },
   {
@@ -106,6 +113,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '道德良知是通过内化父母和社会价值观而形成的，驱动我们追求理想和道德。',
     school: 'freud',
   },
 
@@ -125,6 +134,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '不可接受的思想和欲望被无意识地排除出意识，但仍然对行为产生影响。',
     school: 'freud',
   },
   {
@@ -140,6 +151,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 3,
     logical_coherence: 4,
+    
+    coreAssumption: '个体拒绝承认令人不安的现实或事实，以保护自己免受焦虑。',
     school: 'freud',
   },
   {
@@ -155,6 +168,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '个体将自己的不可接受的冲动或特征归因于他人。',
     school: 'freud',
   },
   {
@@ -170,6 +185,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '对一个对象的情感被转移到另一个更安全的对象上。',
     school: 'freud',
   },
   {
@@ -185,6 +202,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '本能冲动被转化为社会上可接受的活动，如艺术或学术追求。',
     school: 'freud',
   },
   {
@@ -200,6 +219,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '个体为自己的行为或信念提供看似合理的解释，而不是真实原因。',
     school: 'freud',
   },
   {
@@ -217,6 +238,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '自我采用各种无意识策略来保护自己免受焦虑和不适的想法。',
     school: 'freud',
   },
 
@@ -234,6 +257,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 3,
     logical_coherence: 4,
+    
+    coreAssumption: '通过自由表达思想而不加审查，可以访问无意识内容。',
     school: 'freud',
   },
   {
@@ -249,6 +274,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '梦是通往无意识的皇家之路，梦的内容代表了被压抑的欲望和冲突。',
     school: 'freud',
   },
   {
@@ -268,6 +295,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '患者在治疗中将对重要他人的感情投射到分析师身上。',
     school: 'freud',
   },
   {
@@ -285,6 +314,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '分析师对患者的无意识反应反映了分析师自己的心理冲突。',
     school: 'freud',
   },
   {
@@ -302,6 +333,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '通过解释患者的言语、行为和梦，可以揭示无意识的含义。',
     school: 'freud',
   },
   {
@@ -317,6 +350,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '通过使无意识内容进入意识，可以解决心理问题。',
     school: 'freud',
   },
 
@@ -336,6 +371,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '所有心理事件都有原因，没有随机或偶然的心理现象。',
     school: 'freud',
   },
   {
@@ -353,6 +390,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '儿童对异性父母的无意识性欲望和对同性父母的敌意是人格发展的关键。',
     school: 'freud',
   },
   {
@@ -372,6 +411,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '患者无意识地抵抗治疗过程，以保护自己免受不适的真相。',
     school: 'freud',
   },
   {
@@ -389,6 +430,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '个体被迫重复创伤经历，试图获得对其的控制。',
     school: 'freud',
   },
   {
@@ -406,6 +449,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '表面上无害的记忆实际上掩盖了更深层的、通常是创伤性的记忆。',
     school: 'freud',
   },
 
@@ -423,6 +468,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '多个想法或图像被压缩成一个梦的元素。',
     school: 'freud',
   },
 
@@ -442,6 +489,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '心理能量驱动所有人类行为，既包括性的也包括非性的活动。',
     school: 'freud',
   },
   {
@@ -459,6 +508,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '人类被驱动去追求快乐并避免痛苦。',
     school: 'freud',
   },
   {
@@ -474,6 +525,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 3,
     logical_coherence: 4,
+    
+    coreAssumption: '自我学会延迟满足和考虑现实约束。',
     school: 'freud',
   },
   {
@@ -489,6 +542,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 3,
     logical_coherence: 4,
+    
+    coreAssumption: '超我强制遵守道德标准，即使这意味着放弃快乐。',
     school: 'freud',
   },
   {
@@ -504,6 +559,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '儿童从出生起就具有性的本质，这种幼儿性欲通过不同的阶段发展。',
     school: 'freud',
   },
 
@@ -521,6 +578,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '语言和符号系统构成了现实，并塑造了我们的主体性。',
     school: 'lacan',
   },
   {
@@ -536,6 +595,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '想象的关系和认同是自我形成的基础。',
     school: 'lacan',
   },
   {
@@ -551,6 +612,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '存在一个超越符号和想象的实在，无法被完全表示。',
     school: 'lacan',
   },
   {
@@ -566,6 +629,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '婴儿通过镜像中的形象认同而形成初步的自我。',
     school: 'lacan',
   },
   {
@@ -581,6 +646,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '欲望是由缺失驱动的，永远无法通过满足来解决。',
     school: 'lacan',
   },
   {
@@ -596,6 +663,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '主体因语言进入而产生的基本缺失或不完整感。',
     school: 'lacan',
   },
   {
@@ -623,6 +692,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '想象中的对象，承载了我们的欲望和幻想。',
     school: 'lacan',
   },
   {
@@ -650,6 +721,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '他人作为一个具体的、想象的个体，与大他者相对。',
     school: 'lacan',
   },
   {
@@ -665,6 +738,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '代表意义的符号或标记，其含义由其与其他能指的关系决定。',
     school: 'lacan',
   },
   {
@@ -680,6 +755,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '能指所代表的概念或含义。',
     school: 'lacan',
   },
   {
@@ -695,6 +772,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '能指通过其相互关系形成的网络，产生意义。',
     school: 'lacan',
   },
   {
@@ -710,6 +789,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '主体性通过进入象征秩序而形成，并由语言构成。',
     school: 'lacan',
   },
 
@@ -727,6 +808,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '自体心理学中的自体是人格的中心，由自体客体的照镜功能维持。',
     school: 'kohut',
   },
   {
@@ -742,6 +825,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '他人作为自体的延伸，提供必要的心理功能。',
     school: 'kohut',
   },
   {
@@ -757,6 +842,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '自体客体通过反映和验证个体的经历来促进健康发展。',
     school: 'kohut',
   },
   {
@@ -772,6 +859,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '个体将自体客体理想化，以获得稳定感和安全感。',
     school: 'kohut',
   },
   {
@@ -813,6 +902,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '人格由早期与照顾者的关系塑造，这些关系被内化为内部对象。',
     school: 'klein',
   },
   {
@@ -902,6 +993,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '儿童用来过渡到独立的对象，代表了内部和外部现实之间的桥梁。',
     school: 'winnicott',
   },
   {
@@ -919,6 +1012,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '环境提供安全、支持和照顾，使心理发展成为可能。',
     school: 'winnicott',
   },
   {
@@ -934,6 +1029,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '真实自体代表个体的真实本质和潜力。',
     school: 'winnicott',
   },
   {
@@ -949,6 +1046,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '虚假自体是为了适应环境期望而发展的防御性人格。',
     school: 'winnicott',
   },
 
@@ -966,6 +1065,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '心理容纳涉及一个人能够容纳另一个人的情感和经历。',
     school: 'bion',
   },
   {
@@ -981,6 +1082,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '心理功能将原始感觉经历转化为可思考的内容。',
     school: 'bion',
   },
   {
@@ -996,6 +1099,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '无法被心理化的原始感觉经历，导致心理困扰。',
     school: 'bion',
   },
   {
@@ -1011,6 +1116,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '分析师进入一种开放、接受的心理状态，以理解患者的无意识。',
     school: 'bion',
   },
 
@@ -1040,6 +1147,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '被投入力比多或爱的对象，通常是满足需求的人。',
     school: 'fairbairn',
   },
   {
@@ -1055,6 +1164,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '引起欲望和兴奋的对象，与拒绝对象相对。',
     school: 'fairbairn',
   },
   {
@@ -1070,6 +1181,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '引起愤怒和拒绝的对象，与激发对象相对。',
     school: 'fairbairn',
   },
 
@@ -1089,6 +1202,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '除了个人无意识外，还存在一个由所有人类共享的普遍无意识。',
     school: 'jung',
   },
   {
@@ -1104,6 +1219,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '普遍的原型人物或主题存在于所有人类文化的集体无意识中。',
     school: 'jung',
   },
   {
@@ -1119,6 +1236,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '人格中被压抑或否认的方面，包含我们不愿承认的品质。',
     school: 'jung',
   },
   {
@@ -1134,6 +1253,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '男性包含女性的无意识方面（阿尼玛），女性包含男性的方面（阿尼姆斯）。',
     school: 'jung',
   },
   {
@@ -1151,6 +1272,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 2,
+    
+    coreAssumption: '心理健康涉及整合人格的所有方面，包括无意识的方面。',
     school: 'jung',
   },
   {
@@ -1168,6 +1291,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 1,
     logical_coherence: 1,
+    
+    coreAssumption: '有意义的巧合反映了心理和物理现实之间的深层联系。',
     school: 'jung',
   },
   {
@@ -1183,6 +1308,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 2,
+    
+    coreAssumption: '相关的想法、感情和记忆的集合，通常围绕一个中心主题。',
     school: 'jung',
   },
   {
@@ -1198,6 +1325,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 2,
     logical_coherence: 3,
+    
+    coreAssumption: '人类可以根据他们的心理倾向（内向/外向、思维/感觉等）进行分类。',
     school: 'jung',
   },
   {
@@ -1213,6 +1342,8 @@ export const conceptNodes: ConceptNode[] = [
     
     falsifiability: 3,
     logical_coherence: 3,
+    
+    coreAssumption: '我们向世界展现的公众形象，是社会期望和个人选择的混合。',
     school: 'jung',
   },
 ];
