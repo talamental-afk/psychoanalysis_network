@@ -3,6 +3,7 @@ import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences,
 import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy, Medal } from 'lucide-react';
 import { Link } from 'wouter';
 import { RecommendedReading } from './RecommendedReading';
+import { RatingPanel } from './RatingPanel';
 
 
 interface Node {
@@ -22,6 +23,12 @@ interface Node {
   alternativeNames?: string[];
   translationNotes?: string;
   school?: string;
+  falsifiability?: number;
+  logical_coherence?: number;
+  userRatings?: {
+    falsifiability?: number;
+    logical_coherence?: number;
+  };
 }
 
 // 头像映射
@@ -1266,6 +1273,9 @@ export default function PsychoanalysisNetwork() {
               {selectedNodeRefData.length > 0 && (
                 <RecommendedReading references={selectedNodeRefData} />
               )}
+
+              {/* 评分面板 */}
+              <RatingPanel concept={selectedNodeData} />
 
               <div className="pt-2 border-t border-border">
                 <div className="text-xs font-medium text-muted-foreground mb-2">分类</div>
