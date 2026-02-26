@@ -1089,6 +1089,15 @@ export const conceptLinks: ConceptLink[] = [
   { source: 'object_relations', target: 'transitional_object', type: 'relates', strength: 0.8 },
   { source: 'object_relations', target: 'holding_environment', type: 'relates', strength: 0.8 },
 
+  // 幼儿性欲与性心理发展
+  { source: 'unconscious', target: 'infantile_sexuality', type: 'relates', strength: 0.9 },
+  { source: 'infantile_sexuality', target: 'libido', type: 'manifests', strength: 0.9 },
+  { source: 'infantile_sexuality', target: 'oedipus_complex', type: 'relates', strength: 0.9 },
+  { source: 'infantile_sexuality', target: 'pleasure_principle', type: 'relates', strength: 0.8 },
+  { source: 'id', target: 'infantile_sexuality', type: 'manifests', strength: 0.9 },
+  { source: 'infantile_sexuality', target: 'defense_mechanisms', type: 'relates', strength: 0.8 },
+  { source: 'infantile_sexuality', target: 'psychic_determinism', type: 'relates', strength: 0.7 },
+
   // 防御机制与客体关系
   { source: 'defense_mechanisms', target: 'projective_identification', type: 'relates', strength: 0.8 },
   { source: 'defense_mechanisms', target: 'introjection', type: 'relates', strength: 0.8 },
@@ -1136,6 +1145,7 @@ export const conceptLinks: ConceptLink[] = [
   { source: 'defense_mechanisms', target: 'persona', type: 'relates', strength: 0.7 },
   { source: 'transference', target: 'container_contained', type: 'relates', strength: 0.7 },
   { source: 'symbolic_order', target: 'subjectivity', type: 'relates', strength: 0.8 },
+  { source: 'infantile_sexuality', target: 'true_self', type: 'relates', strength: 0.7 },
 ];
 
 export const references: Reference[] = [
@@ -1314,8 +1324,8 @@ export const references: Reference[] = [
 
 // 为节点添加参考文献关联
 export const nodeReferences: Record<string, string[]> = {
-  unconscious: ['freud-unconscious', 'jung-collective-unconscious'],
-  id: ['freud-ego-defense'],
+  unconscious: ['freud-unconscious', 'freud-interpretation-dreams', 'freud-ego-defense'],
+  id: ['freud-ego-defense', 'freud-interpretation-dreams'],
   ego: ['freud-ego-defense'],
   superego: ['freud-ego-defense'],
   repression: ['freud-interpretation-dreams', 'anna-freud-defense'],
@@ -1344,8 +1354,8 @@ export const nodeReferences: Record<string, string[]> = {
   introjection: ['klein-object-relations'],
   holding_environment: ['winnicott-holding-environment', 'klein-object-relations'],
   transitional_object: ['winnicott-transitional-objects', 'klein-object-relations'],
-  true_self: ['winnicott-true-false-self'],
-  false_self: ['winnicott-true-false-self'],
+  true_self: ['winnicott-true-false-self', 'freud-ego-defense'],
+  false_self: ['winnicott-true-false-self', 'freud-ego-defense'],
   selfobject: ['kohut-selfobject', 'kohut-self-psychology'],
   mirroring: ['kohut-self-psychology'],
   idealization: ['kohut-self-psychology'],
@@ -1356,16 +1366,16 @@ export const nodeReferences: Record<string, string[]> = {
   free_association: ['freud-interpretation-dreams'],
   dream_analysis: ['freud-interpretation-dreams'],
   psychoanalytic_therapy: ['psychoanalytic-therapy'],
-  defense_mechanisms: ['anna-freud-defense'],
-  oedipus_complex: ['freud-interpretation-dreams'],
-  libido: ['freud-interpretation-dreams'],
-  pleasure_principle: ['freud-ego-defense'],
+  defense_mechanisms: ['anna-freud-defense', 'freud-ego-defense'],
+  oedipus_complex: ['freud-interpretation-dreams', 'freud-ego-defense'],
+  libido: ['freud-interpretation-dreams', 'freud-ego-defense'],
+  pleasure_principle: ['freud-ego-defense', 'freud-interpretation-dreams'],
   reality_principle: ['freud-ego-defense'],
   moral_principle: ['freud-ego-defense'],
-  psychic_determinism: ['freud-interpretation-dreams'],
-  infantile_sexuality: ['freud-interpretation-dreams'],
-  resistance: ['transference-countertransference'],
-  interpretation: ['freud-interpretation-dreams'],
+  psychic_determinism: ['freud-interpretation-dreams', 'freud-ego-defense'],
+  infantile_sexuality: ['freud-interpretation-dreams', 'freud-ego-defense'],
+  resistance: ['transference-countertransference', 'freud-interpretation-dreams'],
+  interpretation: ['freud-interpretation-dreams', 'freud-ego-defense'],
   signifier: ['lacan-symbolic-order'],
   signified: ['lacan-symbolic-order'],
   symbolic_chain: ['lacan-symbolic-order'],
