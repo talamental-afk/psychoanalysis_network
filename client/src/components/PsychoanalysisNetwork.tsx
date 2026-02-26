@@ -637,7 +637,7 @@ export default function PsychoanalysisNetwork() {
       
       // 绘制循环论证标签（节点名字下一行）
       const conceptNode = conceptNodes.find(cn => cn.id === node.id);
-      const hasCircularLogic = (conceptNode && conceptNode.hasCircularLogic) || lacanCircularLogic[node.id];
+      const hasCircularLogic = (conceptNode && conceptNode.hasCircularLogic) || lacanCircularLogic[node.id] || freudCircularLogic[node.id] || jungCircularLogic[node.id];
       if (hasCircularLogic) {
         const labelText = '循环论证';
         ctx.font = 'bold 8px Inter';
@@ -895,18 +895,100 @@ export default function PsychoanalysisNetwork() {
     }
   };
 
+
+  // 弗洛伊德概念的循环论证信息
+  const freudCircularLogic: Record<string, any> = {
+    'unconscious': {
+      argumentProcess: '1. 无意识是不可直接观察的 → 2. 我们通过其效果推断无意识存在 → 3. 但无意识的效果是由无意识本身产生的 → 4. 我们不能独立地验证无意识 → 5. 因此无意识是不可验证的',
+      logicalProblem: '无意识是不可直接观察的，但其存在不可验证。我们只能通过推断来认识它，但这个推断本身也是不可验证的。',
+      circularChain: ['无意识定义', '不可直接观察', '推断效果', '效果验证', '回到定义'],
+      academicSignificance: '这个循环反映了无意识概念的核心困境：它是不可验证的，但我们却不能放弃对它的研究。'
+    },
+    'id': {
+      argumentProcess: '1. 本我是原始的欲望源泉 → 2. 本我由本我的需求驱动 → 3. 需求是本我的效果 → 4. 效果应该来自本我 → 5. 回到第1步',
+      logicalProblem: '本我的定义是循环的：本我是欲望的源泉，但欲望本身也是本我的表现。',
+      circularChain: ['本我', '原始欲望', '需求源泉', '本我效果', '回到本我'],
+      academicSignificance: '这个循环反映了本我概念的核心问题：它是一个自我引用的概念。'
+    },
+    'ego': {
+      argumentProcess: '1. 自我是理性的中介 → 2. 自我平衡本我和超我 → 3. 自我的平衡能力是自我的特性 → 4. 但自我的平衡需要自我已经存在 → 5. 自我既是原因也是结果',
+      logicalProblem: '自我的定义是循环的：自我平衡本我和超我，但自我的平衡能力本身需要自我来提供。',
+      circularChain: ['自我', '理性中介', '平衡能力', '自我特性', '回到自我'],
+      academicSignificance: '这个循环反映了自我概念的核心问题：它是一个自我引用的概念。'
+    },
+    'superego': {
+      argumentProcess: '1. 超我是道德标准的内化 → 2. 道德标准来自社会和父母 → 3. 超我通过内化社会价值而形成 → 4. 但社会价值是由超我的个体上表现 → 5. 超我既是原因也是结果',
+      logicalProblem: '超我的形成是循环的：超我是社会价值的内化，但社会价值本身也是由超我的个体上表现的。',
+      circularChain: ['超我', '道德内化', '社会价值', '超我表现', '回到超我'],
+      academicSignificance: '这个循环反映了道德发展理论的核心问题：超我的根源是不清楚的。'
+    },
+    'oedipus_complex': {
+      argumentProcess: '1. 俄狄浦斯情结是男孩对母亲的欲望 → 2. 这种欲望会导致对父亲的惧怕 → 3. 这种惧怕会不可一世地不存在 → 4. 但不可一世的惧怕是由欲望产生的 → 5. 回到第1步',
+      logicalProblem: '俄狄浦斯情结的解释是循环的：惧怕是欲望的结果，但欲望本身也是由惧怕产生的。',
+      circularChain: ['欲望', '惧怕产生', '惧怕不可一世', '欲望结果', '回到欲望'],
+      academicSignificance: '这个循环反映了俄狄浦斯情结理论的核心问题：它的验证是不可验证的。'
+    },
+    'defense_mechanisms': {
+      argumentProcess: '1. 防御机制是自我保护的方式 → 2. 自我会不自觉地使用防御机制 → 3. 但防御机制是不可觉的 → 4. 我们只能通过其效果推断其存在 → 5. 效果本身也是防御机制的表现',
+      logicalProblem: '防御机制的定义是循环的：防御机制是不可觉的，但我们只能通过其不可觉的效果来认识它。',
+      circularChain: ['防御机制', '自我保护', '不可觉效果', '效果推断', '回到防御'],
+      academicSignificance: '这个循环反映了防御机制概念的核心困境：它是不可直接观察的。'
+    },
+    'libido': {
+      argumentProcess: '1. 力比多是精神能量 → 2. 力比多驱动所有人类行为 → 3. 但力比多是不可直接测量的 → 4. 我们只能通过不同行为来推断力比多 → 5. 行为本身也是力比多的表现',
+      logicalProblem: '力比多的定义是循环的：力比多驱动行为，但行为本身也是力比多的表现。',
+      circularChain: ['力比多', '精神能量', '行为驱动', '行为表现', '回到力比多'],
+      academicSignificance: '这个循环反映了力比多概念的核心问题：它是一个不可验证的概念。'
+    }
+  };
+
+  // 荣格概念的循环论证信息
+  const jungCircularLogic: Record<string, any> = {
+    'individuation': {
+      argumentProcess: '1. 自性化是个体化的过程 → 2. 自性化是了解真实的自我 → 3. 真实的自我是由自性化实现的 → 4. 自性化是自我实现的过程 → 5. 回到第1步',
+      logicalProblem: '自性化的定义是循环的：自性化是了解真实的自我，但真实的自我本身也是由自性化定义的。',
+      circularChain: ['自性化', '个体化过程', '真实自我', '自我实现', '回到自性化'],
+      academicSignificance: '这个循环反映了自性化概念的核心问题：它是一个自我引用的概念。'
+    },
+    'persona': {
+      argumentProcess: '1. 人格面具是社会面具 → 2. 社会面具是个体与社会的协商 → 3. 个体的真实自我是由人格面具所隐藏的 → 4. 但真实自我是由人格面具定义的 → 5. 回到第1步',
+      logicalProblem: '人格面具的定义是循环的：人格面具是真实自我的隐藏，但真实自我本身也是由人格面具定义的。',
+      circularChain: ['人格面具', '社会面具', '真实自我', '隐藏关系', '回到人格'],
+      academicSignificance: '这个循环反映了人格面具概念的核心问题：它是一个自我引用的概念。'
+    },
+    'shadow': {
+      argumentProcess: '1. 阴影是被抱弃的自我部分 → 2. 阴影是个体不接受的 → 3. 个体不接受的部分是由阴影定义的 → 4. 阴影是个体的一部分 → 5. 回到第1步',
+      logicalProblem: '阴影的定义是循环的：阴影是被抱弃的部分，但被抱弃的定义本身也是由阴影定义的。',
+      circularChain: ['阴影', '被抱弃部分', '个体不接受', '阴影定义', '回到阴影'],
+      academicSignificance: '这个循环反映了阴影概念的核心问题：它是一个自我引用的概念。'
+    },
+    'anima_animus': {
+      argumentProcess: '1. 阿尼玛/阿尼姆斯是性别的对立面 → 2. 性别是社会构造的 → 3. 社会构造的性别是由阿尼玛/阿尼姆斯定义的 → 4. 阿尼玛/阿尼姆斯是个体的一部分 → 5. 回到第1步',
+      logicalProblem: '阿尼玛/阿尼姆斯的定义是循环的：它们是性别的对立面，但性别本身也是由它们定义的。',
+      circularChain: ['阿尼玛/阿尼姆斯', '性别对立', '社会构造', '对立定义', '回到阿尼玛'],
+      academicSignificance: '这个循环反映了性别概念的核心问题：它是一个社会构造的概念。'
+    },
+    'collective_unconscious': {
+      argumentProcess: '1. 集体无意识是不可直接观察的 → 2. 我们通过各种文化中的相似性推断其存在 → 3. 但文化相似性也可能来自其他因素 → 4. 我们不能根据相似性验证集体无意识 → 5. 回到第1步',
+      logicalProblem: '集体无意识是不可验证的：它是不可直接观察的，但我们却不能放弃对它的研究。',
+      circularChain: ['集体无意识', '不可直接观察', '相似性推断', '验证不了', '回到不可观察'],
+      academicSignificance: '这个循环反映了集体无意识概念的核心问题：它是一个不可验证的概念。'
+    }
+  };
+
   let selectedNodeData = selectedNode ? conceptNodes.find((n) => n.id === selectedNode) : null;
   
-  // 为拉康概念添加循环论证信息
-  if (selectedNodeData && lacanCircularLogic[selectedNode!]) {
+  // 为拉康、弗洛伊德、荣格概念添加循环论证信息
+  if (selectedNodeData && (lacanCircularLogic[selectedNode!] || freudCircularLogic[selectedNode!] || jungCircularLogic[selectedNode!])) {
     selectedNodeData = {
       ...selectedNodeData,
       hasCircularLogic: true,
       circularLogicExplanation: selectedNodeData.circularLogicExplanation || '该概念存在循环论证问题。',
-      ...lacanCircularLogic[selectedNode!]
+      ...(lacanCircularLogic[selectedNode!] || freudCircularLogic[selectedNode!] || jungCircularLogic[selectedNode!])
     };
   }
   const selectedNodeReferences = selectedNode && nodeReferences[selectedNode] ? nodeReferences[selectedNode] : [];
+
   const selectedNodeRefData = selectedNodeReferences.map(refId => references.find(r => r.id === refId)).filter(Boolean) as Reference[];
   const hoveredLinkData = hoveredLink ? {
     source: conceptNodes.find((n) => n.id === hoveredLink.source),
