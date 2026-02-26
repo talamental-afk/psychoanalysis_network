@@ -108,13 +108,7 @@ export function RatingPanel({ concept }: RatingPanelProps) {
         </p>
       </div>
 
-      {/* 循环论证警示 */}
-      {concept.hasCircularLogic && (
-        <div className="p-3 bg-red-900/20 border border-red-700/50 rounded-lg mt-3">
-          <p className="text-sm text-red-300 font-semibold mb-2">⚠️ 循环论证警告</p>
-          <p className="text-xs text-red-200 leading-relaxed">{concept.circularLogicExplanation}</p>
-        </div>
-      )}
+
     </div>
   );
 }
