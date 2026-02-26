@@ -1,62 +1,66 @@
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ConceptNode } from '../../../psychoanalysis_data';
 
 interface SchoolPerspectivesProps {
-  concept: {
-    name: string;
-    schoolPerspectives?: Record<string, string>;
-  };
+  concept: ConceptNode | null;
 }
 
-export function SchoolPerspectives({ concept }: SchoolPerspectivesProps) {
-  const [expandedSchools, setExpandedSchools] = useState<Set<string>>(new Set());
+const schoolLabels: Record<string, string> = {
+  'freud': '弗洛伊德',
+  'lacan': '拉康',
+  'jung': '荣格',
+  'klein': '克莱因',
+  'kohut': '科胡特',
+  'winnicott': '温尼科特',
+  'bion': '比昂',
+  'fairbairn': '费尔贝恩',
+  'saussure': '索绪尔'
+};
 
-  if (!concept.schoolPerspectives || Object.keys(concept.schoolPerspectives).length === 0) {
+const schoolColors: Record<string, string> = {
+  'freud': '#FF6B6B',
+  'lacan': '#4ECDC4',
+  'jung': '#95E1D3',
+  'klein': '#F38181',
+  'kohut': '#AA96DA',
+  'winnicott': '#FCBAD3',
+  'bion': '#A8D8EA',
+  'fairbairn': '#FFD3B6',
+  'saussure': '#FFAAA5'
+};
+
+export function SchoolPerspectives({ concept }: SchoolPerspectivesProps) {
+  const [expandedSchool, setExpandedSchool] = useState<string | null>(null);
+
+  if (!concept || !concept.schoolPerspectives || Object.keys(concept.schoolPerspectives).length === 0) {
     return null;
   }
 
-  const toggleSchool = (school: string) => {
-    const newExpanded = new Set(expandedSchools);
-    if (newExpanded.has(school)) {
-      newExpanded.delete(school);
-    } else {
-      newExpanded.add(school);
-    }
-    setExpandedSchools(newExpanded);
-  };
-
-  const schoolLabels: Record<string, string> = {
-    freud: '弗洛伊德',
-    lacan: '拉康',
-    jung: '荣格',
-    klein: '克莱因',
-    winnicott: '温尼科特',
-    bion: '比昂',
-    fairbairn: '费尔贝恩',
-    kohut: '科胡特'
-  };
+  const perspectives = concept.schoolPerspectives;
 
   return (
-    <div className="p-4 border-t border-gray-700 space-y-2">
-      <h4 className="text-sm font-semibold text-gray-300">🎓 学派对标</h4>
+    <div className="p-4 border-t border-gray-700 space-y-3">
+      <h4 className="text-sm font-semibold text-gray-300">🏫 学派对标</h4>
       <div className="space-y-2">
-        {Object.entries(concept.schoolPerspectives).map(([school, perspective]) => (
-          <div key={school} className="border border-gray-600/30 rounded">
+        {Object.entries(perspectives).map(([school, perspective]) => (
+          <div key={school} className="space-y-1">
             <button
-              onClick={() => toggleSchool(school)}
-              className="w-full flex items-center justify-between p-2 hover:bg-gray-800/30 transition-colors"
+              onClick={() => setExpandedSchool(expandedSchool === school ? null : school)}
+              className="w-full flex items-center justify-between px-3 py-2 rounded bg-gray-800/50 hover:bg-gray-800 transition-colors"
+              style={{
+                borderLeft: `3px solid ${schoolColors[school] || '#666'}`
+              }}
             >
-              <span className="text-xs font-medium text-gray-300">
+              <span className="text-sm font-medium text-gray-200">
                 {schoolLabels[school] || school}
               </span>
-              <ChevronDown
-                className={`w-4 h-4 text-gray-500 transition-transform ${
-                  expandedSchools.has(school) ? 'rotate-180' : ''
-                }`}
-              />
+              <span className="text-xs text-gray-400">
+                {expandedSchool === school ? '▼' : '▶'}
+              </span>
             </button>
-            {expandedSchools.has(school) && (
-              <div className="px-3 py-2 bg-gray-800/20 border-t border-gray-600/30 text-xs text-gray-300 leading-relaxed">
+            
+            {expandedSchool === school && (
+              <div className="px-3 py-2 bg-gray-900/50 rounded text-xs text-gray-300 leading-relaxed">
                 {perspective}
               </div>
             )}
