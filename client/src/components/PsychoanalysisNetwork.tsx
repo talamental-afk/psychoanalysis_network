@@ -1289,10 +1289,6 @@ export default function PsychoanalysisNetwork() {
                 </div>
               )}
 
-              {selectedNodeRefData.length > 0 && (
-                <RecommendedReading references={selectedNodeRefData} />
-              )}
-
               {/* 核心假设 */}
               {selectedNodeData.coreAssumption && (
                 <div className="p-4 border-t border-gray-700 space-y-2">
@@ -1308,6 +1304,10 @@ export default function PsychoanalysisNetwork() {
 
               {/* 评分面板 */}
               <RatingPanel concept={selectedNodeData} />
+
+              {selectedNodeRefData.length > 0 && (
+                <RecommendedReading references={selectedNodeRefData} />
+              )}
 
               <div className="pt-2 border-t border-border">
                 <div className="text-xs font-medium text-muted-foreground mb-2">分类</div>
