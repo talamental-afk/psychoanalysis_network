@@ -4,6 +4,7 @@ import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy, Medal } f
 import { Link } from 'wouter';
 import { RecommendedReading } from './RecommendedReading';
 import { RatingPanel } from './RatingPanel';
+import { AssumptionChainTracer } from './AssumptionChainTracer';
 
 
 interface Node {
@@ -1284,6 +1285,11 @@ export default function PsychoanalysisNetwork() {
                   <p className="text-sm text-gray-400 leading-relaxed">{selectedNodeData.coreAssumption}</p>
                 </div>
               )}
+
+              {/* 假设链追踪 */}
+              <div className="p-4 border-t border-gray-700">
+                <AssumptionChainTracer conceptId={selectedNodeData.id} onConceptClick={setSelectedNode} />
+              </div>
 
               <div className="pt-2 border-t border-border">
                 <div className="text-xs font-medium text-muted-foreground mb-2">分类</div>
