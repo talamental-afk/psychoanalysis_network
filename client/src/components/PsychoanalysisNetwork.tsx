@@ -75,6 +75,7 @@ export default function PsychoanalysisNetwork() {
   const [nodeOffsets, setNodeOffsets] = useState<Record<string, {x: number; y: number}>>({});
   const [sidebarTab, setSidebarTab] = useState<'achievements' | 'details'>('details');
   const [expandedPanels, setExpandedPanels] = useState<Set<string>>(new Set(['school', 'assumption', 'chain', 'rating', 'reading']));
+  const [expandedCircularLogic, setExpandedCircularLogic] = useState<Set<string>>(new Set());
 
   const togglePanel = (panelId: string) => {
     const newExpanded = new Set(expandedPanels);
@@ -87,6 +88,18 @@ export default function PsychoanalysisNetwork() {
   };
 
   const isPanelExpanded = (panelId: string) => expandedPanels.has(panelId);
+
+  const toggleCircularLogic = (conceptId: string) => {
+    const newExpanded = new Set(expandedCircularLogic);
+    if (newExpanded.has(conceptId)) {
+      newExpanded.delete(conceptId);
+    } else {
+      newExpanded.add(conceptId);
+    }
+    setExpandedCircularLogic(newExpanded);
+  };
+
+  const isCircularLogicExpanded = (conceptId: string) => expandedCircularLogic.has(conceptId);
 
   // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
@@ -1298,53 +1311,66 @@ export default function PsychoanalysisNetwork() {
               )}
 
               {selectedNodeData.hasCircularLogic && selectedNodeData.circularLogicExplanation && (
-                <div className="bg-red-500/10 border border-red-500/30 rounded p-4 space-y-3">
-                  <div className="text-xs font-medium text-red-500 mb-2">⚠️ 循环论证警示</div>
-                  <div className="text-xs text-red-400/90 leading-relaxed">{selectedNodeData.circularLogicExplanation}</div>
-                  
-                  {/* 论证过程 */}
-                  {selectedNodeData.argumentProcess && (
-                    <div className="border-t border-red-500/20 pt-3">
-                      <div className="text-xs font-medium text-red-500 mb-2">📋 论证过程</div>
-                      <div className="text-xs text-red-400/80 leading-relaxed">{selectedNodeData.argumentProcess}</div>
+                <div className="bg-red-500/10 border border-red-500/30 rounded p-4">
+                  <button
+                    onClick={() => toggleCircularLogic(selectedNode)}
+                    className="w-full flex items-center justify-between hover:opacity-80 transition-opacity"
+                  >
+                    <div className="text-xs font-medium text-red-500 flex items-center gap-2">
+                      <span>⚠️ 循环论证警示</span>
                     </div>
-                  )}
+                    <span className="text-red-500">{isCircularLogicExpanded(selectedNode) ? '▼' : '▶'}</span>
+                  </button>
                   
-                  {/* 逻辑问题 */}
-                  {selectedNodeData.logicalProblem && (
-                    <div className="border-t border-red-500/20 pt-3">
-                      <div className="text-xs font-medium text-red-500 mb-2">🔴 逻辑问题</div>
-                      <div className="text-xs text-red-400/80 leading-relaxed">{selectedNodeData.logicalProblem}</div>
-                    </div>
-                  )}
-                  
-                  {/* 循环链 */}
-                  {selectedNodeData.circularChain && selectedNodeData.circularChain.length > 0 && (
-                    <div className="border-t border-red-500/20 pt-3">
-                      <div className="text-xs font-medium text-red-500 mb-2">🔄 循环链</div>
-                      <div className="flex flex-col gap-2">
-                        {selectedNodeData.circularChain.map((step, idx) => (
-                          <div key={idx} className="flex items-start gap-2">
-                            <span className="text-red-500 font-bold mt-0.5">{idx + 1}.</span>
-                            <span className="text-xs text-red-400/80">{step}</span>
-                            {idx < selectedNodeData.circularChain.length - 1 && (
-                              <span className="text-red-500 ml-auto">↓</span>
-                            )}
-                          </div>
-                        ))}
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="text-red-500 font-bold">↻</span>
-                          <span className="text-xs text-red-400/80 italic">回到第1步</span>
+                  {isCircularLogicExpanded(selectedNode) && (
+                    <div className="mt-3 space-y-3">
+                      <div className="text-xs text-red-400/90 leading-relaxed">{selectedNodeData.circularLogicExplanation}</div>
+                      
+                      {/* 论证过程 */}
+                      {selectedNodeData.argumentProcess && (
+                        <div className="border-t border-red-500/20 pt-3">
+                          <div className="text-xs font-medium text-red-500 mb-2">📋 论证过程</div>
+                          <div className="text-xs text-red-400/80 leading-relaxed">{selectedNodeData.argumentProcess}</div>
                         </div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* 学术意义 */}
-                  {selectedNodeData.academicSignificance && (
-                    <div className="border-t border-red-500/20 pt-3">
-                      <div className="text-xs font-medium text-red-500 mb-2">💡 学术意义</div>
-                      <div className="text-xs text-red-400/80 leading-relaxed">{selectedNodeData.academicSignificance}</div>
+                      )}
+                      
+                      {/* 逻辑问题 */}
+                      {selectedNodeData.logicalProblem && (
+                        <div className="border-t border-red-500/20 pt-3">
+                          <div className="text-xs font-medium text-red-500 mb-2">🔴 逻辑问题</div>
+                          <div className="text-xs text-red-400/80 leading-relaxed">{selectedNodeData.logicalProblem}</div>
+                        </div>
+                      )}
+                      
+                      {/* 循环链 */}
+                      {selectedNodeData.circularChain && selectedNodeData.circularChain.length > 0 && (
+                        <div className="border-t border-red-500/20 pt-3">
+                          <div className="text-xs font-medium text-red-500 mb-2">🔄 循环链</div>
+                          <div className="flex flex-col gap-2">
+                            {selectedNodeData.circularChain.map((step, idx) => (
+                              <div key={idx} className="flex items-start gap-2">
+                                <span className="text-red-500 font-bold mt-0.5">{idx + 1}.</span>
+                                <span className="text-xs text-red-400/80">{step}</span>
+                                {idx < selectedNodeData.circularChain.length - 1 && (
+                                  <span className="text-red-500 ml-auto">↓</span>
+                                )}
+                              </div>
+                            ))}
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-red-500 font-bold">↻</span>
+                              <span className="text-xs text-red-400/80 italic">回到第1步</span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* 学术意义 */}
+                      {selectedNodeData.academicSignificance && (
+                        <div className="border-t border-red-500/20 pt-3">
+                          <div className="text-xs font-medium text-red-500 mb-2">💡 学术意义</div>
+                          <div className="text-xs text-red-400/80 leading-relaxed">{selectedNodeData.academicSignificance}</div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
