@@ -1322,7 +1322,6 @@ export const references: Reference[] = [
   { source: 'true_self', target: 'selfobject', type: 'relates', strength: 0.7 },
   { source: 'reverie', target: 'empathy', type: 'relates', strength: 0.8 },
 
-,
   // 温尼科特概念与现有网络的连接
   { source: 'holding_environment', target: 'mother_complex', type: 'relates', strength: 0.8 },
   { source: 'transitional_object', target: 'object_relations', type: 'manifests', strength: 0.9 },
