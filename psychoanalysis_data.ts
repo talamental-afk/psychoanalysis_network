@@ -378,6 +378,13 @@ export const conceptNodes: ConceptNode[] = [
     category: 'therapy',
     level: 2,
     color: '#10B981',
+    hasCircularLogic: true,
+    circularLogicExplanation: '梦的分析是精神分析的重要技术，但梦的含义是由分析师解释的。不同的分析师可能给出不同的解释，都声称反映了患者的无意识。',
+    argumentProcess: '弗洛伊德论证：(1)梦是无意识的表现；(2)通过分析梦可以理解无意识；(3)分析师的解释证明了梦的含义。',
+    logicalProblem: '但梦的含义是由分析师解释的，而不是客观的。不同的分析师可能给出不同的解释，都声称反映了患者的无意识。',
+    circularChain: ['梦是无意识表现', '分析师解释梦', '患者接受解释', '接受证实解释'],
+    academicSignificance: '这个循环论证表明，梦的分析在很大程度上依赖于分析师的主观解释。',
+    
     
     falsifiability: 1,
     logical_coherence: 2,
@@ -726,6 +733,13 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '现实原则是自我遵循的原则，但其定义过于宽泛。任何理性行为都可以被解释为遵循现实原则，使得理论难以被证伪。',
+    argumentProcess: '弗洛伊德论证：(1)自我遵循现实原则；(2)现实原则指考虑现实约束；(3)个体的理性行为证明了现实原则的存在。',
+    logicalProblem: '但理性行为也可能来自学习或本能，而不是遵循现实原则。现实原则本身是一个模糊的概念。',
+    circularChain: ['定义现实原则', '观察到理性行为', '用原则解释行为', '行为证实原则'],
+    academicSignificance: '这个循环论证说明了现实原则是一个难以独立验证的概念。',
+    
     
     falsifiability: 3,
     logical_coherence: 4,
@@ -743,6 +757,13 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '道德原则是超我遵循的原则，但超我的存在本身是无法直接观察的。任何道德行为都可以被解释为超我的作用。',
+    argumentProcess: '弗洛伊德论证：(1)超我遵循道德原则；(2)道德原则指内化的道德标准；(3)个体的道德行为证明了超我的存在。',
+    logicalProblem: '但道德行为也可能来自社会学习或理性思考，而不是超我。超我的存在本身是无法直接观察的。',
+    circularChain: ['定义道德原则', '观察到道德行为', '用超我解释行为', '行为证实超我'],
+    academicSignificance: '这个循环论证表明，超我和道德原则是难以独立验证的心理结构。',
+    
     
     falsifiability: 3,
     logical_coherence: 4,
@@ -1061,6 +1082,13 @@ export const conceptNodes: ConceptNode[] = [
     category: 'self_psychology',
     level: 2,
     color: '#10B981',
+    hasCircularLogic: true,
+    circularLogicExplanation: '镜像反映是科胡特理论中的关键概念，但其论证存在循环性：定义为他人的认可和反映，然后用个体的健康发展来证明镜像反映的存在。这个过程中，我们无法独立验证镜像反映的存在，只能通过其假设的结果来推断。',
+    argumentProcess: '科胡特论证：(1)自体需要他人的镜像反映；(2)镜像反映导致健康的自体感；(3)健康的自体感证明了镜像反映的存在。',
+    logicalProblem: '但健康的自体感也可能来自其他因素（如遗传、环保境）。镜像反映的过程本身是无法直接观察的，我们只能通过结果来推断。',
+    circularChain: ['自体需要镜像', '定义为他人反映', '自体感发展', '发展成为镜像反映的证据'],
+    academicSignificance: '这个循环论证说明了科胡特理论中，镜像反映是一个难以独立验证的概念。',
+    
     
     falsifiability: 2,
     logical_coherence: 3,
@@ -1144,6 +1172,13 @@ export const conceptNodes: ConceptNode[] = [
     category: 'object_relations',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '客体关系理论强调内部客体的作用，但这些客体是不可观察的。任何人格特征都可以被解释为内部客体的结果，这使得理论无法被证伪。',
+    argumentProcess: '客体关系论证：(1)人格由早期关系塑造；(2)这些关系被内化为内部客体；(3)内部客体的存在解释了人格特征。',
+    logicalProblem: '但内部客体是不可观察的。我们如何知道它们是否真的存在？任何人格特征都可以被解释为内部客体的结果。',
+    circularChain: ['早期关系', '内化为客体', '塑造人格', '人格特征证实客体'],
+    academicSignificance: '这个循环论证表明，客体关系理论中的内部客体是一个无法被证伪的假设。',
+    
     
     falsifiability: 2,
     logical_coherence: 2,
@@ -1197,6 +1232,13 @@ export const conceptNodes: ConceptNode[] = [
     category: 'object_relations',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '投射认同是克莱因提出的防御机制，但其过程是无法直接观察的。我们只能通过他人的行为改变来推断投射认同的存在，这形成了一个循环论证。',
+    argumentProcess: '克莱因论证：(1)个体将自己的部分投射到他人；(2)他人因此改变了行为；(3)他人的改变证明了投射认同的存在。',
+    logicalProblem: '但他人的行为改变也可能有其他原因。投射认同的过程本身是无法直接观察的，我们只能通过推断来确认。',
+    circularChain: ['个体投射', '他人接纳', '他人行为改变', '改变证实投射认同'],
+    academicSignificance: '这个循环论证说明了投射认同是一个难以独立验证的防御机制。',
+    
     school: 'klein',
   },
   {
@@ -1227,6 +1269,13 @@ export const conceptNodes: ConceptNode[] = [
     category: 'object_relations',
     level: 2,
     color: '#F59E0B',
+    hasCircularLogic: true,
+    circularLogicExplanation: '偏执-分裂位置是克莱因的发展阶段理论，但我们无法直接观察婴儿的心理位置。任何婴儿的行为都可以被解释为这个位置的表现，使得理论难以被证伪。',
+    argumentProcess: '克莱因论证：(1)婴儿处于偏执-分裂位置；(2)婴儿使用分裂和投射认同；(3)婴儿的行为表现出这些防御机制。',
+    logicalProblem: '但婴儿的行为也可能有其他解释。我们无法直接观察婴儿的心理位置，只能通过推断来确认。',
+    circularChain: ['假设偏执-分裂位置', '观察到分裂行为', '用位置解释行为', '行为证实位置'],
+    academicSignificance: '这个循环论证表明，克莱因的发展阶段理论中，心理位置是一个难以独立验证的概念。',
+    
     school: 'klein',
   },
   {
@@ -1370,6 +1419,13 @@ export const conceptNodes: ConceptNode[] = [
     category: 'object_relations',
     level: 3,
     color: '#F87171',
+    hasCircularLogic: true,
+    circularLogicExplanation: '比昂的容器-被容纳物理论描述了分析师与患者之间的关系，但心理容纳的过程是无法直接观察的。患者的改变可能有多种原因，不一定是心理容纳的结果。',
+    argumentProcess: '比昂论证：(1)分析师是容器，患者是被容纳物；(2)分析师进行心理消化；(3)患者的改变证明了容纳过程的存在。',
+    logicalProblem: '但患者的改变也可能来自其他因素。心理消化的过程本身是无法直接观察的，我们只能通过结果来推断。',
+    circularChain: ['患者投射', '分析师容纳', '心理消化假设', '患者改变证实容纳'],
+    academicSignificance: '这个循环论证说明了比昂理论中，心理容纳是一个无法被证伪的过程。',
+    
     
     falsifiability: 1,
     logical_coherence: 1,
@@ -1545,6 +1601,11 @@ export const conceptNodes: ConceptNode[] = [
     logical_coherence: 2,
     
     coreAssumption: '普遍的原型人物或主题存在于所有人类文化的集体无意识中。',
+    hasCircularLogic: true,
+    circularLogicExplanation: '原型是荣格理论中的核心概念，但其存在无法直接证明。文化中的相似主题可能来自多种原因，不一定是原型。任何文化现象都可以被解释为原型的表现。',
+    argumentProcess: '荣格论证：(1)世界各地文化中有相似的人物形象和主题；(2)这些相似性说明存在普遍的原型；(3)原型存在解释了这些相似性。',
+    logicalProblem: '但相似的文化主题也可能来自历史接触、相似的环境条件或人类共同的心理需求。我们无法直接观察原型，只能通过文化现象来推断。',
+    circularChain: ['文化相似性', '推断原型存在', '原型解释相似性', '回到第1步'],
     school: 'jung',
   },
   {
@@ -1608,6 +1669,13 @@ export const conceptNodes: ConceptNode[] = [
     category: 'phenomena',
     level: 4,
     color: '#EC4899',
+    hasCircularLogic: true,
+    circularLogicExplanation: '自性化是荣格提出的心理发展目标，但其定义过于宽泛。任何心理变化都可以被解释为自性化过程的一部分，使得理论无法被证伪。',
+    argumentProcess: '荣格论证：(1)自性化是心理发展的目标；(2)自性化涉及整合所有心理方面；(3)心理健康的人实现了自性化。',
+    logicalProblem: '但什么是"整合所有方面"？这个目标本身是模糊的。任何心理状态都可以被解释为自性化过程的一部分。',
+    circularChain: ['定义自性化目标', '整合心理方面', '观察到改变', '改变证实自性化'],
+    academicSignificance: '这个循环论证说明了自性化是一个难以明确定义和验证的概念。',
+    
     alternativeNames: ['个性化', '个体化'],
     translationNotes: '自性化是最常用的中文翻译，个性化是较旧的翻译。自性化更体现了对真实自我的追求。',
     
