@@ -1290,6 +1290,9 @@ export default function PsychoanalysisNetwork() {
                 </div>
               )}
 
+              {/* 学派对标 */}
+              <SchoolPerspectives concept={selectedNodeData} />
+
               {/* 核心假设 */}
               {selectedNodeData.coreAssumption && (
                 <div className="p-4 border-t border-gray-700 space-y-2">
@@ -1297,9 +1300,6 @@ export default function PsychoanalysisNetwork() {
                   <p className="text-sm text-gray-400 leading-relaxed">{selectedNodeData.coreAssumption}</p>
                 </div>
               )}
-
-              {/* 学派对标 */}
-              <SchoolPerspectives concept={selectedNodeData} />
 
               {/* 假设链追踪 */}
               <div className="p-4 border-t border-gray-700">
