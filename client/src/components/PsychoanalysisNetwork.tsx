@@ -4,6 +4,7 @@ import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy, Medal } f
 import { Link } from 'wouter';
 import { RecommendedReading } from './RecommendedReading';
 import { RatingPanel } from './RatingPanel';
+import { TheoryQualityHeatmap } from './TheoryQualityHeatmap';
 
 
 interface Node {
@@ -924,6 +925,17 @@ export default function PsychoanalysisNetwork() {
                   </div>
                 </div>
               ))}
+            </div>
+          </details>
+
+          {/* 理论质量分布 */}
+          <details className="group border-t border-border">
+            <summary className="cursor-pointer font-semibold text-sm text-foreground hover:text-primary transition-colors flex items-center gap-2 px-4 py-3 select-none">
+              <ChevronRight className="w-4 h-4 group-open:rotate-90 transition-transform" />
+              理论质量分布
+            </summary>
+            <div className="px-4 pb-4 border-t border-border pt-3">
+              <TheoryQualityHeatmap onConceptClick={(id) => setSelectedNode(id)} />
             </div>
           </details>
 
