@@ -1036,7 +1036,16 @@ export default function PsychoanalysisNetwork() {
           onClick={handleClick}
           onMouseDown={(e) => {
             handleCanvasMouseDown(e);
-            if (e.button === 2 || (e.button === 0 && e.ctrlKey)) {
+            // 左键点击空白区域可以拖拽，右键也可以拖拽
+            if (e.button === 2 || (e.button === 0 && !nodes.some(node => {
+              const rect = canvasRef.current?.getBoundingClientRect();
+              if (!rect) return false;
+              const x = (e.clientX - rect.left - (canvasSize.width / 2 + pan.x)) / scale;
+              const y = (e.clientY - rect.top - (canvasSize.height / 2 + pan.y)) / scale;
+              const dx = node.x - x;
+              const dy = node.y - y;
+              return Math.hypot(dx, dy) < 25;
+            }))) {
               setIsPanning(true);
               setPanStart({ x: e.clientX, y: e.clientY });
             }
