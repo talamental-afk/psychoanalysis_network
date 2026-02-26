@@ -3,6 +3,7 @@ import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences,
 import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy, Medal } from 'lucide-react';
 import { Link } from 'wouter';
 import { RecommendedReading } from './RecommendedReading';
+import { SchoolPerspectives } from './SchoolPerspectives';
 
 
 interface Node {
@@ -195,6 +196,7 @@ export default function PsychoanalysisNetwork() {
 
   // 计算动态间距
   const calculateDynamicSpacing = (node: any) => {
+    if (!node || !node.name) return 0;
     const nameLength = node.name.length;
     const lengthBonus = Math.max(0, (nameLength - 3) * 8);
     return lengthBonus;
@@ -1362,6 +1364,67 @@ export default function PsychoanalysisNetwork() {
 
         </div>
       )}
+    </div>
+  );
+}
+
+// 假设链追踪组件
+function AssumptionChainTracer({ conceptId, onConceptClick, onPathHighlight }: any) {
+  return (
+    <div className="text-xs text-muted-foreground">
+      <div className="font-medium mb-2">假设链追踪</div>
+      <div className="text-gray-400">功能已集成到主组件中</div>
+    </div>
+  );
+}
+
+// 评分面板组件
+function RatingPanel({ concept }: any) {
+  return (
+    <div className="p-4 border-t border-gray-700 space-y-2">
+      <h4 className="text-sm font-semibold text-gray-300">⭐ 理论评估</h4>
+      <div className="space-y-2">
+        <div>
+          <div className="text-xs text-gray-400 mb-1">可证伪性: {concept.falsifiability || 0}/5</div>
+          <div className="w-full bg-gray-700 rounded-full h-2">
+            <div
+              className="bg-blue-500 h-2 rounded-full"
+              style={{ width: `${(concept.falsifiability || 0) * 20}%` }}
+            />
+          </div>
+        </div>
+        <div>
+          <div className="text-xs text-gray-400 mb-1">逻辑自洽性: {concept.logical_coherence || 0}/5</div>
+          <div className="w-full bg-gray-700 rounded-full h-2">
+            <div
+              className="bg-green-500 h-2 rounded-full"
+              style={{ width: `${(concept.logical_coherence || 0) * 20}%` }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 争议组件
+function Controversies({ controversies }: any) {
+  if (!controversies || controversies.length === 0) return null;
+
+  return (
+    <div className="p-4 border-t border-gray-700 space-y-2">
+      <h4 className="text-sm font-semibold text-gray-300">🔍 相关争议</h4>
+      <div className="space-y-2">
+        {controversies.map((item: any, idx: number) => (
+          <div key={idx} className="text-xs bg-gray-800/30 p-2 rounded border border-gray-600/30">
+            <div className="font-medium text-red-400 mb-1">批评: {item.criticism}</div>
+            {item.source && <div className="text-gray-400 mb-1">来源: {item.source}</div>}
+            {item.counterargument && (
+              <div className="text-green-400">回应: {item.counterargument}</div>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
