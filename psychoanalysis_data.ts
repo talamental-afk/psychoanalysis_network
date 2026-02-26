@@ -93,6 +93,8 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '人类最原始的部分由本能冲动组成，这些冲动不受理性或道德约束。',
     school: 'freud',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：本我通过欲望驱动人的行为，但我们识别本我的方式就是通过观察这些欲望驱动的行为，形成循环定义。',
   },
   {
     id: 'ego',
@@ -110,6 +112,13 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '理性的自我能够调解本我的冲动与超我的道德要求，实现适应性行为。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为自我是现实原则的代表，在本我和超我之间进行调节。',
+    'lacan': '拉康强调自我是想象界的产物，是一种虚幻的统一体。',
+    'winnicott': '温尼科特强调真实自体与虚假自体的区分。',
+    'klein': '克莱因认为自我从婴幼儿期就开始形成。',
+    'jung': '荣格认为自我是意识的中心，需要与无意识对话。'
+    },
   },
   {
     id: 'superego',
@@ -127,6 +136,13 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '道德良知是通过内化父母和社会价值观而形成的，驱动我们追求理想和道德。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为超我代表道德和社会规范。',
+    'lacan': '拉康将超我与象征界的法则联系起来。',
+    'klein': '克莱因强调超我的形成与内部父母意象有关。',
+    'winnicott': '温尼科特强调真实的道德感来自内化的照顾者。',
+    'bion': '比昂认为超我的形成与心理容纳的失败有关。'
+    },
   },
 
   // 第二层：防御机制
@@ -172,6 +188,14 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '个体拒绝承认令人不安的现实或事实，以保护自己免受焦虑。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为否认是拒绝接受不愉快的现实。',
+    'lacan': '拉康强调否认涉及对象征秩序的拒绝。',
+    'klein': '克莱因强调否认是最原始的防御机制之一。',
+    'winnicott': '温尼科特强调否认可能阻碍心理成长。'
+    },
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：否认是对不愉快现实的拒绝，但否认本身的存在只能通过观察人们对现实的否认来推断，形成循环。',
   },
   {
     id: 'projection',
@@ -189,6 +213,14 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '个体将自己的不可接受的冲动或特征归因于他人。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为投射是将自己的特质归因于他人。',
+    'klein': '克莱因强调投射是最原始的防御机制。',
+    'lacan': '拉康强调投射与想象界的虚幻性有关。',
+    'winnicott': '温尼科特强调过度投射可能阻碍真实的人际关系。'
+    },
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：投射是将自己的特质归因于他人，但我们识别投射的方式就是观察人们对他人的描述与他们自己的特质的相似性。',
   },
   {
     id: 'displacement',
@@ -206,6 +238,12 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '对一个对象的情感被转移到另一个更安全的对象上。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为移位是将情感从真实对象转移到替代对象。',
+    'lacan': '拉康强调移位与语言的修辞相似。',
+    'klein': '克莱因强调移位涉及内部客体的转移。',
+    'bion': '比昂强调移位涉及β元素的转化。'
+    },
   },
   {
     id: 'sublimation',
@@ -223,6 +261,12 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '本能冲动被转化为社会上可接受的活动，如艺术或学术追求。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为升华是将本能冲动转化为社会上可接受的活动。',
+    'lacan': '拉康强调升华与象征秩序中的创意表达有关。',
+    'klein': '克莱因强调升华涉及对内部冲突的创意处理。',
+    'winnicott': '温尼科特强调升华与真实自体的创意表达有关。'
+    },
   },
   {
     id: 'rationalization',
@@ -240,6 +284,14 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '个体为自己的行为或信念提供看似合理的解释，而不是真实原因。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为理性化是为无意识的动机提供合理的解释。',
+    'lacan': '拉康强调理性化与象征秩序的虚幻性有关。',
+    'klein': '克莱因强调理性化可能掩盖深层的焦虑。',
+    'winnicott': '温尼科特强调过度理性化可能导致真实自体的丧失。'
+    },
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：理性化是为无意识动机提供合理解释，但无意识动机的存在本身只能通过理性化的解释来推断。',
   },
   {
     id: 'defense_mechanisms',
@@ -278,6 +330,8 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '通过自由表达思想而不加审查，可以访问无意识内容。',
     school: 'freud',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：自由联想被认为能够绕过防御机制，但防御机制的存在本身只能通过自由联想中的阻碍来推断。',
   },
   {
     id: 'dream_analysis',
@@ -295,6 +349,13 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '梦是通往无意识的皇家之路，梦的内容代表了被压抑的欲望和冲突。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为梦是无意识的皇家之路，包含隐显内容。',
+    'lacan': '拉康强调梦的结构与语言的修辞相似。',
+    'jung': '荣格认为梦具有补偿功能，能够平衡意识的单面性。',
+    'klein': '克莱因强调梦中的幻想与内部客体关系。',
+    'bion': '比昂强调梦作为心理工作的结果。'
+    },
   },
   {
     id: 'transference',
@@ -361,6 +422,13 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '通过解释患者的言语、行为和梦，可以揭示无意识的含义。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为解释是分析师将无意识内容转化为意识的工具。',
+    'lacan': '拉康强调解释涉及象征秩序的重新排列。',
+    'klein': '克莱因强调解释需要考虑内部客体关系。',
+    'winnicott': '温尼科特强调解释的时机和方式的重要性。',
+    'bion': '比昂强调解释需要基于分析师的心理容纳。'
+    },
   },
   {
     id: 'psychoanalytic_therapy',
@@ -378,6 +446,15 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '通过使无意识内容进入意识，可以解决心理问题。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为精神分析治疗通过使无意识意识化来实现治愈。',
+    'lacan': '拉康强调精神分析涉及象征秩序的重新排列。',
+    'klein': '克莱因强调精神分析涉及内部客体关系的转变。',
+    'winnicott': '温尼科特强调分析师提供的环境与治疗效果有关。',
+    'bion': '比昂强调精神分析涉及分析师的心理容纳能力。'
+    },
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：精神分析治疗通过使无意识意识化来治愈，但治愈的标准本身就是患者对无意识内容的认识。',
   },
 
   // 第二层：心理现象
@@ -446,6 +523,13 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '患者无意识地抵抗治疗过程，以保护自己免受不适的真相。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为阻抗是患者对分析过程的无意识反对。',
+    'lacan': '拉康强调阻抗与象征秩序的防御有关。',
+    'klein': '克莱因强调阻抗涉及对内部客体的防御。',
+    'winnicott': '温尼科特强调理解阻抗背后的恐惧的重要性。',
+    'bion': '比昂强调分析师需要容纳阻抗中的β元素。'
+    },
   },
   {
     id: 'repetition_compulsion',
@@ -465,6 +549,13 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '个体被迫重复创伤经历，试图获得对其的控制。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为重复强迫是无意识地重复创伤经历。',
+    'lacan': '拉康强调重复强迫与象征秩序中的创伤有关。',
+    'klein': '克莱因强调重复强迫涉及内部客体关系的重复。',
+    'winnicott': '温尼科特强调理解重复强迫背后的需求的重要性。',
+    'bion': '比昂强调重复强迫涉及无法被心理容纳的β元素。'
+    },
   },
   {
     id: 'screen_memory',
@@ -503,6 +594,11 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '多个想法或图像被压缩成一个梦的元素。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为凝聚是将多个意象或想法融合为一个。',
+    'lacan': '拉康强调凝聚与语言的修辞（隐喻）相似。',
+    'klein': '克莱因强调凝聚涉及内部客体的融合。'
+    },
   },
 
   // 第二层：关键概念
@@ -693,6 +789,12 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '欲望是由缺失驱动的，永远无法通过满足来解决。',
     school: 'lacan',
+    schoolPerspectives: {
+      'lacan': '拉康认为欲望是由象征秩序结构化的。',
+    'freud': '弗洛伊德认为欲望涉及力比多的表现。',
+    'klein': '克莱因强调欲望与内部客体关系有关。',
+    'winnicott': '温尼科特强调真实的欲望涉及真实自体。'
+    },
   },
   {
     id: 'lack',
@@ -710,6 +812,12 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '主体因语言进入而产生的基本缺失或不完整感。',
     school: 'lacan',
+    schoolPerspectives: {
+      'lacan': '拉康认为缺失是欲望的根源。',
+    'freud': '弗洛伊德认为缺失涉及阉割焦虑。',
+    'klein': '克莱因强调缺失与对好客体的失去有关。',
+    'winnicott': '温尼科特强调缺失可能导致虚假自体的形成。'
+    },
   },
   {
     id: 'jouissance',
@@ -912,6 +1020,12 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '个体将自体客体理想化，以获得稳定感和安全感。',
     school: 'kohut',
+    schoolPerspectives: {
+      'kohut': '科胡特认为理想化是自体客体功能，个体将他人理想化以获得安全感。',
+    'lacan': '拉康强调理想化涉及想象界的虚幻性。',
+    'klein': '克莱因强调理想化与内部好客体的关系。',
+    'winnicott': '温尼科特强调理想化可能阻碍对真实他人的认识。'
+    },
   },
   {
     id: 'twinship',
@@ -924,6 +1038,11 @@ export const conceptNodes: ConceptNode[] = [
     level: 2,
     color: '#10B981',
     school: 'kohut',
+    schoolPerspectives: {
+      'kohut': '科胡特认为孪生关系是自体客体功能，个体与他人的相似性。',
+    'lacan': '拉康强调孪生关系涉及想象界的相似性。',
+    'winnicott': '温尼科特强调真实的相似性对人际关系的重要性。'
+    },
   },
   {
     id: 'empathy',
@@ -936,6 +1055,12 @@ export const conceptNodes: ConceptNode[] = [
     level: 2,
     color: '#10B981',
     school: 'kohut',
+    schoolPerspectives: {
+      'kohut': '科胡特认为共情是精神分析的基本工具和治疗因素。',
+    'winnicott': '温尼科特强调分析师的真实共情对治疗的重要性。',
+    'bion': '比昂强调共情与心理容纳的关系。',
+    'lacan': '拉康强调共情的局限性，分析师需要保持距离。'
+    },
   },
 
   // 客体关系理论 - 克莱因
@@ -955,6 +1080,12 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '人格由早期与照顾者的关系塑造，这些关系被内化为内部对象。',
     school: 'klein',
+    schoolPerspectives: {
+      'klein': '克莱因认为客体关系是心理发展的基础。',
+    'fairbairn': '费尔贝恩强调寻求客体是基本的心理动力。',
+    'winnicott': '温尼科特强调真实的客体关系对心理健康的重要性。',
+    'lacan': '拉康强调客体关系涉及象征秩序的作用。'
+    },
   },
   {
     id: 'internal_object',
@@ -967,6 +1098,12 @@ export const conceptNodes: ConceptNode[] = [
     level: 2,
     color: '#F59E0B',
     school: 'klein',
+    schoolPerspectives: {
+      'klein': '克莱因认为内部客体是通过内摄而形成的。',
+    'fairbairn': '费尔贝恩强调内部坏客体的形成与创伤有关。',
+    'winnicott': '温尼科特强调内部客体与真实他人的关系。',
+    'bion': '比昂强调内部客体的心理容纳。'
+    },
   },
   {
     id: 'good_bad_object',
@@ -1003,6 +1140,12 @@ export const conceptNodes: ConceptNode[] = [
     level: 2,
     color: '#F59E0B',
     school: 'klein',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为内摄是将外部对象内化为内部结构。',
+    'klein': '克莱因强调内摄是形成内部客体关系的关键机制。',
+    'lacan': '拉康强调内摄与象征秩序的内化有关。',
+    'winnicott': '温尼科特强调真实的内摄来自与照顾者的真实关系。'
+    },
   },
   {
     id: 'paranoid_schizoid',
@@ -1027,6 +1170,12 @@ export const conceptNodes: ConceptNode[] = [
     level: 2,
     color: '#F59E0B',
     school: 'klein',
+    schoolPerspectives: {
+      'klein': '克莱因认为抑郁位置是心理发展的关键阶段。',
+    'winnicott': '温尼科特强调抑郁位置与真实自体的发展有关。',
+    'bion': '比昂强调抑郁位置与心理容纳的能力有关。',
+    'lacan': '拉康强调抑郁位置与象征秩序的内化有关。'
+    },
   },
 
   // 温尼科特理论
@@ -1116,6 +1265,8 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '虚假自体是为了适应环境期望而发展的防御性人格。',
     school: 'winnicott',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：虚假自体是对环境的适应，但真实自体的存在本身只能通过虚假自体的识别来推断。',
   },
 
   // 比昂理论
@@ -1322,6 +1473,8 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '人格中被压抑或否认的方面，包含我们不愿承认的品质。',
     school: 'jung',
+    hasCircularLogic: true,
+    circularLogicExplanation: '循环论证：阴影是被意识拒绝的人格部分，但阴影的内容本身只能通过意识的拒绝来识别。',
   },
   {
     id: 'anima_animus',
