@@ -1298,6 +1298,9 @@ export default function PsychoanalysisNetwork() {
                 </div>
               )}
 
+              {/* 学派对标 */}
+              <SchoolPerspectives concept={selectedNodeData} />
+
               {/* 假设链追踪 */}
               <div className="p-4 border-t border-gray-700">
                 <AssumptionChainTracer conceptId={selectedNodeData.id} onConceptClick={setSelectedNode} onPathHighlight={handlePathHighlight} />
@@ -1305,9 +1308,6 @@ export default function PsychoanalysisNetwork() {
 
               {/* 评分面板 */}
               <RatingPanel concept={selectedNodeData} />
-
-              {/* 学派对标 */}
-              <SchoolPerspectives concept={selectedNodeData} />
 
               {selectedNodeRefData.length > 0 && (
                 <RecommendedReading references={selectedNodeRefData} />
