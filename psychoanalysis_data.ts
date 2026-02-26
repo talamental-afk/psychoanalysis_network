@@ -1052,6 +1052,26 @@ export const conceptLinks: ConceptLink[] = [
   { source: 'real_order', target: 'jouissance', type: 'relates', strength: 0.9 },
   { source: 'symbolic_order', target: 'lack', type: 'relates', strength: 0.9 },
 
+  // 拉康象征界内部结构
+  { source: 'symbolic_order', target: 'signifier', type: 'contains', strength: 0.9 },
+  { source: 'symbolic_order', target: 'signified', type: 'contains', strength: 0.9 },
+  { source: 'symbolic_order', target: 'symbolic_chain', type: 'contains', strength: 0.9 },
+  { source: 'symbolic_order', target: 'subjectivity', type: 'manifests', strength: 0.9 },
+  { source: 'signifier', target: 'signified', type: 'relates', strength: 0.9 },
+  { source: 'signifier', target: 'symbolic_chain', type: 'contains', strength: 0.9 },
+  { source: 'symbolic_chain', target: 'subjectivity', type: 'relates', strength: 0.8 },
+  { source: 'symbolic_order', target: 'big_other', type: 'manifests', strength: 0.9 },
+  { source: 'big_other', target: 'subjectivity', type: 'influences', strength: 0.9 },
+  { source: 'desire', target: 'objet_petit_a', type: 'relates', strength: 0.9 },
+  { source: 'lack', target: 'objet_petit_a', type: 'relates', strength: 0.9 },
+  { source: 'objet_petit_a', target: 'jouissance', type: 'relates', strength: 0.8 },
+
+  // 拉康想象界与镜像关系
+  { source: 'imaginary_order', target: 'small_other', type: 'manifests', strength: 0.9 },
+  { source: 'mirror_stage', target: 'small_other', type: 'relates', strength: 0.9 },
+  { source: 'small_other', target: 'big_other', type: 'relates', strength: 0.7 },
+  { source: 'imaginary_order', target: 'desire', type: 'relates', strength: 0.7 },
+
   // 自体心理学与无意识
   { source: 'unconscious', target: 'self', type: 'relates', strength: 0.8 },
   { source: 'self', target: 'selfobject', type: 'contains', strength: 1 },
@@ -1115,6 +1135,7 @@ export const conceptLinks: ConceptLink[] = [
   { source: 'repression', target: 'shadow', type: 'relates', strength: 0.8 },
   { source: 'defense_mechanisms', target: 'persona', type: 'relates', strength: 0.7 },
   { source: 'transference', target: 'container_contained', type: 'relates', strength: 0.7 },
+  { source: 'symbolic_order', target: 'subjectivity', type: 'relates', strength: 0.8 },
 ];
 
 export const references: Reference[] = [
@@ -1345,12 +1366,12 @@ export const nodeReferences: Record<string, string[]> = {
   infantile_sexuality: ['freud-interpretation-dreams'],
   resistance: ['transference-countertransference'],
   interpretation: ['freud-interpretation-dreams'],
-  signifier: ['lacan-mirror-stage'],
-  signified: ['lacan-mirror-stage'],
+  signifier: ['lacan-symbolic-order'],
+  signified: ['lacan-symbolic-order'],
   symbolic_chain: ['lacan-symbolic-order'],
   subjectivity: ['lacan-symbolic-order'],
   big_other: ['lacan-symbolic-order'],
-  small_other: ['lacan-mirror-stage'],
+  small_other: ['lacan-symbolic-order'],
   objet_petit_a: ['lacan-symbolic-order'],
   individuation: ['jung-archetypes'],
   collective_unconscious: ['jung-collective-unconscious'],
