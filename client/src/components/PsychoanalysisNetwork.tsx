@@ -3,9 +3,6 @@ import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences,
 import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy, Medal } from 'lucide-react';
 import { Link } from 'wouter';
 import { RecommendedReading } from './RecommendedReading';
-import { RatingPanel } from './RatingPanel';
-import { AssumptionChainTracer } from './AssumptionChainTracer';
-import { SchoolPerspectives } from './SchoolPerspectives';
 
 
 interface Node {
@@ -27,10 +24,13 @@ interface Node {
   school?: string;
   falsifiability?: number;
   logical_coherence?: number;
-  userRatings?: {
-    falsifiability?: number;
-    logical_coherence?: number;
-  };
+  coreAssumption?: string;
+  schoolPerspectives?: Record<string, string>;
+  controversies?: Array<{
+    criticism: string;
+    source?: string;
+    counterargument?: string;
+  }>;
 }
 
 // 头像映射
@@ -63,8 +63,6 @@ export default function PsychoanalysisNetwork() {
   const [activeLearningPath, setActiveLearningPath] = useState<string | null>(null);
   const [highlightedNodes, setHighlightedNodes] = useState<Set<string>>(new Set());
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const [highlightedPath, setHighlightedPath] = useState<string[]>([]);
-  const [highlightedLinks, setHighlightedLinks] = useState<Set<string>>(new Set());
   const [portraitsLoaded, setPortraitsLoaded] = useState(0);
   const [completedNodes, setCompletedNodes] = useState<Set<string>>(new Set());
   const [completedPaths, setCompletedPaths] = useState<Set<string>>(new Set());
@@ -137,17 +135,6 @@ export default function PsychoanalysisNetwork() {
     }
   }, [completedNodes]);
 
-
-  // 处理假设链路径高亮
-  const handlePathHighlight = (path: string[]) => {
-    setHighlightedPath(path);
-    // 构建路径中的所有连接
-    const links = new Set<string>();
-    for (let i = 0; i < path.length - 1; i++) {
-      links.add(`${path[i]}-${path[i + 1]}`);
-    }
-    setHighlightedLinks(links);
-  };
 
   // 处理学习路径选择
   const selectLearningPath = (pathKey: string) => {
@@ -442,7 +429,6 @@ export default function PsychoanalysisNetwork() {
       const x2 = centerX + targetNode.x;
       const y2 = centerY + targetNode.y;
 
-      const isPathHighlighted = highlightedLinks.has(`${link.source}-${link.target}`);
       const isRelated =
         hoveredNode === link.source ||
         hoveredNode === link.target ||
@@ -450,15 +436,12 @@ export default function PsychoanalysisNetwork() {
         selectedNode === link.target ||
         searchResults.includes(link.source) ||
         searchResults.includes(link.target) ||
-        (hoveredLink && hoveredLink.source === link.source && hoveredLink.target === link.target) ||
-        isPathHighlighted;
+        (hoveredLink && hoveredLink.source === link.source && hoveredLink.target === link.target);
 
-      ctx.strokeStyle = isPathHighlighted
-        ? 'rgba(34, 197, 94, 0.9)'
-        : isRelated
+      ctx.strokeStyle = isRelated
         ? 'rgba(167, 139, 250, 0.8)'
         : `rgba(167, 139, 250, ${0.2 + link.strength * 0.2})`;
-      ctx.lineWidth = isPathHighlighted ? 3.5 : isRelated ? 2.5 : 1.5;
+      ctx.lineWidth = isRelated ? 2.5 : 1.5;
       ctx.beginPath();
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
@@ -557,9 +540,8 @@ export default function PsychoanalysisNetwork() {
       ctx.fill();
       ctx.globalAlpha = 1;
 
-      const isPathNode = highlightedPath.includes(node.id);
-      ctx.strokeStyle = isPathNode ? '#22C55E' : hoveredNode === node.id ? '#FFFFFF' : 'rgba(255, 255, 255, 0.3)';
-      ctx.lineWidth = isPathNode ? 3 : hoveredNode === node.id ? 2 : 1;
+      ctx.strokeStyle = hoveredNode === node.id ? '#FFFFFF' : 'rgba(255, 255, 255, 0.3)';
+      ctx.lineWidth = hoveredNode === node.id ? 2 : 1;
       ctx.globalAlpha = nodeOpacity;
       ctx.stroke();
       ctx.globalAlpha = 1;
@@ -1290,24 +1272,30 @@ export default function PsychoanalysisNetwork() {
                 </div>
               )}
 
-              {/* 核心假设 */}
+              {selectedNodeData.schoolPerspectives && (
+                <SchoolPerspectives concept={selectedNodeData} />
+              )}
+
               {selectedNodeData.coreAssumption && (
                 <div className="p-4 border-t border-gray-700 space-y-2">
                   <h4 className="text-sm font-semibold text-gray-300">💡 核心假设</h4>
-                  <p className="text-sm text-gray-400 leading-relaxed">{selectedNodeData.coreAssumption}</p>
+                  <p className="text-sm text-gray-300 leading-relaxed">{selectedNodeData.coreAssumption}</p>
                 </div>
               )}
 
-              {/* 学派对标 */}
-              <SchoolPerspectives concept={selectedNodeData} />
+              {selectedNodeData.id && (
+                <div className="p-4 border-t border-gray-700">
+                  <AssumptionChainTracer conceptId={selectedNodeData.id} onConceptClick={setSelectedNode} onPathHighlight={handlePathHighlight} />
+                </div>
+              )}
 
-              {/* 假设链追踪 */}
-              <div className="p-4 border-t border-gray-700">
-                <AssumptionChainTracer conceptId={selectedNodeData.id} onConceptClick={setSelectedNode} onPathHighlight={handlePathHighlight} />
-              </div>
+              {selectedNodeData.falsifiability !== undefined && (
+                <RatingPanel concept={selectedNodeData} />
+              )}
 
-              {/* 评分面板 */}
-              <RatingPanel concept={selectedNodeData} />
+              {selectedNodeData.controversies && (
+                <Controversies controversies={selectedNodeData.controversies} />
+              )}
 
               {selectedNodeRefData.length > 0 && (
                 <RecommendedReading references={selectedNodeRefData} />
