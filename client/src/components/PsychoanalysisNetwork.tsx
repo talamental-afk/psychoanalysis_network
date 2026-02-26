@@ -1318,16 +1318,15 @@ export default function PsychoanalysisNetwork() {
               )}
 
               {/* 核心假设 - 可折叠 */}
+              {/* 核心假设 - 始终显示 */}
               {selectedNodeData.coreAssumption && (
-                <CollapsiblePanel
-                  id="assumption"
-                  title="核心假设"
-                  icon="💡"
-                  isExpanded={isPanelExpanded('assumption')}
-                  onToggle={togglePanel}
-                >
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <span>💡</span>
+                    <span>核心假设</span>
+                  </h3>
                   <p className="text-sm text-gray-400 leading-relaxed">{selectedNodeData.coreAssumption}</p>
-                </CollapsiblePanel>
+                </div>
               )}
 
               {/* 假设链追踪 - 可折叠 */}
@@ -1341,30 +1340,26 @@ export default function PsychoanalysisNetwork() {
                 <AssumptionChainTracer conceptId={selectedNodeData.id} onConceptClick={setSelectedNode} onPathHighlight={handlePathHighlight} />
               </CollapsiblePanel>
 
-              {/* 评分面板 - 可折叠 */}
+              {/* 理论评估 - 始终显示 */}
               {selectedNodeData.falsifiability !== undefined && (
-                <CollapsiblePanel
-                  id="rating"
-                  title="理论评估"
-                  icon="⭐"
-                  isExpanded={isPanelExpanded('rating')}
-                  onToggle={togglePanel}
-                >
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <span>⭐</span>
+                    <span>理论评估</span>
+                  </h3>
                   <RatingPanel concept={selectedNodeData} />
-                </CollapsiblePanel>
+                </div>
               )}
 
-              {/* 推荐阅读 - 可折叠 */}
+              {/* 推荐阅读 - 始终显示 */}
               {selectedNodeRefData.length > 0 && (
-                <CollapsiblePanel
-                  id="reading"
-                  title="推荐阅读"
-                  icon="📚"
-                  isExpanded={isPanelExpanded('reading')}
-                  onToggle={togglePanel}
-                >
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <span>📚</span>
+                    <span>推荐阅读</span>
+                  </h3>
                   <RecommendedReading references={selectedNodeRefData} />
-                </CollapsiblePanel>
+                </div>
               )}
 
               <div className="pt-2 border-t border-border">
