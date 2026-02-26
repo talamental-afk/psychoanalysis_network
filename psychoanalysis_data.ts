@@ -66,6 +66,14 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '心理生活的大部分发生在意识之外，无意识内容通过各种方式影响行为和思维。',
     school: 'freud',
+    schoolPerspectives: {
+      'freud': '弗洛伊德认为无意识是心理生活的基础，包含被压抑的欲望和冲动，通过梦、言语错误等方式表现。',
+      'lacan': '拉康强调无意识是语言结构化的，"无意识如同语言一样被结构化"，强调符号秩序的作用。',
+      'jung': '荣格认为无意识包含个人无意识和集体无意识两个层面，集体无意识包含人类共同的原型。',
+      'klein': '克莱因强调无意识的早期幻想生活，特别是婴幼儿期的内部客体关系。',
+      'winnicott': '温尼科特强调无意识与真实自体的关系，无意识中包含创意和生活力。',
+      'bion': '比昂认为无意识包含无法思考的β元素，需要通过α功能转化为可思考的内容。'
+    }
   },
 
   // 第一层：人格结构
@@ -124,6 +132,13 @@ export const conceptNodes: ConceptNode[] = [
   // 第二层：防御机制
   {
     id: 'repression',
+    schoolPerspectives: {
+          "freud": "弗洛伊德认为压抑是最重要的防御机制，将不可接受的欲望和思想推入无意识。",
+          "lacan": "拉康认为压抑涉及符号秩序中的排斥，与象征性阉割相关。",
+          "jung": "荣格强调压抑会导致心理能量的积累，最终可能引发神经症症状。",
+          "klein": "克莱因认为压抑是对抗焦虑的防御方式，与偏执-分裂位置相关。",
+          "winnicott": "温尼科特强调压抑与虚假自体的形成相关，压抑真实自体的表达。"
+    },
     name: '压抑',
     nameEn: 'Repression',
     description: '将不可接受的想法、欲望或记忆推入无意识。',
@@ -283,6 +298,13 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'transference',
+    schoolPerspectives: {
+          "freud": "弗洛伊德认为移情是患者将对重要人物的感情转移到分析师身上的过程，是治疗的关键。",
+          "lacan": "拉康强调移情涉及主体对象的关系，分析师作为大他者的代表。",
+          "klein": "克莱因认为移情包含对分析师的投射性认同，反映患者的内部客体关系。",
+          "winnicott": "温尼科特强调移情中的真实关系成分，分析师需要提供\"足够好的\"环境。",
+          "kohut": "科胡特认为自体心理学中的移情是自体客体移情，患者寻求缺失的自体客体功能。"
+    },
     name: '移情',
     nameEn: 'Transference',
     description: '患者将对过去重要人物的感受投射到分析师身上。',
@@ -380,6 +402,13 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'oedipus_complex',
+    schoolPerspectives: {
+          "freud": "弗洛伊德认为俄狄浦斯情结是心理发展的关键，涉及对异性父母的欲望和对同性父母的竞争。",
+          "lacan": "拉康认为俄狄浦斯情结涉及象征性阉割和父亲名字的作用，是进入象征秩序的关键。",
+          "klein": "克莱因强调俄狄浦斯情结的早期根源，与内部父母意象和性差异的认识相关。",
+          "jung": "荣格认为俄狄浦斯情结反映了原型的作用，强调心理分化和个性化的过程。",
+          "winnicott": "温尼科特强调俄狄浦斯情结的健康发展需要足够好的抱持环境。"
+    },
     name: '俄狄浦斯情结',
     nameEn: 'Oedipus Complex',
     description: '儿童对异性父母的无意识欲望和对同性父母的敌意。',
@@ -479,6 +508,12 @@ export const conceptNodes: ConceptNode[] = [
   // 第二层：关键概念
   {
     id: 'libido',
+    schoolPerspectives: {
+          "freud": "弗洛伊德认为力比多是心理能量的来源，驱动所有心理活动，具有性的本质。",
+          "jung": "荣格将力比多重新定义为一般的心理能量，不仅限于性欲，包括精神追求。",
+          "klein": "克莱因强调力比多与攻击性本能的相互作用，特别是在内部客体关系中。",
+          "winnicott": "温尼科特强调力比多与生活力和创意的关系，与真实自体的表达相关。"
+    },
     name: '力比多',
     nameEn: 'Libido',
     description: '心理能量或性能量，驱动人类行为。',
@@ -551,6 +586,12 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'infantile_sexuality',
+    schoolPerspectives: {
+          "freud": "弗洛伊德认为幼儿性欲是心理发展的基础，经历口腔期、肛门期和性器期。",
+          "klein": "克莱因强调幼儿性欲与内部客体关系的复杂性，包含攻击性和性欲的混合。",
+          "jung": "荣格认为幼儿性欲反映了心理能量的流动，与个性化过程相关。",
+          "winnicott": "温尼科特强调幼儿性欲需要在足够好的抱持环境中发展。"
+    },
     name: '幼儿性欲',
     nameEn: 'Infantile Sexuality',
     description: '儿童的性心理发展，包括口欲期、肛欲期等。',
@@ -1002,6 +1043,12 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'holding_environment',
+    schoolPerspectives: {
+          "winnicott": "温尼科特认为抱持环境是婴幼儿心理发展的基础，母亲通过身体和心理的抱持提供安全感。",
+          "klein": "克莱因强调容纳环境与母亲的容纳功能的关系。",
+          "bion": "比昂强调容器与被容纳物的关系，母亲作为容器容纳婴儿的投射。",
+          "freud": "弗洛伊德虽未明确提出，但他的原始依赖关系理论为抱持环境奠定了基础。"
+    },
     name: '抱持环境',
     nameEn: 'Holding Environment',
     description: '温尼科特概念，母亲提供的安全、支持的环境。',
@@ -1021,6 +1068,12 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'true_self',
+    schoolPerspectives: {
+          "winnicott": "温尼科特认为真实自体是个体的核心，包含生活力和创意，需要在足够好的环境中发展。",
+          "jung": "荣格的自性化过程与真实自体的实现相似，强调个性化和整合。",
+          "kohut": "科胡特的核心自体与温尼科特的真实自体有相似之处，都强调自体的完整性。",
+          "lacan": "拉康强调主体的分裂性，反对单一的真实自体的观念。"
+    },
     name: '真实自体',
     nameEn: 'True Self',
     description: '温尼科特理论，个体的真实、原始的自我。',
@@ -1038,6 +1091,11 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'false_self',
+    schoolPerspectives: {
+          "winnicott": "温尼科特认为虚假自体是对环境的适应，过度发展会导致心理病理。",
+          "klein": "克莱因强调防御性的自体组织与虚假自体的形成。",
+          "lacan": "拉康强调想象秩序中的虚假认同与镜像阶段的关系。"
+    },
     name: '虚假自体',
     nameEn: 'False Self',
     description: '温尼科特理论，为适应环境而形成的防御性自我。',
@@ -1192,6 +1250,12 @@ export const conceptNodes: ConceptNode[] = [
   // 荣格理论
   {
     id: 'collective_unconscious',
+    schoolPerspectives: {
+          "jung": "荣格认为集体无意识是人类共同的心理遗产，包含原型和共同的象征。",
+          "freud": "弗洛伊德虽未接受集体无意识的概念，但他的泛性论思想有相似之处。",
+          "lacan": "拉康强调象征秩序的普遍性，但不同意荣格的集体无意识概念。",
+          "klein": "克莱因强调原始幻想的普遍性，与集体无意识有相关性。"
+    },
     name: '集体无意识',
     nameEn: 'Collective Unconscious',
     description: '荣格概念。人类共同的无意识层次，包含普遍的原型。',
@@ -1211,6 +1275,11 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'archetype',
+    schoolPerspectives: {
+          "jung": "荣格认为原型是集体无意识中的普遍象征和行为模式，如阴影、阿尼玛等。",
+          "lacan": "拉康强调象征秩序中的结构性元素，但不同意荣格的原型概念。",
+          "klein": "克莱因强调原始幻想的普遍性，与原型的概念有相关性。"
+    },
     name: '原型',
     nameEn: 'Archetype',
     description: '集体无意识中的普遍的人物或水准。',
@@ -1228,6 +1297,11 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'shadow',
+    schoolPerspectives: {
+          "jung": "荣格认为阴影是被拒绝的自体部分，包含个人和集体的阴暗面，整合阴影是个性化的关键。",
+          "winnicott": "温尼科特强调被压抑的真实自体与阴影的关系。",
+          "klein": "克莱因强调投射性认同与阴影的形成。"
+    },
     name: '阴影',
     nameEn: 'Shadow',
     description: '荣格概念，个人无意识中被压抑的、不被接受的部分。',
@@ -1245,6 +1319,11 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'anima_animus',
+    schoolPerspectives: {
+          "jung": "荣格认为阿尼玛（女性心理）和阿尼姆斯（男性心理）是对性别特征的心理补偿，整合它们是个性化的重要步骤。",
+          "lacan": "拉康强调性差异与象征秩序的关系，但不同意荣格的阿尼玛/阿尼姆斯概念。",
+          "klein": "克莱因强调性差异与内部客体关系的复杂性。"
+    },
     name: '阿尼玛与阿尼姆斯',
     nameEn: 'Anima and Animus',
     description: '荣格概念，男性的女性一面和女性的男性一面。',
@@ -1281,6 +1360,11 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'synchronicity',
+    schoolPerspectives: {
+          "jung": "荣格认为共时性是有意义的巧合，反映了心理与物理世界的深层联系，超越因果关系。",
+          "freud": "弗洛伊德虽未接受共时性，但他的心理决定论与荣格的共时性有对话空间。",
+          "lacan": "拉康强调偶然性与必然性的关系，与共时性有相关讨论。"
+    },
     name: '共时性',
     nameEn: 'Synchronicity',
     description: '荣格概念，不是由因果关系联系的有意义的巧合。',
@@ -1300,6 +1384,11 @@ export const conceptNodes: ConceptNode[] = [
   },
   {
     id: 'complex',
+    schoolPerspectives: {
+          "jung": "荣格认为情结是由原型激活的心理组织，具有自主性和情感能量，是心理病理的基础。",
+          "freud": "弗洛伊德虽未使用\"情结\"一词，但他的无意识冲突概念与情结有相似性。",
+          "klein": "克莱因强调内部客体情结与心理病理的关系。"
+    },
     name: '情结',
     nameEn: 'Complex',
     description: '荣格概念，由相似的情感、思想和记忆组成的无意识结构。',
