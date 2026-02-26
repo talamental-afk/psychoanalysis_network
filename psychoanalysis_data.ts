@@ -889,6 +889,12 @@ export const conceptNodes: ConceptNode[] = [
     
     coreAssumption: '自体客体通过反映和验证个体的经历来促进健康发展。',
     school: 'kohut',
+    schoolPerspectives: {
+      'kohut': '科胡特认为镜像反映是自体客体功能的核心，通过他人的认可和反映，个体发展出健康的自体感和自尊。',
+      'winnicott': '温尼科特强调母亲对婴儿的镜像反映作用，母亲通过反映婴儿的经历来帮助其发展真实自体。',
+      'stern': '斯特恩认为镜像反映涉及情感调谐，照顾者需要准确地反映婴儿的情感状态。',
+      'lacan': '拉康将镜像反映与镜像阶段联系起来，强调镜像反映在形成自体认同中的作用。'
+    },
   },
   {
     id: 'idealization',

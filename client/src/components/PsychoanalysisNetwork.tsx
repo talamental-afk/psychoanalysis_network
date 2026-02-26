@@ -1,11 +1,12 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { conceptNodes, conceptLinks, categoryLabels, references, nodeReferences, Reference, schoolLabels, schoolColors } from '../../../psychoanalysis_data';
-import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy, Medal } from 'lucide-react';
+import { Search, X, ZoomIn, ZoomOut, RotateCcw, ChevronRight , Trophy, Medal, ChevronDown } from 'lucide-react';
 import { Link } from 'wouter';
 import { RecommendedReading } from './RecommendedReading';
 import { RatingPanel } from './RatingPanel';
 import { AssumptionChainTracer } from './AssumptionChainTracer';
 import { SchoolPerspectives } from './SchoolPerspectives';
+import { CollapsiblePanel } from './CollapsiblePanel';
 
 
 interface Node {
@@ -73,6 +74,19 @@ export default function PsychoanalysisNetwork() {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [nodeOffsets, setNodeOffsets] = useState<Record<string, {x: number; y: number}>>({});
   const [sidebarTab, setSidebarTab] = useState<'achievements' | 'details'>('details');
+  const [expandedPanels, setExpandedPanels] = useState<Set<string>>(new Set(['school', 'assumption', 'chain', 'rating', 'reading']));
+
+  const togglePanel = (panelId: string) => {
+    const newExpanded = new Set(expandedPanels);
+    if (newExpanded.has(panelId)) {
+      newExpanded.delete(panelId);
+    } else {
+      newExpanded.add(panelId);
+    }
+    setExpandedPanels(newExpanded);
+  };
+
+  const isPanelExpanded = (panelId: string) => expandedPanels.has(panelId);
 
   // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
@@ -1290,27 +1304,67 @@ export default function PsychoanalysisNetwork() {
                 </div>
               )}
 
-              {/* 学派对标 */}
-              <SchoolPerspectives concept={selectedNodeData} />
-
-              {/* 核心假设 */}
-              {selectedNodeData.coreAssumption && (
-                <div className="p-4 border-t border-gray-700 space-y-2">
-                  <h4 className="text-sm font-semibold text-gray-300">💡 核心假设</h4>
-                  <p className="text-sm text-gray-400 leading-relaxed">{selectedNodeData.coreAssumption}</p>
-                </div>
+              {/* 学派对标 - 可折叠 */}
+              {selectedNodeData.schoolPerspectives && Object.keys(selectedNodeData.schoolPerspectives).length > 0 && (
+                <CollapsiblePanel
+                  id="school"
+                  title="学派对标"
+                  icon="🏫"
+                  isExpanded={isPanelExpanded('school')}
+                  onToggle={togglePanel}
+                >
+                  <SchoolPerspectives concept={selectedNodeData} />
+                </CollapsiblePanel>
               )}
 
-              {/* 假设链追踪 */}
-              <div className="p-4 border-t border-gray-700">
+              {/* 核心假设 - 可折叠 */}
+              {selectedNodeData.coreAssumption && (
+                <CollapsiblePanel
+                  id="assumption"
+                  title="核心假设"
+                  icon="💡"
+                  isExpanded={isPanelExpanded('assumption')}
+                  onToggle={togglePanel}
+                >
+                  <p className="text-sm text-gray-400 leading-relaxed">{selectedNodeData.coreAssumption}</p>
+                </CollapsiblePanel>
+              )}
+
+              {/* 假设链追踪 - 可折叠 */}
+              <CollapsiblePanel
+                id="chain"
+                title="假设链追踪"
+                icon="🔗"
+                isExpanded={isPanelExpanded('chain')}
+                onToggle={togglePanel}
+              >
                 <AssumptionChainTracer conceptId={selectedNodeData.id} onConceptClick={setSelectedNode} onPathHighlight={handlePathHighlight} />
-              </div>
+              </CollapsiblePanel>
 
-              {/* 评分面板 */}
-              <RatingPanel concept={selectedNodeData} />
+              {/* 评分面板 - 可折叠 */}
+              {selectedNodeData.falsifiability !== undefined && (
+                <CollapsiblePanel
+                  id="rating"
+                  title="理论评估"
+                  icon="⭐"
+                  isExpanded={isPanelExpanded('rating')}
+                  onToggle={togglePanel}
+                >
+                  <RatingPanel concept={selectedNodeData} />
+                </CollapsiblePanel>
+              )}
 
+              {/* 推荐阅读 - 可折叠 */}
               {selectedNodeRefData.length > 0 && (
-                <RecommendedReading references={selectedNodeRefData} />
+                <CollapsiblePanel
+                  id="reading"
+                  title="推荐阅读"
+                  icon="📚"
+                  isExpanded={isPanelExpanded('reading')}
+                  onToggle={togglePanel}
+                >
+                  <RecommendedReading references={selectedNodeRefData} />
+                </CollapsiblePanel>
               )}
 
               <div className="pt-2 border-t border-border">
