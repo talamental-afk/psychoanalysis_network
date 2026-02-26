@@ -12,9 +12,38 @@ interface AssumptionNode {
 interface AssumptionChainTracerProps {
   conceptId: string;
   onConceptClick?: (conceptId: string) => void;
+  onPathHighlight?: (path: string[]) => void;
 }
 
-export function AssumptionChainTracer({ conceptId, onConceptClick }: AssumptionChainTracerProps) {
+export function AssumptionChainTracer({ conceptId, onConceptClick, onPathHighlight }: AssumptionChainTracerProps) {
+  // 构建路径映射，用于追踪从根到任意节点的路径
+  const pathMap = useMemo(() => {
+    if (!conceptId) return new Map<string, string[]>();
+
+    const paths = new Map<string, string[]>();
+    paths.set(conceptId, [conceptId]);
+
+    const visited = new Set<string>();
+    const queue: string[] = [conceptId];
+
+    while (queue.length > 0) {
+      const id = queue.shift()!;
+      if (visited.has(id)) continue;
+      visited.add(id);
+
+      const outgoingLinks = conceptLinks.filter(link => link.source === id);
+      for (const link of outgoingLinks) {
+        if (!paths.has(link.target)) {
+          const currentPath = paths.get(id) || [id];
+          paths.set(link.target, [...currentPath, link.target]);
+          queue.push(link.target);
+        }
+      }
+    }
+
+    return paths;
+  }, [conceptId]);
+
   const assumptionChain = useMemo(() => {
     if (!conceptId) return [];
 
@@ -161,7 +190,11 @@ export function AssumptionChainTracer({ conceptId, onConceptClick }: AssumptionC
 
                     {/* 概念卡片 */}
                     <button
-                      onClick={() => onConceptClick?.(node.id)}
+                      onClick={() => {
+                        const path = pathMap.get(node.id) || [];
+                        onPathHighlight?.(path);
+                        onConceptClick?.(node.id);
+                      }}
                       className={`flex-1 text-left px-3 py-2 rounded border transition-all hover:scale-105 ${getRelationshipColor(
                         node.relationshipType
                       )} hover:shadow-lg`}
