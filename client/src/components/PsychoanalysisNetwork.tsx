@@ -1112,8 +1112,11 @@ export default function PsychoanalysisNetwork() {
     selectedNodeData = {
       ...selectedNodeData,
       hasCircularLogic: true,
-      circularLogicExplanation: selectedNodeData.circularLogicExplanation || circularLogicData.logicalProblem || '该概念存在循环论证问题。',
-      ...circularLogicData
+      circularLogicExplanation: selectedNodeData.circularLogicExplanation || '该概念存在循环论证问题。',
+      argumentProcess: circularLogicData.argumentProcess,
+      logicalProblem: circularLogicData.logicalProblem,
+      circularChain: circularLogicData.circularChain,
+      academicSignificance: circularLogicData.academicSignificance
     };
   }
   const selectedNodeReferences = selectedNode && nodeReferences[selectedNode] ? nodeReferences[selectedNode] : [];
