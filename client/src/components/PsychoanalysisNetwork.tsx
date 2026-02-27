@@ -170,7 +170,7 @@ export default function PsychoanalysisNetwork() {
       setTimeout(() => setNewUnlockedAchievements([]), 3000);
     }
     setUserAchievements(newAchievements);
-  }, [completedPaths, completedNodes, userAchievements]);
+  }, [completedPaths, completedNodes]);
 
   // 更新排行榜（模拟数据）
   useEffect(() => {
@@ -185,7 +185,7 @@ export default function PsychoanalysisNetwork() {
       { name: '吴七', level: 2, completedPaths: 1, achievements: 0 }
     ].sort((a, b) => b.level - a.level);
     setLeaderboard(mockLeaderboard);
-  }, [userLevel, completedPaths, userAchievements]);
+  }, [userLevel, completedPaths.size, userAchievements.size]);
 
   // 标记学习路径为完成
   const completePathHandler = (pathKey: string) => {
