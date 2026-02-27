@@ -109,32 +109,32 @@ export default function PsychoanalysisNetwork() {
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
     beginner: {
       name: '精神分析入门',
-      description: '从基础概念开始，理解精神分析的核心理论',
+      description: '从弗洛伊德的核心概念开始，深入理解人类心理的根本原理',
       nodes: ['unconscious', 'id', 'ego', 'superego', 'defense_mechanisms', 'repression', 'free_association', 'freud']
     },
     dreams: {
-      name: '梦的分析',
-      description: '深入理解梦的工作机制和分析方法',
+      name: '梦的分析与详解',
+      description: '探索梦的神秘世界，深入理解梦的符号体系与潜意欲求',
       nodes: ['unconscious', 'dream_analysis', 'condensation', 'displacement', 'manifest_content', 'latent_content', 'wish_fulfillment']
     },
     defense: {
-      name: '防御机制探索',
-      description: '全面了解自我的防御机制',
+      name: '防御机制学习',
+      description: '探索自我的保护机制，理解人体如何需抗内心冲突',
       nodes: ['ego', 'defense_mechanisms', 'repression', 'denial', 'projection', 'rationalization', 'sublimation', 'displacement']
     },
     lacan: {
-      name: '拉康理论入门',
-      description: '理解拉康对精神分析的重新解释',
+      name: '拉康的符号世界',
+      description: '探索拉康的三界理论，重新理解主体性与欲望',
       nodes: ['unconscious', 'symbolic_order', 'imaginary_order', 'real_order', 'mirror_stage', 'lack', 'desire', 'lacan']
     },
     selfpsych: {
-      name: '自体心理学',
-      description: '探索科胡特的自体心理学理论',
+      name: '自体心理学探索',
+      description: '从自体客体到香莎体，理解人的自我结构与成长',
       nodes: ['self', 'self_object', 'mirroring', 'idealization', 'twinship', 'empathy', 'kohut']
     },
     objectrel: {
       name: '客体关系理论',
-      description: '理解客体关系如何塑造人格',
+      description: '从克莱因到费尔贝恩，探索客体如何塑造人的人格与关系',
       nodes: ['object_relations', 'internal_object', 'projective_identification', 'introjection', 'good_bad_object', 'transitional_object', 'klein']
     }
   };

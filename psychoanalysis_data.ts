@@ -2175,7 +2175,7 @@ export const schoolColors: Record<string, string> = {
 
 // 分类标签定义
 export const categoryLabels: Record<string, string> = {
-  core: '核心概念',
+  core: '基础概念',
   personality: '人格结构',
   defense: '防御机制',
   therapy: '治疗方法',
@@ -2183,5 +2183,5 @@ export const categoryLabels: Record<string, string> = {
   theorist: '理论家',
   lacan: '拉康理论',
   self_psychology: '自体心理学',
-  object_relations: '客体关系',
+  object_relations: '客体关系理论',
 };
