@@ -61,7 +61,7 @@ export default function PsychoanalysisNetwork() {
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
   const [visibleCategories, setVisibleCategories] = useState<Set<string>>(new Set(Object.keys(categoryLabels)));
-  const [hoveredLink, setHoveredLink] = useState<{source: string; target: string; type: string} | null>(null);
+  const [hoveredLink, setHoveredLink] = useState<{source: string; target: string; type: string; description?: string} | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAutoClosing, setIsAutoClosing] = useState(true);
@@ -333,6 +333,159 @@ export default function PsychoanalysisNetwork() {
     contains: '包含',
     treats: '治疗',
     manifests: '表现为',
+  };
+
+  const getLinkDescription = (sourceId: string, targetId: string): string | undefined => {
+    const key = `${sourceId}-${targetId}`;
+    const descMap: Record<string, string> = {
+      // 弗洛伊德核心关系
+      'unconscious-id': '无意识包含了本我的原始欲望和冲动',
+      'unconscious-ego': '无意识的内容对自我的决策和行为产生深刻影响',
+      'unconscious-superego': '无意识中的道德内化形成了超我的基础',
+      'id-ego': '本我的欲望需要自我进行理性调节和平衡',
+      'ego-superego': '自我在本我的欲望和超我的道德要求之间寻求平衡',
+      'id-superego': '本我的冲动与超我的道德标准之间存在持续的冲突',
+      
+      // 防御机制
+      'unconscious-repression': '压抑是最基本的防御机制，用于将不可接受的内容推入无意识',
+      'unconscious-denial': '否认是一种防御机制，通过否认现实来保护自我',
+      'unconscious-projection': '投射将内部冲突外化为他人的特征，是一种常见的防御机制',
+      'unconscious-sublimation': '升华将原始冲动转化为社会可接受的活动',
+      'ego-repression': '自我通过压抑来管理本我的冲动',
+      'ego-defense_mechanisms': '防御机制是自我用来应对焦虑和冲突的心理工具',
+      
+      // 治疗方法
+      'unconscious-free_association': '自由联想是访问无意识内容的主要方法',
+      'unconscious-dream_analysis': '梦是通往无意识的皇家之路，梦的分析揭示隐藏的欲望',
+      'unconscious-transference': '移情是分析治疗中的关键现象，反映了患者的无意识冲突',
+      'free_association-interpretation': '通过自由联想获得的材料需要经过分析师的解释',
+      'dream_analysis-interpretation': '梦的分析需要分析师对梦的象征进行解释',
+      'transference-interpretation': '对移情的解释是精神分析治疗的核心',
+      
+      // 心理现象
+      'unconscious-psychic_determinism': '心理决定论认为所有心理现象都有无意识的原因',
+      'unconscious-oedipus_complex': '俄狄浦斯情结是无意识冲突的典型表现',
+      'unconscious-resistance': '阻抗是分析治疗中对无意识内容的防御',
+      'unconscious-repetition_compulsion': '重复强迫症反映了无意识冲动的重复性',
+      'repetition_compulsion-transference': '移情是重复强迫症在分析关系中的表现',
+      
+      // 原则和驱力
+      'id-libido': '本我是力比多（性能量）的源头',
+      'id-pleasure_principle': '本我遵循快乐原则，追求即时满足',
+      'ego-reality_principle': '自我遵循现实原则，考虑现实的限制',
+      'superego-moral_principle': '超我遵循道德原则，代表社会规范',
+      
+      // 梦的工作机制
+      'dream_analysis-condensation': '凝聚是梦的工作机制，多个想法浓缩为一个意象',
+      'dream_analysis-displacement': '转移是梦的工作机制，将情感从一个对象转移到另一个',
+      
+      // 屏记忆
+      'unconscious-screen_memory': '屏记忆是无意识对真实记忆的伪装',
+      
+      // 拉康象征界
+      'unconscious-symbolic_order': '象征秩序是无意识结构的基础，由语言和文化规范组成',
+      'unconscious-imaginary_order': '想象界是无意识的另一个维度，涉及幻想和想象',
+      'unconscious-real_order': '实在界是超越象征和想象的真实，是不可言说的',
+      'symbolic_order-desire': '欲望在象征秩序中产生，由缺乏和禁止驱动',
+      'imaginary_order-mirror_stage': '镜像阶段是想象界的关键时刻，自我在其中形成',
+      'real_order-jouissance': '享乐是实在界的表现，超越了象征秩序的快乐',
+      'symbolic_order-lack': '缺乏是象征秩序的核心，由语言和禁止产生',
+      
+      // 拉康象征界内部
+      'symbolic_order-signifier': '能指是象征秩序的基本单位，代表意义',
+      'symbolic_order-signified': '所指是能指所代表的意义',
+      'symbolic_order-symbolic_chain': '象征链是能指的连锁，形成意义的网络',
+      'symbolic_order-subjectivity': '主体性在象征秩序中产生',
+      'signifier-signified': '能指和所指的关系是任意的，由约定俗成决定',
+      'signifier-symbolic_chain': '能指通过象征链相互联系',
+      'symbolic_chain-subjectivity': '象征链的运动产生了主体的分裂',
+      'symbolic_order-big_other': '大他者是象征秩序的代表，代表社会和文化',
+      'big_other-subjectivity': '大他者对主体性的形成有深刻影响',
+      'desire-objet_petit_a': '小客体a是欲望的对象，永远无法完全获得',
+      'lack-objet_petit_a': '小客体a代表了缺乏，是欲望的原因',
+      'objet_petit_a-jouissance': '小客体a与享乐相关，代表了超越象征的快感',
+      
+      // 拉康想象界
+      'imaginary_order-small_other': '小他者是想象界中的镜像，代表他人',
+      'mirror_stage-small_other': '镜像阶段中，婴儿通过小他者（通常是母亲）的镜像认识自己',
+      'small_other-big_other': '小他者是大他者的表现，代表了社会规范',
+      'imaginary_order-desire': '想象界中的欲望与幻想相关',
+      
+      // 自体心理学
+      'unconscious-self': '自体是心理的核心，与无意识密切相关',
+      'self-selfobject': '自体客体是维持自体完整性所需的心理对象',
+      'selfobject-mirroring': '镜映是自体客体的一种功能，反映和确认自体',
+      'selfobject-idealization': '理想化是自体客体的另一种功能，提供理想的形象',
+      'selfobject-twinship': '孪生关系是自体客体的第三种功能，提供相似感',
+      'empathy-mirroring': '共情是实现镜映功能的基础',
+      
+      // 客体关系
+      'unconscious-object_relations': '客体关系理论认为无意识由内化的客体关系组成',
+      'object_relations-internal_object': '内部客体是无意识中内化的他人形象',
+      'internal_object-projective_identification': '投射性认同是将内部客体投射到他人身上',
+      'internal_object-introjection': '内摄是将外部客体内化为内部客体的过程',
+      'internal_object-good_bad_object': '好客体和坏客体是内部客体的两种形式',
+      'object_relations-transitional_object': '过渡客体是从内部客体向外部客体过渡的中介',
+      'object_relations-holding_environment': '抱持环境是母亲提供的安全环境，促进心理发展',
+      
+      // 幼儿性欲
+      'unconscious-infantile_sexuality': '幼儿性欲是无意识中的原始性冲动',
+      'infantile_sexuality-libido': '力比多是幼儿性欲的能量表现',
+      'infantile_sexuality-oedipus_complex': '俄狄浦斯情结是幼儿性欲发展的关键阶段',
+      'infantile_sexuality-pleasure_principle': '幼儿性欲遵循快乐原则',
+      'id-infantile_sexuality': '本我是幼儿性欲的源头',
+      'infantile_sexuality-defense_mechanisms': '防御机制用来管理幼儿性欲的冲动',
+      'infantile_sexuality-psychic_determinism': '幼儿性欲的发展遵循心理决定论',
+      
+      // 防御机制与其他概念
+      'defense_mechanisms-projective_identification': '投射性认同是一种防御机制，将内部冲突投射到他人身上',
+      'defense_mechanisms-introjection': '内摄是一种防御机制，将外部对象内化为内部对象',
+      'defense_mechanisms-persona': '人格面具是一种防御机制，用来呈现社会可接受的形象',
+      
+      // 克莱因的位置
+      'object_relations-paranoid_schizoid': '偏执分裂位置是客体关系发展的早期阶段',
+      'object_relations-depressive_position': '抑郁位置是客体关系发展的后期阶段',
+      'paranoid_schizoid-depressive_position': '从偏执分裂位置到抑郁位置是心理发展的重要转变',
+      
+      // 温尼科特与客体关系
+      'holding_environment-true_self': '抱持环境促进真实自体的发展',
+      'holding_environment-false_self': '缺乏抱持环境会导致虚假自体的形成',
+      'true_self-false_self': '真实自体和虚假自体代表了人格的两个方面',
+      'transitional_object-individuation': '过渡客体促进个体化的过程',
+      
+      // 比昂与客体关系
+      'object_relations-container_contained': '容器-被容纳是比昂的核心概念',
+      'container_contained-alpha_function': 'α功能是将β元素转化为可思考的内容',
+      'alpha_function-beta_elements': 'α功能处理β元素（原始的感觉体验）',
+      'container_contained-reverie': '遐想是母亲的心理容纳功能',
+      'reverie-empathy': '遐想基于对婴儿的共情',
+      
+      // 费尔贝恩与客体关系
+      'object_relations-internal_objects_fairbairn': '费尔贝恩认为无意识由内部客体组成',
+      'internal_objects_fairbairn-libidinal_object': '力比多客体代表被渴望的对象',
+      'internal_objects_fairbairn-exciting_object': '激发客体代表令人兴奋但无法获得的对象',
+      'internal_objects_fairbairn-rejecting_object': '拒绝客体代表令人沮丧的对象',
+      'libidinal_object-exciting_object': '力比多客体和激发客体都代表被渴望的方面',
+      
+      // 荣格理论
+      'unconscious-collective_unconscious': '集体无意识是超越个人的普遍无意识',
+      'collective_unconscious-archetype': '原型是集体无意识中的普遍象征',
+      'archetype-shadow': '阴影是被压抑的原型特征',
+      'archetype-anima_animus': '阿尼玛/阿尼姆斯是性别对立的原型',
+      'shadow-individuation': '整合阴影是个体化的重要步骤',
+      'anima_animus-individuation': '整合阿尼玛/阿尼姆斯促进个体化',
+      'individuation-self': '个体化的最终目标是实现真正的自体',
+      'collective_unconscious-synchronicity': '同步性反映了无意识与现实的联系',
+      'collective_unconscious-complex': '情结是由原型激发的无意识内容',
+      'psychological_types-persona': '心理类型影响人格面具的形成',
+      'persona-shadow': '人格面具与阴影是相对的',
+      
+      // 跨学派连接
+      'repression-shadow': '压抑与阴影都涉及被压抑的内容',
+      'transference-container_contained': '移情反映了分析师作为容器的功能',
+      'infantile_sexuality-true_self': '真实自体允许原始性欲的自然表达',
+    };
+    return descMap[key] || descMap[`${targetId}-${sourceId}`];
   };
 
   // 切换分类可见性
@@ -812,7 +965,7 @@ export default function PsychoanalysisNetwork() {
     const canvasY = (y - centerY - pan.y) / scale + centerY;
 
     let foundNode: string | null = null;
-    let foundLink: {source: string; target: string; type: string} | null = null;
+    let foundLink: {source: string; target: string; type: string; description?: string} | null = null;
     
     nodes.forEach((node) => {
       const nodeX = centerX + node.x;
@@ -847,7 +1000,8 @@ export default function PsychoanalysisNetwork() {
         const distance = Math.sqrt((canvasX - closestX) ** 2 + (canvasY - closestY) ** 2);
         
         if (distance < 8) {
-          foundLink = { source: link.source, target: link.target, type: link.type };
+          const desc = link.description || getLinkDescription(link.source, link.target);
+          foundLink = { source: link.source, target: link.target, type: link.type, description: desc };
           setTooltipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
         }
       });
@@ -1218,6 +1372,7 @@ export default function PsychoanalysisNetwork() {
     source: conceptNodes.find((n) => n.id === hoveredLink.source),
     target: conceptNodes.find((n) => n.id === hoveredLink.target),
     type: hoveredLink.type,
+    description: hoveredLink.description,
   } : null;
 
   const clearSearch = () => {
@@ -1631,6 +1786,11 @@ export default function PsychoanalysisNetwork() {
                 <span className="font-medium">关系：</span>
                 {relationshipDescriptions[hoveredLinkData.type] || hoveredLinkData.type}
               </div>
+              {hoveredLinkData?.description && (
+                <div className="mb-2 text-foreground text-sm leading-relaxed">
+                  {hoveredLinkData.description}
+                </div>
+              )}
               <div>
                 <span className="font-medium">来源：</span>
                 {hoveredLinkData.source?.nameEn}

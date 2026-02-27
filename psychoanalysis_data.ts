@@ -48,6 +48,7 @@ export interface ConceptLink {
   target: string;
   type: 'relates' | 'influences' | 'contains' | 'treats' | 'manifests';
   strength: number; // 0-1
+  description?: string; // 关系描述
 }
 
 export const conceptNodes: ConceptNode[] = [
