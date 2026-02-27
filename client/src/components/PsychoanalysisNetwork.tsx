@@ -82,7 +82,8 @@ export default function PsychoanalysisNetwork() {
   const [expandedCircularLogic, setExpandedCircularLogic] = useState<Set<string>>(new Set());
   const [userAchievements, setUserAchievements] = useState<Set<string>>(new Set());
   const [userLevel, setUserLevel] = useState(1);
-  const [leaderboard, setLeaderboard] = useState<Array<{name: string; level: number; completedPaths: number; achievements: number}>>([]);
+  const [leaderboard, setLeaderboard] = useState<Array<{name: string; level: number; completedPaths: number; achievements: number}>>([])
+  const [showAchievementNotification, setShowAchievementNotification] = useState(false);
 
   const togglePanel = (panelId: string) => {
     const newExpanded = new Set(expandedPanels);
@@ -149,16 +150,27 @@ export default function PsychoanalysisNetwork() {
     setUserLevel(calculateUserLevel());
   }, [completedPaths, completedNodes]);
 
+  // 追踪新解锁的成就
+  const [newUnlockedAchievements, setNewUnlockedAchievements] = useState<string[]>([]);
+
   // 更新成就
   useEffect(() => {
     const newAchievements = new Set<string>();
+    const unlockedThisUpdate: string[] = [];
     Object.keys(achievements).forEach(key => {
       if (achievements[key].condition()) {
         newAchievements.add(key);
+        if (!userAchievements.has(key)) {
+          unlockedThisUpdate.push(key);
+        }
       }
     });
+    if (unlockedThisUpdate.length > 0) {
+      setNewUnlockedAchievements(unlockedThisUpdate);
+      setTimeout(() => setNewUnlockedAchievements([]), 3000);
+    }
     setUserAchievements(newAchievements);
-  }, [completedPaths, completedNodes]);
+  }, [completedPaths, completedNodes, userAchievements]);
 
   // 更新排行榜（模拟数据）
   useEffect(() => {
@@ -194,12 +206,18 @@ export default function PsychoanalysisNetwork() {
 
   const isCircularLogicExpanded = (conceptId: string) => expandedCircularLogic.has(conceptId);
 
-  // 学习路径定义
-  const learningPaths: Record<string, {name: string; description: string; nodes: string[]; difficulty: 'beginner' | 'intermediate' | 'advanced'; badge: string; badgeColor: string}> = {
+  // 学习路径定义  // 显示成就解锁通知
+  useEffect(() => {
+    if (newUnlockedAchievements.length > 0) {
+      setShowAchievementNotification(true);
+    }
+  }, [newUnlockedAchievements]);
+
+  const learningPaths: Record<string, {name: string; description: string; nodes: string[]; difficulty: 'simple' | 'moderate' | 'complex'; badge: string; badgeColor: string}> = {
     beginner: {
       name: '精神分析入门',
       description: '从弗洛伊德的核心概念开始，深入理解人类心理的根本原理',
-      difficulty: 'beginner',
+      difficulty: 'simple',
       badge: '🎓',
       badgeColor: 'from-blue-500 to-blue-600',
       nodes: ['unconscious', 'id', 'ego', 'superego', 'defense_mechanisms', 'repression', 'free_association', 'freud']
@@ -207,7 +225,7 @@ export default function PsychoanalysisNetwork() {
     dreams: {
       name: '梦的分析与详解',
       description: '探索梦的神秘世界，深入理解梦的符号体系与潜意欲求',
-      difficulty: 'intermediate',
+      difficulty: 'moderate',
       badge: '🌙',
       badgeColor: 'from-purple-500 to-purple-600',
       nodes: ['unconscious', 'dream_analysis', 'condensation', 'displacement', 'manifest_content', 'latent_content', 'wish_fulfillment']
@@ -215,7 +233,7 @@ export default function PsychoanalysisNetwork() {
     defense: {
       name: '防御机制学习',
       description: '探索自我的保护机制，理解人体如何需抗内心冲突',
-      difficulty: 'beginner',
+      difficulty: 'simple',
       badge: '🛡️',
       badgeColor: 'from-amber-500 to-amber-600',
       nodes: ['ego', 'defense_mechanisms', 'repression', 'denial', 'projection', 'rationalization', 'sublimation', 'displacement']
@@ -223,7 +241,7 @@ export default function PsychoanalysisNetwork() {
     lacan: {
       name: '拉康的符号世界',
       description: '探索拉康的三界理论，重新理解主体性与欲望',
-      difficulty: 'advanced',
+      difficulty: 'complex',
       badge: '✨',
       badgeColor: 'from-pink-500 to-pink-600',
       nodes: ['unconscious', 'symbolic_order', 'imaginary_order', 'real_order', 'mirror_stage', 'lack', 'desire', 'lacan']
@@ -231,7 +249,7 @@ export default function PsychoanalysisNetwork() {
     selfpsych: {
       name: '自体心理学探索',
       description: '从自体客体到香莎体，理解人的自我结构与成长',
-      difficulty: 'intermediate',
+      difficulty: 'moderate',
       badge: '💎',
       badgeColor: 'from-cyan-500 to-cyan-600',
       nodes: ['self', 'self_object', 'mirroring', 'idealization', 'twinship', 'empathy', 'kohut']
@@ -239,7 +257,7 @@ export default function PsychoanalysisNetwork() {
     objectrel: {
       name: '客体关系理论',
       description: '从克莱因到费尔贝恩，探索客体如何塑造人的人格与关系',
-      difficulty: 'advanced',
+      difficulty: 'complex',
       badge: '👑',
       badgeColor: 'from-orange-500 to-orange-600',
       nodes: ['object_relations', 'internal_object', 'projective_identification', 'introjection', 'good_bad_object', 'transitional_object', 'klein']
@@ -742,40 +760,7 @@ export default function PsychoanalysisNetwork() {
       ctx.textBaseline = 'middle';
       ctx.fillText(node.name, textCenterX, textCenterY);
       
-      // 绘制循环论证标签（节点名字下一行）
-      const conceptNode = conceptNodes.find(cn => cn.id === node.id);
-      const hasCircularLogic = (conceptNode && conceptNode.hasCircularLogic) || lacanCircularLogic[node.id] || freudCircularLogic[node.id] || jungCircularLogic[node.id] || kleinCircularLogic[node.id] || winnicottCircularLogic[node.id] || bionCircularLogic[node.id] || fairbairnCircularLogic[node.id] || kohutCircularLogic[node.id];
-      if (hasCircularLogic) {
-        const labelText = '循环论证';
-        ctx.font = 'bold 8px Inter';
-        ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
-        
-        // 标签位置（节点名字下一行）
-        const labelY = textCenterY + 12;
-        
-        // 绘制标签背景
-        const labelMetrics = ctx.measureText(labelText);
-        const labelWidth = labelMetrics.width + 4;
-        const labelHeight = 12;
-        
-        ctx.beginPath();
-        ctx.moveTo(textCenterX - labelWidth / 2 + 2, labelY - labelHeight / 2);
-        ctx.lineTo(textCenterX + labelWidth / 2 - 2, labelY - labelHeight / 2);
-        ctx.quadraticCurveTo(textCenterX + labelWidth / 2, labelY - labelHeight / 2, textCenterX + labelWidth / 2, labelY - labelHeight / 2 + 2);
-        ctx.lineTo(textCenterX + labelWidth / 2, labelY + labelHeight / 2 - 2);
-        ctx.quadraticCurveTo(textCenterX + labelWidth / 2, labelY + labelHeight / 2, textCenterX + labelWidth / 2 - 2, labelY + labelHeight / 2);
-        ctx.lineTo(textCenterX - labelWidth / 2 + 2, labelY + labelHeight / 2);
-        ctx.quadraticCurveTo(textCenterX - labelWidth / 2, labelY + labelHeight / 2, textCenterX - labelWidth / 2, labelY + labelHeight / 2 - 2);
-        ctx.lineTo(textCenterX - labelWidth / 2, labelY - labelHeight / 2 + 2);
-        ctx.quadraticCurveTo(textCenterX - labelWidth / 2, labelY - labelHeight / 2, textCenterX - labelWidth / 2 + 2, labelY - labelHeight / 2);
-        ctx.fill();
-        
-        // 绘制标签文字
-        ctx.fillStyle = '#FFFFFF';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(labelText, textCenterX, labelY);
-      }
+      // 循环论证标签已移除
       
       ctx.globalAlpha = 1;
     });
@@ -1370,13 +1355,13 @@ export default function PsychoanalysisNetwork() {
                       <div className="flex items-center gap-2">
                         <span>{path.name}</span>
                         <span className={`px-1.5 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
-                          path.difficulty === 'beginner' ? 'bg-green-500/20 text-green-600' :
-                          path.difficulty === 'intermediate' ? 'bg-yellow-500/20 text-yellow-600' :
+                          path.difficulty === 'simple' ? 'bg-green-500/20 text-green-600' :
+                          path.difficulty === 'moderate' ? 'bg-yellow-500/20 text-yellow-600' :
                           'bg-red-500/20 text-red-600'
                         }`}>
-                          {path.difficulty === 'beginner' ? '初级' :
-                           path.difficulty === 'intermediate' ? '中级' :
-                           '高级'}
+                          {path.difficulty === 'simple' ? '简单' :
+                           path.difficulty === 'moderate' ? '中等' :
+                           '复杂'}
                         </span>
                       </div>
                     </button>
