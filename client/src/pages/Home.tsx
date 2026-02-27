@@ -13,7 +13,7 @@ export default function Home() {
     <div className="w-screen h-screen bg-background flex flex-col">
       {/* 最小化头部 */}
       <header className="bg-card/30 border-b border-border backdrop-blur-sm py-1 px-3 shrink-0">
-        <h1 className="text-lg font-bold text-foreground">精神分析概念网络图</h1>
+        <h1 className="text-lg font-bold text-foreground">批判式概览学习精神分析</h1>
       </header>
 
       {/* 主要内容 - 最大化网络图空间 */}

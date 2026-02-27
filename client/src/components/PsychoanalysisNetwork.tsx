@@ -261,6 +261,14 @@ export default function PsychoanalysisNetwork() {
       badge: '👑',
       badgeColor: 'from-orange-500 to-orange-600',
       nodes: ['object_relations', 'internal_object', 'projective_identification', 'introjection', 'good_bad_object', 'transitional_object', 'klein']
+    },
+    jung: {
+      name: '荣格的原型世界',
+      description: '探索集体无意识与原型，理解人类共同的心理符号与成长之路',
+      difficulty: 'complex',
+      badge: '🌟',
+      badgeColor: 'from-indigo-500 to-indigo-600',
+      nodes: ['collective_unconscious', 'archetype', 'shadow', 'anima_animus', 'persona', 'individuation', 'self', 'jung']
     }
   };
 
