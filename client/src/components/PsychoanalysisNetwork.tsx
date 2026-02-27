@@ -1042,15 +1042,78 @@ export default function PsychoanalysisNetwork() {
     }
   };
 
+  // 费尔贝恩概念的循环论证信息
+  const fairbairnCircularLogic: Record<string, any> = {
+    'internal_objects_fairbairn': {
+      argumentProcess: '1. 内部客体是内化的他人形象 → 2. 内部客体通过内摄形成 → 3. 内摄是将外部客体内化的过程 → 4. 但内部客体的存在本身只能通过内摄来推断 → 5. 因此内部客体和内摄相互定义',
+      logicalProblem: '内部客体的存在是不可直接观察的。我们通过推断来认识它，但这个推断本身也是基于内部客体的假设。',
+      circularChain: ['内化过程', '假设内部客体', '内摄定义', '客体形成', '回到内化'],
+      academicSignificance: '这个循环反映了费尔贝恩理论中，内部客体是一个难以独立验证的概念。'
+    },
+    'libidinal_object': {
+      argumentProcess: '1. 力比多客体是引发渴望的客体 → 2. 渴望是由力比多客体产生的 → 3. 力比多客体的定义就是引发渴望 → 4. 但渴望本身也可能来自其他因素 → 5. 我们无法独立验证力比多客体',
+      logicalProblem: '力比多客体的定义是循环的：力比多客体引发渴望，但渴望本身也是力比多客体的定义。',
+      circularChain: ['力比多客体', '引发渴望', '渴望产生', '客体定义', '回到客体'],
+      academicSignificance: '这个循环反映了费尔贝恩理论中，力比多客体是一个自我引用的概念。'
+    },
+    'exciting_object': {
+      argumentProcess: '1. 激发客体承诺满足 → 2. 但激发客体实际上无法完全满足 → 3. 这种承诺与现实的矛盾产生心理冲突 → 4. 但心理冲突本身就是激发客体的定义 → 5. 激发客体既是原因也是结果',
+      logicalProblem: '激发客体的定义是循环的：激发客体承诺满足但无法满足，但这种矛盾本身就是激发客体的特性。',
+      circularChain: ['激发客体', '代表承诺', '无法满足', '心理冲突', '回到客体'],
+      academicSignificance: '这个循环反映了费尔贝恩理论中，激发客体概念的复杂性。'
+    },
+    'rejecting_object': {
+      argumentProcess: '1. 拒绝客体代表拒绝和排斥 → 2. 拒绝客体通过内化形成 → 3. 内化的拒绝导致自我批评 → 4. 但自我批评本身也是拒绝客体的表现 → 5. 拒绝客体既是原因也是结果',
+      logicalProblem: '拒绝客体的定义是循环的：拒绝客体产生自我批评，但自我批评本身也是拒绝客体的效果。',
+      circularChain: ['拒绝客体', '代表拒绝', '内化形成', '自我批评', '回到客体'],
+      academicSignificance: '这个循环反映了费尔贝恩理论中，拒绝客体与自我批评之间的循环关系。'
+    }
+  };
+
+  // 科胡特概念的循环论证信息
+  const kohutCircularLogic: Record<string, any> = {
+    'self_kohut': {
+      argumentProcess: '1. 自体是个体的中心结构 → 2. 自体通过自体客体的功能发展 → 3. 自体客体是维持自体的功能 → 4. 但自体客体的存在只能通过自体的需要来推断 → 5. 自体和自体客体相互定义',
+      logicalProblem: '自体的定义是循环的：自体通过自体客体发展，但自体客体本身也是由自体的需要定义的。',
+      circularChain: ['自体', '需要自体客体', '自体客体功能', '自体发展', '回到自体'],
+      academicSignificance: '这个循环反映了科胡特理论中，自体和自体客体之间的相互依赖关系。'
+    },
+    'selfobject': {
+      argumentProcess: '1. 自体客体是自体的延伸 → 2. 自体客体提供必要的心理功能 → 3. 这些功能维持自体的凝聚 → 4. 但自体客体的功能定义本身就是维持自体 → 5. 自体客体既是原因也是结果',
+      logicalProblem: '自体客体的定义是循环的：自体客体维持自体，但自体客体的定义就是维持自体。',
+      circularChain: ['自体客体', '提供功能', '维持自体', '功能定义', '回到客体'],
+      academicSignificance: '这个循环反映了科胡特理论中，自体客体概念的自我引用性。'
+    },
+    'idealization': {
+      argumentProcess: '1. 理想化是将他人理想化 → 2. 理想化提供安全感和方向 → 3. 安全感和方向来自理想化的对象 → 4. 但理想化对象的价值本身就是提供安全感 → 5. 理想化既是原因也是结果',
+      logicalProblem: '理想化的定义是循环的：理想化对象提供安全感，但理想化对象的定义就是提供安全感。',
+      circularChain: ['理想化', '理想化对象', '提供安全感', '安全感来源', '回到理想化'],
+      academicSignificance: '这个循环反映了科胡特理论中，理想化概念的自我引用性。'
+    },
+    'twinship': {
+      argumentProcess: '1. 孪生关系是与他人的相似性 → 2. 相似性产生被理解的感受 → 3. 被理解的感受来自孪生关系 → 4. 但孪生关系的定义就是产生被理解的感受 → 5. 孪生关系既是原因也是结果',
+      logicalProblem: '孪生关系的定义是循环的：孪生关系产生被理解的感受，但孪生关系的定义就是产生这种感受。',
+      circularChain: ['孪生关系', '相似性', '被理解感受', '关系定义', '回到孪生'],
+      academicSignificance: '这个循环反映了科胡特理论中，孪生关系概念的自我引用性。'
+    },
+    'empathy': {
+      argumentProcess: '1. 共情是理解他人内心体验 → 2. 共情是精神分析的基本工具 → 3. 精神分析的有效性来自共情 → 4. 但共情的有效性本身就是通过精神分析来验证的 → 5. 共情和精神分析相互验证',
+      logicalProblem: '共情的定义是循环的：共情是精神分析的基础，但共情的有效性又需要通过精神分析来验证。',
+      circularChain: ['共情', '精神分析工具', '治疗有效', '共情验证', '回到共情'],
+      academicSignificance: '这个循环反映了科胡特理论中，共情作为治疗工具的验证问题。'
+    }
+  };
+
   let selectedNodeData = selectedNode ? conceptNodes.find((n) => n.id === selectedNode) : null;
   
-  // 为拉康、弗洛伊德、荣格、克莱因、温尼科特、比昂概念添加循环论证信息
-  if (selectedNodeData && (lacanCircularLogic[selectedNode!] || freudCircularLogic[selectedNode!] || jungCircularLogic[selectedNode!] || kleinCircularLogic[selectedNode!] || winnicottCircularLogic[selectedNode!] || bionCircularLogic[selectedNode!])) {
+  // 为拉康、弗洛伊德、荣格、克莱因、温尼科特、比昂、费尔贝恩、科胡特概念添加循环论证信息
+  const circularLogicData = lacanCircularLogic[selectedNode!] || freudCircularLogic[selectedNode!] || jungCircularLogic[selectedNode!] || kleinCircularLogic[selectedNode!] || winnicottCircularLogic[selectedNode!] || bionCircularLogic[selectedNode!] || fairbairnCircularLogic[selectedNode!] || kohutCircularLogic[selectedNode!];
+  if (selectedNodeData && circularLogicData) {
     selectedNodeData = {
       ...selectedNodeData,
       hasCircularLogic: true,
-      circularLogicExplanation: selectedNodeData.circularLogicExplanation || '该概念存在循环论证问题。',
-      ...(lacanCircularLogic[selectedNode!] || freudCircularLogic[selectedNode!] || jungCircularLogic[selectedNode!] || kleinCircularLogic[selectedNode!] || winnicottCircularLogic[selectedNode!] || bionCircularLogic[selectedNode!])
+      circularLogicExplanation: selectedNodeData.circularLogicExplanation || circularLogicData.logicalProblem || '该概念存在循环论证问题。',
+      ...circularLogicData
     };
   }
   const selectedNodeReferences = selectedNode && nodeReferences[selectedNode] ? nodeReferences[selectedNode] : [];
