@@ -106,35 +106,41 @@ export default function PsychoanalysisNetwork() {
   const isCircularLogicExpanded = (conceptId: string) => expandedCircularLogic.has(conceptId);
 
   // 学习路径定义
-  const learningPaths: Record<string, {name: string; description: string; nodes: string[]}> = {
+  const learningPaths: Record<string, {name: string; description: string; nodes: string[]; difficulty: 'beginner' | 'intermediate' | 'advanced'}> = {
     beginner: {
       name: '精神分析入门',
       description: '从弗洛伊德的核心概念开始，深入理解人类心理的根本原理',
+      difficulty: 'beginner',
       nodes: ['unconscious', 'id', 'ego', 'superego', 'defense_mechanisms', 'repression', 'free_association', 'freud']
     },
     dreams: {
       name: '梦的分析与详解',
       description: '探索梦的神秘世界，深入理解梦的符号体系与潜意欲求',
+      difficulty: 'intermediate',
       nodes: ['unconscious', 'dream_analysis', 'condensation', 'displacement', 'manifest_content', 'latent_content', 'wish_fulfillment']
     },
     defense: {
       name: '防御机制学习',
       description: '探索自我的保护机制，理解人体如何需抗内心冲突',
+      difficulty: 'beginner',
       nodes: ['ego', 'defense_mechanisms', 'repression', 'denial', 'projection', 'rationalization', 'sublimation', 'displacement']
     },
     lacan: {
       name: '拉康的符号世界',
       description: '探索拉康的三界理论，重新理解主体性与欲望',
+      difficulty: 'advanced',
       nodes: ['unconscious', 'symbolic_order', 'imaginary_order', 'real_order', 'mirror_stage', 'lack', 'desire', 'lacan']
     },
     selfpsych: {
       name: '自体心理学探索',
       description: '从自体客体到香莎体，理解人的自我结构与成长',
+      difficulty: 'intermediate',
       nodes: ['self', 'self_object', 'mirroring', 'idealization', 'twinship', 'empathy', 'kohut']
     },
     objectrel: {
       name: '客体关系理论',
       description: '从克莱因到费尔贝恩，探索客体如何塑造人的人格与关系',
+      difficulty: 'advanced',
       nodes: ['object_relations', 'internal_object', 'projective_identification', 'introjection', 'good_bad_object', 'transitional_object', 'klein']
     }
   };
@@ -1260,7 +1266,18 @@ export default function PsychoanalysisNetwork() {
                       }`}
                       title={path.description}
                     >
-                      {path.name}
+                      <div className="flex items-center gap-2">
+                        <span>{path.name}</span>
+                        <span className={`px-1.5 py-0.5 rounded text-xs font-medium whitespace-nowrap ${
+                          path.difficulty === 'beginner' ? 'bg-green-500/20 text-green-600' :
+                          path.difficulty === 'intermediate' ? 'bg-yellow-500/20 text-yellow-600' :
+                          'bg-red-500/20 text-red-600'
+                        }`}>
+                          {path.difficulty === 'beginner' ? '初级' :
+                           path.difficulty === 'intermediate' ? '中级' :
+                           '高级'}
+                        </span>
+                      </div>
                     </button>
                     {getPathProgress(key) === 100 && (
                       <div className="relative group">
