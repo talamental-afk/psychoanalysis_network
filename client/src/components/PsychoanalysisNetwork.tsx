@@ -942,6 +942,72 @@ export default function PsychoanalysisNetwork() {
     }
   };
 
+  // 克莱因概念的循环论证信息
+  const kleinCircularLogic: Record<string, any> = {
+    'internal_object': {
+      argumentProcess: '1. 内部客体是内化的他人形象 → 2. 内部客体通过内摄形成 → 3. 内摄是将外部客体内化的过程 → 4. 但内部客体的存在本身只能通过内摄来推断 → 5. 因此内部客体和内摄相互定义',
+      logicalProblem: '内部客体的存在是不可直接观察的。我们通过推断来认识它，但这个推断本身也是基于内部客体的假设。',
+      circularChain: ['内化过程', '假设内部客体', '内摄定义', '客体形成', '回到内化'],
+      academicSignificance: '这个循环论证反映了客体关系理论中内部心理结构的不可观察性。'
+    },
+    'good_bad_object': {
+      argumentProcess: '1. 婴儿将客体分裂为好或坏 → 2. 这种分裂是防御机制 → 3. 防御机制保护婴儿免受焦虑 → 4. 但焦虑的存在本身只能通过分裂来推断 → 5. 因此分裂既是原因也是结果',
+      logicalProblem: '好坏客体的分裂是无法直接观察的。婴儿的行为可能有多种解释，不一定是分裂的证据。',
+      circularChain: ['观察到两极化行为', '假设存在分裂', '定义为防御机制', '用行为证明分裂'],
+      academicSignificance: '这个循环论证说明了婴儿心理的推断性质，我们无法直接验证内部心理过程。'
+    },
+    'introjection': {
+      argumentProcess: '1. 内摄是将外部客体内化的过程 → 2. 内摄导致内部客体的形成 → 3. 内部客体的存在证明了内摄发生 → 4. 但内部客体是不可观察的 → 5. 因此内摄的存在也是不可验证的',
+      logicalProblem: '内摄的过程是无法直接观察的。我们只能通过推断来确认，但这个推断本身就依赖于内摄的假设。',
+      circularChain: ['假设内摄过程', '推断内部客体', '客体形成假设', '用客体证明内摄'],
+      academicSignificance: '这个循环论证反映了克莱因理论中心理过程的推断性质。'
+    },
+    'depressive_position': {
+      argumentProcess: '1. 抑郁位置是整合好坏客体的阶段 → 2. 整合导致内疚感和修复冲动 → 3. 内疚感证明了整合的发生 → 4. 但内疚感也可能有其他原因 → 5. 因此抑郁位置的存在是不可验证的',
+      logicalProblem: '抑郁位置是无法直接观察的。婴儿的行为改变可能有多种解释。',
+      circularChain: ['假设抑郁位置', '观察到整合行为', '推断内疚感', '用内疚证明位置'],
+      academicSignificance: '这个循环论证说明了克莱因发展阶段理论的推断性质。'
+    }
+  };
+
+  // 温尼科特概念的循环论证信息
+  const winnicottCircularLogic: Record<string, any> = {
+    'transitional_object': {
+      argumentProcess: '1. 过渡客体帮助儿童从依赖过渡到独立 → 2. 过渡客体既代表母亲又是独立的 → 3. 但这种双重性本身就是循环的 → 4. 我们无法独立验证过渡功能 → 5. 因此过渡客体的功能是推断性的',
+      logicalProblem: '过渡客体的存在和功能是无法直接观察的。儿童对物体的依恋可能有多种解释。',
+      circularChain: ['观察儿童依恋物体', '假设过渡功能', '定义为过渡客体', '用依恋证明功能'],
+      academicSignificance: '这个循环论证反映了温尼科特理论中对儿童心理发展的推断。'
+    },
+    'true_self': {
+      argumentProcess: '1. 真实自体是个体的真实本质 → 2. 真实自体通过抱持环境得到发展 → 3. 但真实自体的存在本身只能通过其表现来推断 → 4. 真实自体和虚假自体的区分是主观的 → 5. 因此真实自体是一个推断性的概念',
+      logicalProblem: '真实自体是无法直接观察的。任何自体表现都可能被解释为真实或虚假。',
+      circularChain: ['假设真实自体', '观察自体表现', '推断环境影响', '用表现证明真实'],
+      academicSignificance: '这个循环论证反映了真实与虚假自体区分的主观性。'
+    }
+  };
+
+  // 比昂概念的循环论证信息
+  const bionCircularLogic: Record<string, any> = {
+    'alpha_function': {
+      argumentProcess: '1. α功能将β元素转化为可思考的内容 → 2. 这种转化是心理健康的基础 → 3. 但α功能的过程本身是无法直接观察的 → 4. 我们只能通过结果来推断α功能 → 5. 因此α功能是一个推断性的概念',
+      logicalProblem: 'α功能的转化过程是无法直接观察的。心理改善可能有多种原因。',
+      circularChain: ['假设α功能', '观察心理改善', '推断转化过程', '用改善证明功能'],
+      academicSignificance: '这个循环论证反映了比昂理论中心理过程的推断性质。'
+    },
+    'beta_elements': {
+      argumentProcess: '1. β元素是未经消化的原始感受 → 2. β元素导致创伤性反应 → 3. 创伤性反应证明了β元素的存在 → 4. 但创伤性反应也可能有其他原因 → 5. 因此β元素的存在是不可验证的',
+      logicalProblem: 'β元素是无法直接观察的。创伤反应可能有多种心理学解释。',
+      circularChain: ['观察创伤反应', '假设β元素', '定义为未消化', '用反应证明元素'],
+      academicSignificance: '这个循环论证反映了比昂理论中对无法思考内容的推断。'
+    },
+    'reverie': {
+      argumentProcess: '1. 遐想是分析师的无意识共情状态 → 2. 遐想使分析师能够理解患者 → 3. 但遐想的发生本身是无法直接验证的 → 4. 我们只能通过分析效果来推断遐想 → 5. 因此遐想是一个推断性的概念',
+      logicalProblem: '遐想的发生是无法直接观察的。分析的有效性可能来自其他因素。',
+      circularChain: ['假设遐想状态', '观察分析效果', '推断共情过程', '用效果证明遐想'],
+      academicSignificance: '这个循环论证反映了分析师主观体验的推断性质。'
+    }
+  };
+
   // 荣格概念的循环论证信息
   const jungCircularLogic: Record<string, any> = {
     'individuation': {
@@ -978,13 +1044,13 @@ export default function PsychoanalysisNetwork() {
 
   let selectedNodeData = selectedNode ? conceptNodes.find((n) => n.id === selectedNode) : null;
   
-  // 为拉康、弗洛伊德、荣格概念添加循环论证信息
-  if (selectedNodeData && (lacanCircularLogic[selectedNode!] || freudCircularLogic[selectedNode!] || jungCircularLogic[selectedNode!])) {
+  // 为拉康、弗洛伊德、荣格、克莱因、温尼科特、比昂概念添加循环论证信息
+  if (selectedNodeData && (lacanCircularLogic[selectedNode!] || freudCircularLogic[selectedNode!] || jungCircularLogic[selectedNode!] || kleinCircularLogic[selectedNode!] || winnicottCircularLogic[selectedNode!] || bionCircularLogic[selectedNode!])) {
     selectedNodeData = {
       ...selectedNodeData,
       hasCircularLogic: true,
       circularLogicExplanation: selectedNodeData.circularLogicExplanation || '该概念存在循环论证问题。',
-      ...(lacanCircularLogic[selectedNode!] || freudCircularLogic[selectedNode!] || jungCircularLogic[selectedNode!])
+      ...(lacanCircularLogic[selectedNode!] || freudCircularLogic[selectedNode!] || jungCircularLogic[selectedNode!] || kleinCircularLogic[selectedNode!] || winnicottCircularLogic[selectedNode!] || bionCircularLogic[selectedNode!])
     };
   }
   const selectedNodeReferences = selectedNode && nodeReferences[selectedNode] ? nodeReferences[selectedNode] : [];
