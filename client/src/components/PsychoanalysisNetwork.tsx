@@ -1671,7 +1671,7 @@ export default function PsychoanalysisNetwork() {
                               <div key={idx} className="flex items-start gap-2">
                                 <span className="text-red-500 font-bold mt-0.5">{idx + 1}.</span>
                                 <span className="text-xs text-red-400/80">{step}</span>
-                                {idx < selectedNodeData.circularChain.length - 1 && (
+                                {selectedNodeData.circularChain && idx < selectedNodeData.circularChain.length - 1 && (
                                   <span className="text-red-500 ml-auto">↓</span>
                                 )}
                               </div>
