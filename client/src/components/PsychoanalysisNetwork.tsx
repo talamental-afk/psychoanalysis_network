@@ -637,7 +637,7 @@ export default function PsychoanalysisNetwork() {
       
       // 绘制循环论证标签（节点名字下一行）
       const conceptNode = conceptNodes.find(cn => cn.id === node.id);
-      const hasCircularLogic = (conceptNode && conceptNode.hasCircularLogic) || lacanCircularLogic[node.id] || freudCircularLogic[node.id] || jungCircularLogic[node.id];
+      const hasCircularLogic = (conceptNode && conceptNode.hasCircularLogic) || lacanCircularLogic[node.id] || freudCircularLogic[node.id] || jungCircularLogic[node.id] || kleinCircularLogic[node.id] || winnicottCircularLogic[node.id] || bionCircularLogic[node.id] || fairbairnCircularLogic[node.id] || kohutCircularLogic[node.id];
       if (hasCircularLogic) {
         const labelText = '循环论证';
         ctx.font = 'bold 8px Inter';
