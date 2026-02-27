@@ -84,6 +84,8 @@ export default function PsychoanalysisNetwork() {
   const [userLevel, setUserLevel] = useState(1);
   const [leaderboard, setLeaderboard] = useState<Array<{name: string; level: number; completedPaths: number; achievements: number}>>([])
   const [showAchievementNotification, setShowAchievementNotification] = useState(false);
+  const [showCertificate, setShowCertificate] = useState(false);
+  const [certificatePath, setCertificatePath] = useState<string | null>(null);
 
   const togglePanel = (panelId: string) => {
     const newExpanded = new Set(expandedPanels);
@@ -134,6 +136,12 @@ export default function PsychoanalysisNetwork() {
       description: '学习所有概念',
       icon: '👸',
       condition: () => completedNodes.size === conceptNodes.length
+    },
+    jung_master: {
+      name: '荣格的传人',
+      description: '完成荣格的原型世界学习路径',
+      icon: '🌟',
+      condition: () => completedPaths.has('jung')
     }
   };
 
@@ -185,10 +193,16 @@ export default function PsychoanalysisNetwork() {
       { name: '吴七', level: 2, completedPaths: 1, achievements: 0 }
     ].sort((a, b) => b.level - a.level);
     setLeaderboard(mockLeaderboard);
-  }, [userLevel, completedPaths.size, userAchievements.size]);
+  }, [userLevel, completedPaths, userAchievements]);
 
-  // 标记学习路径为完成
   const completePathHandler = (pathKey: string) => {
+    // 完成路径中的所有节点
+    const path = learningPaths[pathKey];
+    if (path) {
+      const newCompletedNodes = new Set(completedNodes);
+      path.nodes.forEach(nodeId => newCompletedNodes.add(nodeId));
+      setCompletedNodes(newCompletedNodes);
+    }
     const newCompletedPaths = new Set(completedPaths);
     newCompletedPaths.add(pathKey);
     setCompletedPaths(newCompletedPaths);
@@ -206,13 +220,7 @@ export default function PsychoanalysisNetwork() {
 
   const isCircularLogicExpanded = (conceptId: string) => expandedCircularLogic.has(conceptId);
 
-  // 学习路径定义  // 显示成就解锁通知
-  useEffect(() => {
-    if (newUnlockedAchievements.length > 0) {
-      setShowAchievementNotification(true);
-    }
-  }, [newUnlockedAchievements]);
-
+  // 学习路径定义
   const learningPaths: Record<string, {name: string; description: string; nodes: string[]; difficulty: 'simple' | 'moderate' | 'complex'; badge: string; badgeColor: string}> = {
     beginner: {
       name: '精神分析入门',
@@ -271,6 +279,82 @@ export default function PsychoanalysisNetwork() {
       nodes: ['collective_unconscious', 'archetype', 'shadow', 'anima_animus', 'persona', 'individuation', 'self', 'jung']
     }
   };
+
+  // 证书组件
+  const CertificateModal = ({ pathKey }: { pathKey: string }) => {
+    const pathInfo = learningPaths[pathKey];
+    if (!pathInfo) return null;
+
+    const pathNames: Record<string, string> = {
+      beginner: '精神分析入门',
+      dreams: '梦的分析与详解',
+      defense: '防御机制学习',
+      lacan: '拉康的符号世界',
+      selfpsych: '自体心理学探索',
+      objectrel: '客体关系理论',
+      jung: '荣格的原型世界'
+    };
+
+    return (
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/60 backdrop-blur-sm">
+        <div className="bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-900 rounded-2xl p-12 max-w-md w-full mx-4 border border-indigo-500/30 shadow-2xl animate-in fade-in zoom-in duration-500">
+          {/* 顶部装饰 */}
+          <div className="text-center mb-8">
+            <div className="inline-block text-6xl mb-4 animate-bounce">{pathInfo.badge}</div>
+            <h2 className="text-2xl font-bold text-transparent bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text mb-2">恭喜！</h2>
+            <p className="text-indigo-200 text-sm">您已完成学习路径</p>
+          </div>
+
+          {/* 证书内容 */}
+          <div className="bg-white/5 backdrop-blur border border-indigo-400/30 rounded-xl p-8 mb-8 text-center">
+            <p className="text-indigo-300 text-xs font-semibold tracking-widest mb-3">学习成就证书</p>
+            <h3 className="text-xl font-bold text-white mb-4">{pathNames[pathKey]}</h3>
+            <p className="text-indigo-200 text-sm mb-4">您已成功掌握该学习路径的所有核心概念，展现了对精神分析理论的深入理解。</p>
+            <div className="flex justify-center gap-2 mb-4">
+              {pathInfo.badge} {pathInfo.badge} {pathInfo.badge}
+            </div>
+            <p className="text-xs text-indigo-300">颁发日期：{new Date().toLocaleDateString('zh-CN')}</p>
+          </div>
+
+          {/* 成就信息 */}
+          <div className="bg-indigo-500/10 border border-indigo-400/20 rounded-lg p-4 mb-6 text-center">
+            <p className="text-indigo-200 text-sm font-semibold mb-2">🌟 解锁成就</p>
+            <p className="text-indigo-300 text-xs">{achievements.jung_master.name}</p>
+            <p className="text-indigo-400 text-xs mt-1">{achievements.jung_master.description}</p>
+          </div>
+
+          {/* 关闭按钮 */}
+          <button
+            onClick={() => setShowCertificate(false)}
+            className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-105"
+          >
+            继续学习
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  // 显示成就解锁通知
+  useEffect(() => {
+    if (newUnlockedAchievements.length > 0) {
+      setShowAchievementNotification(true);
+      // 如果解锁了荣格成就，显示证书
+      if (newUnlockedAchievements.includes('jung_master')) {
+        setCertificatePath('jung');
+        setShowCertificate(true);
+        setTimeout(() => setShowCertificate(false), 15000);
+      }
+    }
+  }, [newUnlockedAchievements]);
+
+  // 检查是否应该显示证书
+  useEffect(() => {
+    if (showCertificate && certificatePath === 'jung') {
+      const timer = setTimeout(() => setShowCertificate(false), 15000);
+      return () => clearTimeout(timer);
+    }
+  }, [showCertificate, certificatePath]);
 
   // 计算学习路径的完成度
   const getPathProgress = (pathKey: string): number => {
@@ -1547,6 +1631,7 @@ export default function PsychoanalysisNetwork() {
                       />
                     </div>
                     <span className="text-xs text-muted-foreground whitespace-nowrap font-semibold">{getPathProgress(key)}%</span>
+
                   </div>
                 </div>
               ))}
@@ -2188,6 +2273,9 @@ export default function PsychoanalysisNetwork() {
 
         </div>
       )}
+      
+      {/* 证书模态框 */}
+      {showCertificate && certificatePath && <CertificateModal pathKey={certificatePath} />}
     </div>
   );
 }
