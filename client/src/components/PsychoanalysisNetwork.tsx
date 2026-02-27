@@ -80,6 +80,9 @@ export default function PsychoanalysisNetwork() {
   const [sidebarTab, setSidebarTab] = useState<'achievements' | 'details'>('details');
   const [expandedPanels, setExpandedPanels] = useState<Set<string>>(new Set(['school', 'assumption', 'chain', 'rating', 'reading']));
   const [expandedCircularLogic, setExpandedCircularLogic] = useState<Set<string>>(new Set());
+  const [userAchievements, setUserAchievements] = useState<Set<string>>(new Set());
+  const [userLevel, setUserLevel] = useState(1);
+  const [leaderboard, setLeaderboard] = useState<Array<{name: string; level: number; completedPaths: number; achievements: number}>>([]);
 
   const togglePanel = (panelId: string) => {
     const newExpanded = new Set(expandedPanels);
@@ -92,6 +95,92 @@ export default function PsychoanalysisNetwork() {
   };
 
   const isPanelExpanded = (panelId: string) => expandedPanels.has(panelId);
+
+  // 成就定义
+  const achievements: Record<string, {name: string; description: string; icon: string; condition: () => boolean}> = {
+    first_path: {
+      name: '初学者',
+      description: '完成第一个学习路径',
+      icon: '🌱',
+      condition: () => completedPaths.size >= 1
+    },
+    three_paths: {
+      name: '学者',
+      description: '完成三个学习路径',
+      icon: '📚',
+      condition: () => completedPaths.size >= 3
+    },
+    all_paths: {
+      name: '大师',
+      description: '完成所有学习路径',
+      icon: '👑',
+      condition: () => completedPaths.size === 6
+    },
+    fifty_nodes: {
+      name: '探索者',
+      description: '学习50个概念',
+      icon: '🔍',
+      condition: () => completedNodes.size >= 50
+    },
+    hundred_nodes: {
+      name: '精通者',
+      description: '学习100个概念',
+      icon: '🧠',
+      condition: () => completedNodes.size >= 100
+    },
+    all_nodes: {
+      name: '知识之王',
+      description: '学习所有概念',
+      icon: '👸',
+      condition: () => completedNodes.size === conceptNodes.length
+    }
+  };
+
+  // 计算用户等级
+  const calculateUserLevel = () => {
+    const pathsCompleted = completedPaths.size;
+    const nodesCompleted = completedNodes.size;
+    const achievementsCount = Object.keys(achievements).filter(key => achievements[key].condition()).length;
+    return Math.floor(1 + (pathsCompleted * 2 + nodesCompleted * 0.1 + achievementsCount * 5) / 10);
+  };
+
+  // 更新用户等级
+  useEffect(() => {
+    setUserLevel(calculateUserLevel());
+  }, [completedPaths, completedNodes]);
+
+  // 更新成就
+  useEffect(() => {
+    const newAchievements = new Set<string>();
+    Object.keys(achievements).forEach(key => {
+      if (achievements[key].condition()) {
+        newAchievements.add(key);
+      }
+    });
+    setUserAchievements(newAchievements);
+  }, [completedPaths, completedNodes]);
+
+  // 更新排行榜（模拟数据）
+  useEffect(() => {
+    const mockLeaderboard = [
+      { name: '当前用户', level: userLevel, completedPaths: completedPaths.size, achievements: userAchievements.size },
+      { name: '李明', level: 8, completedPaths: 5, achievements: 4 },
+      { name: '王芳', level: 7, completedPaths: 4, achievements: 3 },
+      { name: '张三', level: 6, completedPaths: 3, achievements: 2 },
+      { name: '刘四', level: 5, completedPaths: 2, achievements: 2 },
+      { name: '陈五', level: 4, completedPaths: 2, achievements: 1 },
+      { name: '周六', level: 3, completedPaths: 1, achievements: 1 },
+      { name: '吴七', level: 2, completedPaths: 1, achievements: 0 }
+    ].sort((a, b) => b.level - a.level);
+    setLeaderboard(mockLeaderboard);
+  }, [userLevel, completedPaths, userAchievements]);
+
+  // 标记学习路径为完成
+  const completePathHandler = (pathKey: string) => {
+    const newCompletedPaths = new Set(completedPaths);
+    newCompletedPaths.add(pathKey);
+    setCompletedPaths(newCompletedPaths);
+  };
 
   const toggleCircularLogic = (conceptId: string) => {
     const newExpanded = new Set(expandedCircularLogic);
@@ -1320,22 +1409,33 @@ export default function PsychoanalysisNetwork() {
 
         {/* 搜索框和成就按钮 */}
         <div className="absolute top-4 right-4 z-10 flex items-center gap-3">
-          {/* 排行榜按黿 */}
-          <a
-            href="/leaderboard"
-            className="flex items-center justify-center p-2 bg-primary/10 backdrop-blur-sm border border-primary/30 rounded-lg hover:bg-primary/20 transition-colors text-primary"
+          {/* 排行榜按钮 */}
+          <button
+            onClick={() => setSidebarTab('achievements')}
+            className="flex items-center justify-center p-2 bg-primary/10 backdrop-blur-sm border border-primary/30 rounded-lg hover:bg-primary/20 transition-colors text-primary relative group"
             title="查看排行榜"
           >
             <Medal className="w-4 h-4" />
-          </a>
-          {/* 我的成就按黿 */}
-          <a
-            href="/achievements"
-            className="flex items-center justify-center p-2 bg-primary/10 backdrop-blur-sm border border-primary/30 rounded-lg hover:bg-primary/20 transition-colors text-primary"
+            <div className="absolute right-0 bottom-full mb-2 px-2 py-1 bg-primary text-primary-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              排行榜
+            </div>
+          </button>
+          {/* 我的成就按钮 */}
+          <button
+            onClick={() => setSidebarTab('achievements')}
+            className="flex items-center justify-center p-2 bg-primary/10 backdrop-blur-sm border border-primary/30 rounded-lg hover:bg-primary/20 transition-colors text-primary relative group"
             title="查看我的成就"
           >
             <Trophy className="w-4 h-4" />
-          </a>
+            {userAchievements.size > 0 && (
+              <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-semibold">
+                {userAchievements.size}
+              </span>
+            )}
+            <div className="absolute right-0 bottom-full mb-2 px-2 py-1 bg-primary text-primary-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              我的成就
+            </div>
+          </button>
           <div className="relative w-80">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
@@ -1359,6 +1459,95 @@ export default function PsychoanalysisNetwork() {
               </div>
             )}
           </div>
+
+          {/* 成就和排行榜面板 */}
+          {sidebarTab === 'achievements' && (
+            <div className="absolute top-16 right-4 w-96 bg-card/95 backdrop-blur-sm border border-border rounded-lg shadow-lg p-4 z-50 max-h-96 overflow-y-auto">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold text-foreground">我的成就</h3>
+                <button
+                  onClick={() => setSidebarTab('details')}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              
+              {/* 用户等级和统计 */}
+              <div className="bg-primary/10 rounded-lg p-3 mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-foreground">用户等级</span>
+                  <span className="text-2xl font-bold text-primary">{userLevel}</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2 text-xs text-muted-foreground">
+                  <div className="text-center">
+                    <div className="font-semibold text-foreground">{completedPaths.size}</div>
+                    <div>完成路径</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-semibold text-foreground">{completedNodes.size}</div>
+                    <div>学习概念</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-semibold text-foreground">{userAchievements.size}</div>
+                    <div>获得成就</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 成就列表 */}
+              <div className="space-y-2 mb-4">
+                <h4 className="text-sm font-semibold text-foreground">成就</h4>
+                {Object.entries(achievements).map(([key, achievement]) => {
+                  const isUnlocked = userAchievements.has(key);
+                  return (
+                    <div
+                      key={key}
+                      className={`p-2 rounded-lg border transition-all ${
+                        isUnlocked
+                          ? 'bg-primary/10 border-primary/30'
+                          : 'bg-secondary/10 border-secondary/30 opacity-50'
+                      }`}
+                    >
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg">{achievement.icon}</span>
+                        <div className="flex-1">
+                          <div className="font-semibold text-xs text-foreground">{achievement.name}</div>
+                          <div className="text-xs text-muted-foreground">{achievement.description}</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* 排行榜 */}
+              <div>
+                <h4 className="text-sm font-semibold text-foreground mb-2">排行榜</h4>
+                <div className="space-y-1 text-xs">
+                  {leaderboard.map((user, index) => (
+                    <div
+                      key={index}
+                      className={`flex items-center justify-between p-2 rounded-lg ${
+                        user.name === '当前用户'
+                          ? 'bg-primary/20 border border-primary/30'
+                          : 'bg-secondary/10'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 flex-1">
+                        <span className="font-semibold text-primary w-6 text-center">{index + 1}</span>
+                        <span className="text-foreground flex-1">{user.name}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-muted-foreground">Lv.{user.level}</span>
+                        <span className="text-muted-foreground text-xs">({user.achievements})</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Canvas */}
