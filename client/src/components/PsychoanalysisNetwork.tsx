@@ -142,6 +142,42 @@ export default function PsychoanalysisNetwork() {
       description: '完成荣格的原型世界学习路径',
       icon: '🌟',
       condition: () => completedPaths.has('jung')
+    },
+    beginner_master: {
+      name: '弗洛伊德的学徒',
+      description: '完成精神分析入门学习路径',
+      icon: '🎓',
+      condition: () => completedPaths.has('beginner')
+    },
+    dreams_master: {
+      name: '梦境解读者',
+      description: '完成梦的分析与详解学习路径',
+      icon: '🌙',
+      condition: () => completedPaths.has('dreams')
+    },
+    defense_master: {
+      name: '心灵卫士',
+      description: '完成防御机制学习学习路径',
+      icon: '🛡️',
+      condition: () => completedPaths.has('defense')
+    },
+    lacan_master: {
+      name: '符号大师',
+      description: '完成拉康的符号世界学习路径',
+      icon: '✨',
+      condition: () => completedPaths.has('lacan')
+    },
+    selfpsych_master: {
+      name: '自体心理学家',
+      description: '完成自体心理学探索学习路径',
+      icon: '💎',
+      condition: () => completedPaths.has('selfpsych')
+    },
+    objectrel_master: {
+      name: '客体关系大师',
+      description: '完成客体关系理论学习路径',
+      icon: '👑',
+      condition: () => completedPaths.has('objectrel')
     }
   };
 
@@ -170,6 +206,7 @@ export default function PsychoanalysisNetwork() {
         newAchievements.add(key);
         if (!userAchievements.has(key)) {
           unlockedThisUpdate.push(key);
+          console.log('Unlocked achievement:', key);
         }
       }
     });
@@ -280,11 +317,79 @@ export default function PsychoanalysisNetwork() {
     }
   };
 
+  // 证书样式配置
+  const certificateStyles: Record<string, {
+    bgGradient: string;
+    textGradient: string;
+    borderColor: string;
+    accentColor: string;
+    titleText: string;
+    achievementName: string;
+  }> = {
+    beginner: {
+      bgGradient: 'from-blue-900 via-blue-800 to-cyan-900',
+      textGradient: 'from-blue-300 to-cyan-300',
+      borderColor: 'border-blue-500/30',
+      accentColor: 'bg-blue-500/10',
+      titleText: '精神分析入门',
+      achievementName: 'beginner_master'
+    },
+    dreams: {
+      bgGradient: 'from-purple-900 via-indigo-900 to-purple-900',
+      textGradient: 'from-purple-300 to-indigo-300',
+      borderColor: 'border-purple-500/30',
+      accentColor: 'bg-purple-500/10',
+      titleText: '梦的分析与详解',
+      achievementName: 'dreams_master'
+    },
+    defense: {
+      bgGradient: 'from-amber-900 via-orange-900 to-amber-900',
+      textGradient: 'from-amber-300 to-orange-300',
+      borderColor: 'border-amber-500/30',
+      accentColor: 'bg-amber-500/10',
+      titleText: '防御机制学习',
+      achievementName: 'defense_master'
+    },
+    lacan: {
+      bgGradient: 'from-pink-900 via-rose-900 to-pink-900',
+      textGradient: 'from-pink-300 to-rose-300',
+      borderColor: 'border-pink-500/30',
+      accentColor: 'bg-pink-500/10',
+      titleText: '拉康的符号世界',
+      achievementName: 'lacan_master'
+    },
+    selfpsych: {
+      bgGradient: 'from-cyan-900 via-teal-900 to-cyan-900',
+      textGradient: 'from-cyan-300 to-teal-300',
+      borderColor: 'border-cyan-500/30',
+      accentColor: 'bg-cyan-500/10',
+      titleText: '自体心理学探索',
+      achievementName: 'selfpsych_master'
+    },
+    objectrel: {
+      bgGradient: 'from-orange-900 via-red-900 to-orange-900',
+      textGradient: 'from-orange-300 to-red-300',
+      borderColor: 'border-orange-500/30',
+      accentColor: 'bg-orange-500/10',
+      titleText: '客体关系理论',
+      achievementName: 'objectrel_master'
+    },
+    jung: {
+      bgGradient: 'from-indigo-900 via-purple-900 to-indigo-900',
+      textGradient: 'from-indigo-300 to-purple-300',
+      borderColor: 'border-indigo-500/30',
+      accentColor: 'bg-indigo-500/10',
+      titleText: '荣格的原型世界',
+      achievementName: 'jung_master'
+    }
+  };
+
   // 证书组件
   const CertificateModal = ({ pathKey }: { pathKey: string }) => {
     const pathInfo = learningPaths[pathKey];
     if (!pathInfo) return null;
 
+    const style = certificateStyles[pathKey] || certificateStyles.jung;
     const pathNames: Record<string, string> = {
       beginner: '精神分析入门',
       dreams: '梦的分析与详解',
@@ -297,30 +402,30 @@ export default function PsychoanalysisNetwork() {
 
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/60 backdrop-blur-sm">
-        <div className="bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-900 rounded-2xl p-12 max-w-md w-full mx-4 border border-indigo-500/30 shadow-2xl animate-in fade-in zoom-in duration-500">
+        <div className={`bg-gradient-to-br ${style.bgGradient} rounded-2xl p-12 max-w-md w-full mx-4 border ${style.borderColor} shadow-2xl animate-in fade-in zoom-in duration-500`}>
           {/* 顶部装饰 */}
           <div className="text-center mb-8">
             <div className="inline-block text-6xl mb-4 animate-bounce">{pathInfo.badge}</div>
-            <h2 className="text-2xl font-bold text-transparent bg-gradient-to-r from-indigo-300 to-purple-300 bg-clip-text mb-2">恭喜！</h2>
-            <p className="text-indigo-200 text-sm">您已完成学习路径</p>
+            <h2 className={`text-2xl font-bold text-transparent bg-gradient-to-r ${style.textGradient} bg-clip-text mb-2`}>恭喜！</h2>
+            <p className={`text-sm`} style={{color: `rgb(${style.textGradient.includes('blue') ? '191, 219, 254' : style.textGradient.includes('purple') ? '216, 180, 254' : style.textGradient.includes('amber') ? '252, 211, 77' : style.textGradient.includes('pink') ? '249, 168, 212' : style.textGradient.includes('cyan') ? '165, 243, 252' : style.textGradient.includes('orange') ? '254, 215, 170' : '191, 219, 254'})`}}>您已完成学习路径</p>
           </div>
 
           {/* 证书内容 */}
-          <div className="bg-white/5 backdrop-blur border border-indigo-400/30 rounded-xl p-8 mb-8 text-center">
-            <p className="text-indigo-300 text-xs font-semibold tracking-widest mb-3">学习成就证书</p>
+          <div className="bg-white/5 backdrop-blur border rounded-xl p-8 mb-8 text-center" style={{borderColor: style.borderColor.replace('border-', '').replace('/30', '')}}>
+            <p className="text-xs font-semibold tracking-widest mb-3" style={{color: `rgb(${style.textGradient.includes('blue') ? '147, 197, 253' : style.textGradient.includes('purple') ? '196, 181, 253' : style.textGradient.includes('amber') ? '251, 191, 36' : style.textGradient.includes('pink') ? '249, 168, 212' : style.textGradient.includes('cyan') ? '165, 243, 252' : style.textGradient.includes('orange') ? '253, 186, 116' : '147, 197, 253'})`}}>学习成就证书</p>
             <h3 className="text-xl font-bold text-white mb-4">{pathNames[pathKey]}</h3>
-            <p className="text-indigo-200 text-sm mb-4">您已成功掌握该学习路径的所有核心概念，展现了对精神分析理论的深入理解。</p>
+            <p className="text-sm mb-4" style={{color: `rgb(${style.textGradient.includes('blue') ? '191, 219, 254' : style.textGradient.includes('purple') ? '216, 180, 254' : style.textGradient.includes('amber') ? '252, 211, 77' : style.textGradient.includes('pink') ? '249, 168, 212' : style.textGradient.includes('cyan') ? '165, 243, 252' : style.textGradient.includes('orange') ? '254, 215, 170' : '191, 219, 254'})`}}>您已成功掖握该学习路径的所有核心概念，展现了对精神分析理论的深入理解。</p>
             <div className="flex justify-center gap-2 mb-4">
               {pathInfo.badge} {pathInfo.badge} {pathInfo.badge}
             </div>
-            <p className="text-xs text-indigo-300">颁发日期：{new Date().toLocaleDateString('zh-CN')}</p>
+            <p className="text-xs" style={{color: `rgb(${style.textGradient.includes('blue') ? '147, 197, 253' : style.textGradient.includes('purple') ? '196, 181, 253' : style.textGradient.includes('amber') ? '251, 191, 36' : style.textGradient.includes('pink') ? '249, 168, 212' : style.textGradient.includes('cyan') ? '165, 243, 252' : style.textGradient.includes('orange') ? '253, 186, 116' : '147, 197, 253'})`}}>颁发日期：{new Date().toLocaleDateString('zh-CN')}</p>
           </div>
 
           {/* 成就信息 */}
-          <div className="bg-indigo-500/10 border border-indigo-400/20 rounded-lg p-4 mb-6 text-center">
-            <p className="text-indigo-200 text-sm font-semibold mb-2">🌟 解锁成就</p>
-            <p className="text-indigo-300 text-xs">{achievements.jung_master.name}</p>
-            <p className="text-indigo-400 text-xs mt-1">{achievements.jung_master.description}</p>
+          <div className={`${style.accentColor} border rounded-lg p-4 mb-6 text-center`} style={{borderColor: style.borderColor.replace('border-', '').replace('/30', '')}}>
+            <p className="text-sm font-semibold mb-2" style={{color: `rgb(${style.textGradient.includes('blue') ? '191, 219, 254' : style.textGradient.includes('purple') ? '216, 180, 254' : style.textGradient.includes('amber') ? '252, 211, 77' : style.textGradient.includes('pink') ? '249, 168, 212' : style.textGradient.includes('cyan') ? '165, 243, 252' : style.textGradient.includes('orange') ? '254, 215, 170' : '191, 219, 254'})`}}>🌟 解锁成就</p>
+            <p className="text-xs" style={{color: `rgb(${style.textGradient.includes('blue') ? '147, 197, 253' : style.textGradient.includes('purple') ? '196, 181, 253' : style.textGradient.includes('amber') ? '251, 191, 36' : style.textGradient.includes('pink') ? '249, 168, 212' : style.textGradient.includes('cyan') ? '165, 243, 252' : style.textGradient.includes('orange') ? '253, 186, 116' : '147, 197, 253'})`}}>{achievements[style.achievementName as keyof typeof achievements]?.name}</p>
+            <p className="text-xs mt-1" style={{color: `rgb(${style.textGradient.includes('blue') ? '147, 197, 253' : style.textGradient.includes('purple') ? '196, 181, 253' : style.textGradient.includes('amber') ? '251, 191, 36' : style.textGradient.includes('pink') ? '249, 168, 212' : style.textGradient.includes('cyan') ? '165, 243, 252' : style.textGradient.includes('orange') ? '253, 186, 116' : '147, 197, 253'})`}}>{achievements[style.achievementName as keyof typeof achievements]?.description}</p>
           </div>
 
           {/* 关闭按钮 */}
@@ -339,18 +444,32 @@ export default function PsychoanalysisNetwork() {
   useEffect(() => {
     if (newUnlockedAchievements.length > 0) {
       setShowAchievementNotification(true);
-      // 如果解锁了荣格成就，显示证书
-      if (newUnlockedAchievements.includes('jung_master')) {
-        setCertificatePath('jung');
-        setShowCertificate(true);
-        setTimeout(() => setShowCertificate(false), 15000);
+      // 检查是否解锁了任何学习路径成就
+      const pathAchievements: Record<string, string> = {
+        'beginner_master': 'beginner',
+        'dreams_master': 'dreams',
+        'defense_master': 'defense',
+        'lacan_master': 'lacan',
+        'selfpsych_master': 'selfpsych',
+        'objectrel_master': 'objectrel',
+        'jung_master': 'jung'
+      };
+      
+      for (const achievement of newUnlockedAchievements) {
+        if (pathAchievements[achievement]) {
+          console.log('Showing certificate for:', pathAchievements[achievement]);
+          setCertificatePath(pathAchievements[achievement]);
+          setShowCertificate(true);
+          setTimeout(() => setShowCertificate(false), 15000);
+          break;
+        }
       }
     }
   }, [newUnlockedAchievements]);
 
   // 检查是否应该显示证书
   useEffect(() => {
-    if (showCertificate && certificatePath === 'jung') {
+    if (showCertificate && certificatePath) {
       const timer = setTimeout(() => setShowCertificate(false), 15000);
       return () => clearTimeout(timer);
     }
@@ -1631,6 +1750,7 @@ export default function PsychoanalysisNetwork() {
                       />
                     </div>
                     <span className="text-xs text-muted-foreground whitespace-nowrap font-semibold">{getPathProgress(key)}%</span>
+
 
                   </div>
                 </div>
