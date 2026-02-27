@@ -106,41 +106,53 @@ export default function PsychoanalysisNetwork() {
   const isCircularLogicExpanded = (conceptId: string) => expandedCircularLogic.has(conceptId);
 
   // 学习路径定义
-  const learningPaths: Record<string, {name: string; description: string; nodes: string[]; difficulty: 'beginner' | 'intermediate' | 'advanced'}> = {
+  const learningPaths: Record<string, {name: string; description: string; nodes: string[]; difficulty: 'beginner' | 'intermediate' | 'advanced'; badge: string; badgeColor: string}> = {
     beginner: {
       name: '精神分析入门',
       description: '从弗洛伊德的核心概念开始，深入理解人类心理的根本原理',
       difficulty: 'beginner',
+      badge: '🎓',
+      badgeColor: 'from-blue-500 to-blue-600',
       nodes: ['unconscious', 'id', 'ego', 'superego', 'defense_mechanisms', 'repression', 'free_association', 'freud']
     },
     dreams: {
       name: '梦的分析与详解',
       description: '探索梦的神秘世界，深入理解梦的符号体系与潜意欲求',
       difficulty: 'intermediate',
+      badge: '🌙',
+      badgeColor: 'from-purple-500 to-purple-600',
       nodes: ['unconscious', 'dream_analysis', 'condensation', 'displacement', 'manifest_content', 'latent_content', 'wish_fulfillment']
     },
     defense: {
       name: '防御机制学习',
       description: '探索自我的保护机制，理解人体如何需抗内心冲突',
       difficulty: 'beginner',
+      badge: '🛡️',
+      badgeColor: 'from-amber-500 to-amber-600',
       nodes: ['ego', 'defense_mechanisms', 'repression', 'denial', 'projection', 'rationalization', 'sublimation', 'displacement']
     },
     lacan: {
       name: '拉康的符号世界',
       description: '探索拉康的三界理论，重新理解主体性与欲望',
       difficulty: 'advanced',
+      badge: '✨',
+      badgeColor: 'from-pink-500 to-pink-600',
       nodes: ['unconscious', 'symbolic_order', 'imaginary_order', 'real_order', 'mirror_stage', 'lack', 'desire', 'lacan']
     },
     selfpsych: {
       name: '自体心理学探索',
       description: '从自体客体到香莎体，理解人的自我结构与成长',
       difficulty: 'intermediate',
+      badge: '💎',
+      badgeColor: 'from-cyan-500 to-cyan-600',
       nodes: ['self', 'self_object', 'mirroring', 'idealization', 'twinship', 'empathy', 'kohut']
     },
     objectrel: {
       name: '客体关系理论',
       description: '从克莱因到费尔贝恩，探索客体如何塑造人的人格与关系',
       difficulty: 'advanced',
+      badge: '👑',
+      badgeColor: 'from-orange-500 to-orange-600',
       nodes: ['object_relations', 'internal_object', 'projective_identification', 'introjection', 'good_bad_object', 'transitional_object', 'klein']
     }
   };
@@ -1281,21 +1293,23 @@ export default function PsychoanalysisNetwork() {
                     </button>
                     {getPathProgress(key) === 100 && (
                       <div className="relative group">
-                        <div className="text-lg animate-bounce">🏆</div>
+                        <div className={`text-2xl animate-bounce bg-gradient-to-r ${path.badgeColor} bg-clip-text text-transparent drop-shadow-lg`}>
+                          {path.badge}
+                        </div>
                         <div className="absolute right-0 bottom-full mb-2 px-2 py-1 bg-primary text-primary-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                           已完成
                         </div>
                       </div>
                     )}
                   </div>
-                  <div className="px-2 flex items-center gap-2">
-                    <div className="flex-1 h-1.5 bg-secondary/30 rounded-full overflow-hidden">
+                  <div className="px-2 flex items-center gap-2 w-full">
+                    <div className="flex-1 h-2 bg-secondary/30 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-primary transition-all duration-300"
+                        className={`h-full bg-gradient-to-r ${path.badgeColor} transition-all duration-300`}
                         style={{ width: `${getPathProgress(key)}%` }}
                       />
                     </div>
-                    <span className="text-xs text-muted-foreground whitespace-nowrap">{getPathProgress(key)}%</span>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap font-semibold">{getPathProgress(key)}%</span>
                   </div>
                 </div>
               ))}
