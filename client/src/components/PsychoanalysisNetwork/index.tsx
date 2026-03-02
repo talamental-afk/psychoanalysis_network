@@ -3,6 +3,7 @@ import { useNetworkStore } from '../../store/networkStore';
 import { useLearningStore } from '../../store/learningStore';
 import NetworkCanvas from './Canvas/NetworkCanvas';
 import Toolbar from './Toolbar';
+import { SidebarContainer } from './Sidebar';
 
 /**
  * 精神分析网络主容器组件
@@ -32,9 +33,15 @@ export default function PsychoanalysisNetwork() {
       {/* 工具栏 */}
       <Toolbar />
 
-      {/* 主画布 */}
-      <div className="flex-1 overflow-hidden">
-        <NetworkCanvas />
+      {/* 主容器 */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* 主画布 */}
+        <div className="flex-1 overflow-hidden">
+          <NetworkCanvas />
+        </div>
+
+        {/* 侧边栏 */}
+        <SidebarContainer />
       </div>
 
       {/* 调试信息（开发环境） */}

@@ -1,0 +1,200 @@
+.sidebar-container {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 400px;
+  background: linear-gradient(135deg, #0f172a 0%, #1a2d4d 100%);
+  border-left: 1px solid rgba(148, 163, 184, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  z-index: 40;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-container.closed {
+  width: 0;
+  overflow: hidden;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #0f172a 0%, #1a2d4d 100%);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  color: #a78bfa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 41;
+}
+
+.sidebar-toggle:hover {
+  background: linear-gradient(135deg, #1a2d4d 0%, #2d4a6f 100%);
+  color: #d8b4fe;
+}
+
+.toggle-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.toggle-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.sidebar-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  text-align: center;
+  padding: 2rem;
+  font-style: italic;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  padding-top: 60px; /* 为顶部工具栏留出空间 */
+}
+
+/* 标签页导航 */
+.sidebar-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  flex-shrink: 0;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  background: rgba(148, 163, 184, 0.1);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 6px;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+  border-color: #a78bfa;
+  color: #f0f9ff;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.3);
+}
+
+/* 标签页内容 */
+.sidebar-tab-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.tab-pane {
+  padding: 1rem;
+  min-height: 100%;
+  color: #f0f9ff;
+}
+
+.details-pane {
+  /* 详情面板样式 */
+}
+
+.derivation-pane {
+  /* 推导链面板样式 */
+  padding: 0;
+}
+
+.achievements-pane {
+  /* 成就面板样式 */
+}
+
+/* 滚动条样式 */
+.sidebar-tab-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar-tab-content::-webkit-scrollbar-track {
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.sidebar-tab-content::-webkit-scrollbar-thumb {
+  background: rgba(167, 139, 250, 0.4);
+  border-radius: 4px;
+}
+
+.sidebar-tab-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 139, 250, 0.6);
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .sidebar-container {
+    width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-container {
+    width: 100%;
+    position: fixed;
+    right: -100%;
+    border-left: none;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    top: auto;
+    bottom: 0;
+    max-height: 70vh;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .sidebar-container.open {
+    right: 0;
+  }
+
+  .sidebar-toggle {
+    left: 50%;
+    top: -40px;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .toggle-icon {
+    transform: rotate(90deg);
+  }
+
+  .toggle-icon.rotated {
+    transform: rotate(-90deg);
+  }
+
+  .sidebar-content {
+    padding-top: 0;
+  }
+}
