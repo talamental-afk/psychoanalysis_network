@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
+import { useSidebarStore } from './sidebarStore';
 
 export interface NetworkState {
   // 网络图视图状态
@@ -76,7 +77,14 @@ export const useNetworkStore = create<NetworkState>()(
         setScale: (scale) => set({ scale }),
         setPan: (pan) => set({ pan }),
         setCanvasSize: (size) => set({ canvasSize: size }),
-        selectNode: (nodeId) => set({ selectedNode: nodeId }),
+        selectNode: (nodeId) => {
+          set({ selectedNode: nodeId });
+          if (nodeId) {
+            // 当选中节点时，自动切换到推导链标签页并确保侧边栏打开
+            useSidebarStore.getState().setActiveTab('derivation');
+            useSidebarStore.getState().setSidebarOpen(true);
+          }
+        },
         hoverNode: (nodeId) => set({ hoveredNode: nodeId }),
         hoverLink: (link) => set({ hoveredLink: link }),
         highlightNodes: (nodeIds) => set({ highlightedNodes: nodeIds }),
