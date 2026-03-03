@@ -1,6 +1,7 @@
 import { useNetworkStore } from '../../../store/networkStore';
 import { useSidebarStore } from '../../../store/sidebarStore';
 import { DerivationChainViewer } from '../../DerivationChain';
+import { conceptNodes } from '../../../psychoanalysis_data';
 import { ChevronLeft } from 'lucide-react';
 import './SidebarContainer.css';
 
