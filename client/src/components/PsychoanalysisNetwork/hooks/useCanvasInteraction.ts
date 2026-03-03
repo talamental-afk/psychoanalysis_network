@@ -88,16 +88,65 @@ export function useCanvasInteraction(
       handlers.onZoom(newScale);
     };
 
+    // 触摸事件处理
+    let touchStartDistance = 0;
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        // 双指缩放
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        touchStartDistance = Math.sqrt(dx * dx + dy * dy);
+      } else if (e.touches.length === 1) {
+        // 单指拖拽
+        panStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && touchStartDistance > 0) {
+        // 双指缩放
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const currentDistance = Math.sqrt(dx * dx + dy * dy);
+        const delta = currentDistance / touchStartDistance;
+        const newScale = Math.min(Math.max(scale * delta, 0.1), 5);
+        handlers.onZoom(newScale);
+        touchStartDistance = currentDistance;
+      } else if (e.touches.length === 1 && panStartRef.current) {
+        // 单指拖拽
+        const dx = (e.touches[0].clientX - panStartRef.current.x) / scale;
+        const dy = (e.touches[0].clientY - panStartRef.current.y) / scale;
+        currentPanRef.current = {
+          x: currentPanRef.current.x + dx / 100,
+          y: currentPanRef.current.y + dy / 100,
+        };
+        handlers.onPan(currentPanRef.current);
+        panStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    };
+
+    const handleTouchEnd = () => {
+      panStartRef.current = null;
+      touchStartDistance = 0;
+      handlers.onNodeDragEnd();
+    };
+
     canvas.addEventListener('mousedown', handleMouseDown);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseup', handleMouseUp);
     canvas.addEventListener('wheel', handleWheel, { passive: false });
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: true });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: true });
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown);
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseup', handleMouseUp);
       canvas.removeEventListener('wheel', handleWheel);
+      canvas.removeEventListener('touchstart', handleTouchStart);
+      canvas.removeEventListener('touchmove', handleTouchMove);
+      canvas.removeEventListener('touchend', handleTouchEnd);
     };
   }, [handlers, nodes, scale, pan]);
 }
