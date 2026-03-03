@@ -55,7 +55,39 @@ export function SidebarContainer() {
           <div className="sidebar-tab-content">
             {activeTab === 'details' && (
               <div className="tab-pane details-pane">
-                <p>详情内容将在这里显示</p>
+                <div className="concept-detail-card">
+                  <div className="concept-header">
+                    <div className="concept-title-group">
+                      <h2 className="concept-title">{conceptNodes.find(n => n.id === selectedNode)?.name}</h2>
+                      <p className="concept-subtitle">{conceptNodes.find(n => n.id === selectedNode)?.nameEn}</p>
+                    </div>
+                    <div 
+                      className="concept-badge" 
+                      style={{ backgroundColor: conceptNodes.find(n => n.id === selectedNode)?.color }}
+                    >
+                      {conceptNodes.find(n => n.id === selectedNode)?.category}
+                    </div>
+                  </div>
+                  
+                  <div className="detail-section">
+                    <h3>描述</h3>
+                    <p className="detail-text">{conceptNodes.find(n => n.id === selectedNode)?.description}</p>
+                  </div>
+                  
+                  {conceptNodes.find(n => n.id === selectedNode)?.definition && (
+                    <div className="detail-section">
+                      <h3>定义</h3>
+                      <p className="detail-text">{conceptNodes.find(n => n.id === selectedNode)?.definition}</p>
+                    </div>
+                  )}
+                  
+                  {conceptNodes.find(n => n.id === selectedNode)?.example && (
+                    <div className="detail-section example-section">
+                      <h3>示例</h3>
+                      <p className="detail-text italic">{conceptNodes.find(n => n.id === selectedNode)?.example}</p>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
 

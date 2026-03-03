@@ -14,7 +14,7 @@ export function DerivationChainViewer({ conceptId, onClose }: DerivationChainVie
   const [chain, setChain] = useState<DerivationChain | null>(null);
   const [loading, setLoading] = useState(true);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set(['directSources', 'derivationPaths'])
+    new Set(['directSources', 'indirectSources', 'derivationPaths'])
   );
 
   useEffect(() => {
