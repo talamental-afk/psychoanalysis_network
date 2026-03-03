@@ -1,14 +1,13 @@
 {
-  "buildCommand": "pnpm build",
-  "outputDirectory": "dist/public",
+  "version": 2,
   "framework": "vite",
-  "env": {
-    "VITE_API_URL": "@vite_api_url"
-  },
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm build",
+  "outputDirectory": "dist"
 }
