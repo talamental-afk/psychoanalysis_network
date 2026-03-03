@@ -1,0 +1,47 @@
+name: Deploy to Vercel
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Deploy to Vercel
+        uses: vercel/actions/deploy@v1
+        with:
+          token: ${{ secrets.VERCEL_TOKEN }}
+          prod: ${{ github.ref == 'refs/heads/main' }}
+          # project-id: ${{ env.VERCEL_PROJECT_ID }}
+          # org-id: ${{ env.VERCEL_ORG_ID }}
+
+      - name: Deploy to Vercel (Preview) - if not main branch
+        if: github.ref != 'refs/heads/main'
+        uses: vercel/actions/deploy@v1
+        with:
+          token: ${{ secrets.VERCEL_TOKEN }}
+          # project-id: ${{ env.VERCEL_PROJECT_ID }}
+          # org-id: ${{ env.VERCEL_ORG_ID }}
