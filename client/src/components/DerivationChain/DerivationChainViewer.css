@@ -485,3 +485,18 @@
     display: none;
   }
 }
+
+/* 高亮样式 */
+.derivation-section.highlight {
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  box-shadow: 0 0 15px rgba(167, 139, 250, 0.1);
+}
+
+.derivation-section.highlight .section-header {
+  background: rgba(167, 139, 250, 0.1);
+}
+
+.derivation-section.highlight .section-header span {
+  color: #a78bfa;
+  font-weight: 600;
+}

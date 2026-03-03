@@ -39,8 +39,10 @@ export function useCanvasInteraction(
       const clickedNode = NodeRenderer.getNodeAtPosition(nodes, worldX, worldY, 20);
 
       if (clickedNode) {
+        handlers.onNodeClick(clickedNode.id);
         handlers.onNodeDragStart(clickedNode.id, { x: canvasX, y: canvasY });
       } else {
+        handlers.onNodeClick(null);
         panStartRef.current = { x: e.clientX, y: e.clientY };
       }
     };

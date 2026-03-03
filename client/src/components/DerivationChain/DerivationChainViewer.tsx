@@ -74,38 +74,8 @@ export function DerivationChainViewer({ conceptId, onClose }: DerivationChainVie
         )}
       </div>
 
-      {/* 概念描述 */}
-      <div className="concept-description">
-        <p>{chain.description}</p>
-        {chain.definition && (
-          <details className="definition-details">
-            <summary>详细定义</summary>
-            <p>{chain.definition}</p>
-          </details>
-        )}
-      </div>
-
-      {/* 核心假设 */}
-      {chain.coreAssumption && (
-        <div className="core-assumption">
-          <h3>核心假设</h3>
-          <p>{chain.coreAssumption}</p>
-        </div>
-      )}
-
-      {/* 推导深度指示 */}
-      <div className="derivation-depth">
-        <span className="label">推导深度：</span>
-        <span className="depth-value">{chain.derivationDepth}</span>
-        <span className="depth-bar">
-          {Array.from({ length: Math.min(chain.derivationDepth, 5) }).map((_, i) => (
-            <div key={i} className="depth-segment" />
-          ))}
-        </span>
-      </div>
-
-      {/* 直接推导来源 */}
-      <section className="derivation-section">
+      {/* 直接推导来源 - 移动到最显眼位置 */}
+      <section className="derivation-section highlight">
         <button
           className="section-header"
           onClick={() => toggleSection('directSources')}
@@ -210,6 +180,36 @@ export function DerivationChainViewer({ conceptId, onClose }: DerivationChainVie
           )}
         </section>
       )}
+
+      {/* 核心假设 - 移动到下方 */}
+      {chain.coreAssumption && (
+        <div className="core-assumption">
+          <h3>核心假设</h3>
+          <p>{chain.coreAssumption}</p>
+        </div>
+      )}
+
+      {/* 推导深度指示 */}
+      <div className="derivation-depth">
+        <span className="label">推导深度：</span>
+        <span className="depth-value">{chain.derivationDepth}</span>
+        <span className="depth-bar">
+          {Array.from({ length: Math.min(chain.derivationDepth, 5) }).map((_, i) => (
+            <div key={i} className="depth-segment" />
+          ))}
+        </span>
+      </div>
+
+      {/* 概念描述 */}
+      <div className="concept-description">
+        <p>{chain.description}</p>
+        {chain.definition && (
+          <details className="definition-details">
+            <summary>详细定义</summary>
+            <p>{chain.definition}</p>
+          </details>
+        )}
+      </div>
 
       {/* 依赖关系 */}
       {chain.dependencies.length > 0 && (
