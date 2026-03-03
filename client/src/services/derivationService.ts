@@ -45,11 +45,14 @@ class DerivationService {
   private getDirectSources(conceptId: string): DerivationSource[] {
     const sources: DerivationSource[] = [];
     const sourceMap = new Map<string, DerivationSource>();
+    const currentConcept = conceptNodes.find((c) => c.id === conceptId);
+    const currentLevel = currentConcept?.level || 99;
 
     conceptLinks.forEach((link) => {
       if (link.target === conceptId) {
         const sourceConcept = conceptNodes.find((c) => c.id === link.source);
-        if (sourceConcept) {
+        // 只有当来源层级更低或相等时才视为推导源（基础推导高级）
+        if (sourceConcept && sourceConcept.level <= currentLevel) {
           const key = link.source;
           if (!sourceMap.has(key)) {
             sourceMap.set(key, {
@@ -60,7 +63,7 @@ class DerivationService {
               relationshipDescription: this.getRelationshipDescription(
                 link.type,
                 sourceConcept.name,
-                conceptNodes.find((c) => c.id === conceptId)?.name || ''
+                currentConcept?.name || ''
               ),
               strength: link.strength,
             });
@@ -95,11 +98,15 @@ class DerivationService {
 
       if (depth > 3) continue; // 限制间接推导的深度
 
+      const currentConcept = conceptNodes.find((c) => c.id === id);
+      const currentLevel = currentConcept?.level || 99;
+
       conceptLinks.forEach((link) => {
         if (link.target === id && !visited.has(link.source)) {
-          visited.add(link.source);
           const sourceConcept = conceptNodes.find((c) => c.id === link.source);
-          if (sourceConcept) {
+          // 只有当来源层级更低或相等时才视为推导源
+          if (sourceConcept && sourceConcept.level <= currentLevel) {
+            visited.add(link.source);
             indirectSources.push({
               conceptId: sourceConcept.id,
               conceptName: sourceConcept.name,
@@ -134,8 +141,16 @@ class DerivationService {
     const dfs = (currentId: string, path: string[], pathNames: string[], strength: number) => {
       if (path.length > 10) return; // 限制路径长度
 
+      const currentConcept = conceptNodes.find((c) => c.id === currentId);
+      const currentLevel = currentConcept?.level || 99;
+
       const directSources = conceptLinks
-        .filter((link) => link.target === currentId)
+        .filter((link) => {
+          if (link.target !== currentId) return false;
+          const sourceConcept = conceptNodes.find((c) => c.id === link.source);
+          // 基础推导高级：Level 较小的推导 Level 较大的
+          return sourceConcept && sourceConcept.level <= currentLevel;
+        })
         .map((link) => ({
           sourceId: link.source,
           strength: link.strength,
